@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+	/* Colors */
+	--color-primary: #3490dc;
+	--color-secondary: #ffed4a;
+	--color-accent: #e3342f;
+	--color-muted: #6c757d;
+	--color-border-muted: #dbdbdb;
+
+	/* Sizes */
+
+	--width-container: 85%;
+	--height-container: 90%;
+
+	/* Font sizes */
+	--font-small: 0.8rem;
+	--font-normal: 1.2944rem;
+	--font-large: 2.0943392rem;
+	--font-larger: 3.388640826rem;
+	--font-largest: 5.482820856rem;
+	--font-massive: 8.871204145rem;
+}
