@@ -29,7 +29,7 @@ const PasswordResetPage = () => {
 			</label>
 
 			<div className="relative">
-				<CTAButton>Reset Password</CTAButton>
+				<CTAButton>Send OTP</CTAButton>
 				<Link to={"/auth/login"} className="float-right mt-3 font-semibold text-smr w-fit text-muted">
 					{" "}
 					Return to login
