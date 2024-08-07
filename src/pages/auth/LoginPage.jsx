@@ -1,15 +1,11 @@
 import { useState } from "react";
 import FormHeader from "../../components/ui/FormHeader";
-import {
-	FaRegEnvelope,
-	FaRegEye,
-	FaRegEyeSlash,
-	FaRegUser,
-} from "react-icons/fa6";
+import { FaRegEye, FaRegEyeSlash, FaRegUser } from "react-icons/fa6";
 import { FiLock } from "react-icons/fi";
 import OauthUi from "../../components/OauthUi";
 import { Link } from "react-router-dom";
 import CTAButton from "../../components/ui/CTAButton";
+import logo from "../../assets/logo.png";
 
 const LoginPage = () => {
 	const [isPassVissible, setPassVissible] = useState(false);
@@ -25,7 +21,9 @@ const LoginPage = () => {
 	return (
 		<main className="grid w-full h-full place-items-center">
 			<div className="space-y-2 w-container h-fit sm:w-[360px]  sm:p-4 sm:rounded-2xl sm:shadow-lg sm:py-8">
-				{/* <FormHeader form_header={form_header} /> */}
+				<FormHeader {...form_header}>
+					<img src={logo} alt="" width={60} height={60} />
+				</FormHeader>
 
 				<div className="space-y-4">
 					<form action="" className="flex flex-col space-y-2">
@@ -95,7 +93,10 @@ const LoginPage = () => {
 									Remember me
 								</label>
 							</div>
-							<Link to={"/"} className="text-smr text-muted">
+							<Link
+								to={"/auth/reset-password"}
+								className="text-smr text-muted"
+							>
 								forgot password?
 							</Link>
 						</div>

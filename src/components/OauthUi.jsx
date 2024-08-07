@@ -11,11 +11,11 @@ const OauthUi = () => {
 			</div>
 			<div className="flex justify-center py-2 space-x-2 border rounded-full border-muted_border">
 				<FcGoogle className="text-mid" />
-				<span className="text-smr">Sign up with Google</span>
+				<span className="text-smr">Sign in with Google</span>
 			</div>
 			<div className="flex justify-center py-2 space-x-2 border rounded-full border-muted_border">
 				<FaGithub className="text-mid" />
-				<span className="text-smr">Sign up with GitHub</span>
+				<span className="text-smr">Sign in with GitHub</span>
 			</div>
 		</div>
 	);
