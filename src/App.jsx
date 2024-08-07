@@ -3,6 +3,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegistrationPage from "./pages/auth/RegistrationPage";
 import { Route } from "react-router-dom";
 import PasswordResetPage from "./pages/auth/PasswordResetPage";
+import VerifyOTP from "./pages/auth/VerifyOTP";
 
 function App() {
 	return (
@@ -16,6 +17,10 @@ function App() {
 				<Route
 					path="/auth/reset-password"
 					element={<PasswordResetPage/>}
+				/>
+				<Route
+					path="/auth/verify-otp"
+					element={<VerifyOTP/>}
 				/>
 				{/* <Route path="*" element={}/> */}
 			</Routes>
