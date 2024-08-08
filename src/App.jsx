@@ -4,6 +4,7 @@ import RegistrationPage from "./pages/auth/RegistrationPage";
 import { Route } from "react-router-dom";
 import PasswordResetPage from "./pages/auth/PasswordResetPage";
 import VerifyOTP from "./pages/auth/VerifyOTP";
+import CreateNewPassword from "./pages/auth/CreateNewPassword";
 
 function App() {
 	return (
@@ -21,6 +22,10 @@ function App() {
 				<Route
 					path="/auth/verify-otp"
 					element={<VerifyOTP/>}
+				/>
+				<Route
+					path="/auth/new-password"
+					element={<CreateNewPassword/>}
 				/>
 				{/* <Route path="*" element={}/> */}
 			</Routes>
