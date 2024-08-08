@@ -6,9 +6,26 @@ import OauthUi from "../../components/OauthUi";
 import { Link } from "react-router-dom";
 import CTAButton from "../../components/ui/CTAButton";
 import logo from "../../assets/logo.png";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/userContext";
 
 const LoginPage = () => {
+	const { fetchData } = useContext(UserContext);
 	const [isPassVissible, setPassVissible] = useState(false);
+	const [formData, setFormData] = useState({
+		username: "",
+		password: "",
+		rememberMe: false,
+	});
+
+	const formHandler = (event) => {
+		const { name, type, checked, value } = event.target;
+		setFormData((prevState) => ({
+			...prevState,
+			[name]: type === "checkbox" ? checked : value,
+		}));
+		console.log(formData);
+	};
 
 	const handleToggle = () => {
 		setPassVissible(!isPassVissible);
@@ -18,6 +35,12 @@ const LoginPage = () => {
 		description:
 			"Log in to access your account and continue enjoying our features.",
 	};
+
+	const submitHandler = async (e) => {
+		e.preventDefault();
+		await fetchData(formData)
+	};
+
 	return (
 		<main className="grid w-full h-full place-items-center">
 			<div className="space-y-2 w-container h-fit sm:w-[360px]  sm:p-4 sm:rounded-2xl sm:shadow-lg sm:py-8">
@@ -26,15 +49,20 @@ const LoginPage = () => {
 				</FormHeader>
 
 				<div className="space-y-4">
-					<form action="" className="flex flex-col space-y-2">
+					<form
+						onSubmit={submitHandler}
+						className="flex flex-col space-y-2"
+					>
 						<label className="flex items-center justify-between w-full px-4 py-2 space-x-2 border-[1.5px] rounded-full border-muted_border focus-within:border-black">
 							<span className="text-muted">
 								<FaRegUser />
 							</span>
 							<input
 								type="username"
+								name="username"
 								className="w-full outline-none placeholder:text-muted placeholder:text-smr placeholder:select-none"
 								placeholder="Enter a username"
+								onChange={formHandler}
 							/>
 						</label>
 						<label className="flex items-center justify-between w-full px-4 py-2 space-x-2 border-[1.5px] rounded-full border-muted_border focus-within:border-black">
@@ -43,8 +71,10 @@ const LoginPage = () => {
 							</span>
 							<input
 								type={isPassVissible ? "text" : "password"}
+								name="password"
 								className="w-full outline-none placeholder:text-muted placeholder:text-smr placeholder:select-none"
 								placeholder="Enter new password"
+								onChange={formHandler}
 							/>
 							<span
 								className="cursor-pointer text-muted"
@@ -66,8 +96,10 @@ const LoginPage = () => {
 								>
 									<input
 										type="checkbox"
+										name="rememberMe"
 										className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-5 before:w-5 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-gray-900 checked:bg-gray-900 checked:before:bg-gray-900 hover:before:opacity-10"
 										id="check"
+										onChange={formHandler}
 									/>
 									<span className="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
 										<svg
