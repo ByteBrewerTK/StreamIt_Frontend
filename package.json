@@ -11,6 +11,7 @@
   "author": "Abutalif Khan",
   "dependencies": {
     "axios": "^1.7.3",
+    "js-cookie": "^3.0.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.2.1",
