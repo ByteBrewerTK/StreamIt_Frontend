@@ -8,15 +8,44 @@ import CTAButton from "../../components/ui/CTAButton";
 import logo from "../../assets/logo.png";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/userContext";
+import { useNavigate } from "react-router-dom";
+import Loader from "../../components/ui/loader/Loader";
+import { apiInstance } from "../../services/api";
+import { saveTokens } from "../../services/authServices";
 
 const LoginPage = () => {
+	const navigate = useNavigate();
 	const { fetchData } = useContext(UserContext);
 	const [isPassVissible, setPassVissible] = useState(false);
+	const [isLoading, setLoading] = useState(false);
+
 	const [formData, setFormData] = useState({
 		username: "",
 		password: "",
 		rememberMe: false,
 	});
+
+	const submitHandler = async (e) => {
+		setLoading(true);
+		e.preventDefault();
+
+		try {
+			const { data: response } = await apiInstance.post(
+				"/user/login",
+				formData
+			);
+
+			const { accessToken, refreshToken } = response.data.tokens;
+
+			saveTokens(accessToken, refreshToken);
+
+			setLoading(false);
+			navigate("/user/feed");
+		} catch (error) {
+			console.log("Login Failed : ", error);
+			setLoading(false);
+		}
+	};
 
 	const formHandler = (event) => {
 		const { name, type, checked, value } = event.target;
@@ -36,10 +65,7 @@ const LoginPage = () => {
 			"Log in to access your account and continue enjoying our features.",
 	};
 
-	const submitHandler = async (e) => {
-		e.preventDefault();
-		await fetchData(formData)
-	};
+	// const accessToken = localStorage.getItem("accessToken")
 
 	return (
 		<main className="grid w-full h-full place-items-center">
@@ -63,6 +89,7 @@ const LoginPage = () => {
 								className="w-full outline-none placeholder:text-muted placeholder:text-smr placeholder:select-none"
 								placeholder="Enter a username"
 								onChange={formHandler}
+								required
 							/>
 						</label>
 						<label className="flex items-center justify-between w-full px-4 py-2 space-x-2 border-[1.5px] rounded-full border-muted_border focus-within:border-black">
@@ -75,6 +102,7 @@ const LoginPage = () => {
 								className="w-full outline-none placeholder:text-muted placeholder:text-smr placeholder:select-none"
 								placeholder="Enter new password"
 								onChange={formHandler}
+								required
 							/>
 							<span
 								className="cursor-pointer text-muted"
@@ -133,7 +161,15 @@ const LoginPage = () => {
 							</Link>
 						</div>
 
-						<CTAButton>Sign in</CTAButton>
+						<CTAButton disabled={isLoading}>
+							{!isLoading ? (
+								"Sign in"
+							) : (
+								<span className="flex items-center justify-center w-full h-full">
+									<Loader />
+								</span>
+							)}
+						</CTAButton>
 					</form>
 					<OauthUi />
 

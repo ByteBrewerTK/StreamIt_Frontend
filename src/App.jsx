@@ -1,12 +1,10 @@
-import { Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/auth/LoginPage";
 import RegistrationPage from "./pages/auth/RegistrationPage";
-import { Route } from "react-router-dom";
 import PasswordResetPage from "./pages/auth/PasswordResetPage";
 import VerifyOTP from "./pages/auth/VerifyOTP";
 import CreateNewPassword from "./pages/auth/CreateNewPassword";
-// import AuthTemplate from "./pages/auth/AuthTemplate";
-import HomePage from "./pages/HomePage";
+import FeedsPage from "./pages/FeedsPage";
 import PrivateRoutes from "./pages/auth/PrivateRoutes";
 
 
@@ -35,7 +33,8 @@ function App() {
 				/>
 
 				<Route element= {<PrivateRoutes/>}>
-					<Route path="/user/dashboard" element = {<HomePage/>}/>
+					{/* <Navbar/> */}
+					<Route path="/user/feed" element = {<FeedsPage/>}/>
 
 				</Route>
 				{/* <Route path="*" element={}/> */}
