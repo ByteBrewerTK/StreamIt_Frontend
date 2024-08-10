@@ -1,50 +1,42 @@
+import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
-import LoginPage from "./pages/auth/LoginPage";
-import RegistrationPage from "./pages/auth/RegistrationPage";
-import PasswordResetPage from "./pages/auth/PasswordResetPage";
-import VerifyOTP from "./pages/auth/VerifyOTP";
-import CreateNewPassword from "./pages/auth/CreateNewPassword";
-import FeedsPage from "./pages/FeedsPage";
 import PrivateRoutes from "./pages/auth/PrivateRoutes";
 
-
+// Lazy load the component
+const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
+const FeedsPage = lazy(() => import("./pages/FeedsPage"));
+const RegistrationPage = lazy(() => import("./pages/auth/RegistrationPage"));
+const PasswordResetPage = lazy(() => import("./pages/auth/PasswordResetPage"));
+const CreateNewPassword = lazy(() => import("./pages/auth/CreateNewPassword"));
+const VerifyOTP = lazy(() => import("./pages/auth/VerifyOTP"));
+const WatchVideo = lazy(() => import("./pages/WatchVideo"));
 
 function App() {
-	
 	return (
-		<div className="h-[calc(100dvh)] w-screen font-poppins">
-			{/* <RegistrationPage /> */}
-			{/* <LoginPage /> */}
+		<div className="h-[calc(100dvh)] w-full font-poppins overflow-hidden">
+			<Suspense fallback={<div>Loading...</div>}>
+				<Routes>
+					<Route path="/auth/login" element={<LoginPage />} />
+					<Route
+						path="/auth/sign-up"
+						element={<RegistrationPage />}
+					/>
+					<Route
+						path="/auth/reset-password"
+						element={<PasswordResetPage />}
+					/>
+					<Route path="/auth/verify-otp" element={<VerifyOTP />} />
+					<Route
+						path="/auth/new-password"
+						element={<CreateNewPassword />}
+					/>
 
-			<Routes>
-				<Route path="/auth/login" element={<LoginPage />} />
-				<Route path="/auth/sign-up" element={<RegistrationPage />} />
-				<Route
-					path="/auth/reset-password"
-					element={<PasswordResetPage/>}
-				/>
-				<Route
-					path="/auth/verify-otp"
-					element={<VerifyOTP/>}
-				/>
-				<Route
-					path="/auth/new-password"
-					element={<CreateNewPassword/>}
-				/>
-
-				<Route element= {<PrivateRoutes/>}>
-					{/* <Navbar/> */}
-					<Route path="/user/feed" element = {<FeedsPage/>}/>
-
-				</Route>
-				{/* <Route path="*" element={}/> */}
-
-				{/* Protected Routes */}
-
-				{/* <Route path="/user/dashboard" element={
-					<PrivateRoutes/>
-				}/> */}
-			</Routes>
+					<Route element={<PrivateRoutes />}>
+						<Route path="/" element={<FeedsPage />} />
+						<Route path="/watch" element={<WatchVideo />} />
+					</Route>
+				</Routes>
+			</Suspense>
 		</div>
 	);
 }

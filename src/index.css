@@ -5,8 +5,8 @@
 
 :root {
 	/* Colors */
-	--color-primary: #3490dc;
-	--color-secondary: #ffed4a;
+	--color-primary: #1c1c1c;
+	--color-secondary: #262626;
 	--color-accent: #e3342f;
 	--color-muted: #6c757d;
 	--color-border-muted: #dbdbdb;
@@ -15,6 +15,7 @@
 
 	--width-container: 90%;
 	--height-container: 90%;
+	--height-navbar: 4rem;
 
 	/* Font sizes */
 	--font-small: 0.8rem;

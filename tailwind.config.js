@@ -16,6 +16,11 @@ export default {
 			},
 			height: {
 				container: "var(--height-container)",
+				navbar: "var(--height-navbar)",
+			},
+			padding : {
+				navbar: "var(--height-navbar)",
+
 			},
 			fontSize: {
 				smr: "var(--font-small)",

@@ -4,8 +4,8 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import logo from "../../assets/brand/StreamItLogo_Horizon_.png";
 const Navbar = () => {
 	return (
-		<header className="py-4 bg-black">
-			<div className="flex items-center justify-between mx-auto w-container">
+		<header className="flex items-center w-full bg-primary h-navbar">
+			<div className="flex items-center justify-between mx-auto w-container md:w-[95%] z-10">
 				<div>
 					<img src={logo} alt="" width={120} height={30} />
 				</div>
