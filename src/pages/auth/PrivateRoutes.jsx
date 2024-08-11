@@ -33,7 +33,7 @@ const PrivateRoutes = () => {
 	}, [lastScrollY]);
 
 	return (
-		<main className="h-full overflow-auto md:flex-col md:flex sm:overflow-hidden">
+		<main className="h-full overflow-auto md:flex-col md:flex sm:overflow-hidden bg-secondary">
 			<div
 				className={`fixed ${
 					!isVissible
