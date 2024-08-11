@@ -40,7 +40,7 @@ const LoginPage = () => {
 			saveTokens(accessToken, refreshToken);
 
 			setLoading(false);
-			navigate("/user/feed");
+			navigate("/");
 		} catch (error) {
 			console.log("Login Failed : ", error);
 			setLoading(false);
