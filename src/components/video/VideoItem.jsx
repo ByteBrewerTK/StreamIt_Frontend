@@ -35,12 +35,12 @@ const VideoItem = (element) => {
 							{element.title}
 						</h3>
 						<div className="text-[0.7rem] flex flex-row gap-2 text-gray-400  md:flex-col md:gap-0 ">
-							<h4 className="transition-all md:text-smr hover:text-gray-100">
-								Work Smart
-							</h4>
+							<Link to={`/channel/${element.username}`} className="transition-all md:text-smr hover:text-gray-100">
+								{element.fullName}
+							</Link>
 							<div className="space-x-2">
-								<span>706k views</span>
-								<span>2 year ago</span>
+								<span>{element.views} views</span>
+								<span>{element.createAt}</span>
 							</div>
 						</div>
 					</div>
