@@ -8,6 +8,7 @@ export default {
 				secondary: "var(--color-secondary)",
 				accent: "var(--color-accent)",
 				muted: "var(--color-muted)",
+				muted_dark: "var(--color-muted-dark)",
 				muted_border: "var(--color-border-muted)",
 			},
 
@@ -18,9 +19,8 @@ export default {
 				container: "var(--height-container)",
 				navbar: "var(--height-navbar)",
 			},
-			padding : {
+			padding: {
 				navbar: "var(--height-navbar)",
-
 			},
 			fontSize: {
 				smr: "var(--font-small)",
