@@ -50,5 +50,16 @@ export const apiInstance = axios.create({
 	headers: {
 		"Content-Type": "application/json",
 	},
-	timeout: 5000,
+	timeout: 10000,
 });
+
+export const toggleLikeApi = async (entityType, entityId) => {
+	try {
+		const result = await apiInstance.patch(
+			`/like/toggle/${entityType}/${entityId}`
+		);
+		console.log(result);
+	} catch (error) {
+		console.log("Error while like : ", error);
+	}
+};
