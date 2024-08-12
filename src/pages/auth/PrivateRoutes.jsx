@@ -33,9 +33,9 @@ const PrivateRoutes = () => {
 	}, [lastScrollY]);
 
 	return (
-		<main className="h-full overflow-auto md:flex-col md:flex sm:overflow-hidden bg-secondary">
+		<main className="h-full overflow-x-hidden overflow-y-auto md:flex-col md:flex sm:overflow-hidden bg-secondary">
 			<div
-				className={`fixed ${
+				className={` ${
 					!isVissible
 						? "-translate-y-full overflow-hidden duration-500"
 						: ""
