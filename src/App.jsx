@@ -1,6 +1,8 @@
 import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoutes from "./pages/auth/PrivateRoutes";
+import VerificationSuccess from "./pages/auth/VerificationSuccess";
+import ResendVerificationMail from "./pages/auth/ResendVerificationMail";
 
 // Lazy load the component
 const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
@@ -29,6 +31,14 @@ function App() {
 					<Route
 						path="/auth/new-password"
 						element={<CreateNewPassword />}
+					/>
+					<Route
+						path="/confirm/:token"
+						element={<VerificationSuccess />}
+					/>
+					<Route
+						path="/resend/confirm/:email"
+						element={<ResendVerificationMail />}
 					/>
 
 					<Route element={<PrivateRoutes />}>
