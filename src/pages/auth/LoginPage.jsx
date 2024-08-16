@@ -12,15 +12,18 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../components/ui/loader/Loader";
 import { apiInstance } from "../../services/api";
 import { saveTokens } from "../../services/authServices";
+import { FaRegEnvelope } from "react-icons/fa";
+import { useNavigation } from "react-router-dom";
 
 const LoginPage = () => {
 	const navigate = useNavigate();
-	const { fetchData } = useContext(UserContext);
-	const [isPassVissible, setPassVissible] = useState(false);
+	const { setUserData } = useContext(UserContext);
+	const [isPassVisible, setPassVisible] = useState(false);
 	const [isLoading, setLoading] = useState(false);
+	const [error, setError] = useState(false);
 
 	const [formData, setFormData] = useState({
-		username: "",
+		email: "",
 		password: "",
 		rememberMe: false,
 	});
@@ -36,6 +39,8 @@ const LoginPage = () => {
 			);
 
 			const { accessToken, refreshToken } = response.data.tokens;
+			
+			setUserData(response.data.loggedInUser);
 
 			saveTokens(accessToken, refreshToken);
 
@@ -43,6 +48,11 @@ const LoginPage = () => {
 			navigate("/");
 		} catch (error) {
 			console.log("Login Failed : ", error);
+			if (error.response && error.response.status === 403) {
+				navigate(`/resend/confirm/${formData.email}`);
+			}
+			setError("Something went wrong while sign in");
+		} finally {
 			setLoading(false);
 		}
 	};
@@ -57,7 +67,7 @@ const LoginPage = () => {
 	};
 
 	const handleToggle = () => {
-		setPassVissible(!isPassVissible);
+		setPassVisible(!isPassVisible);
 	};
 	const form_header = {
 		heading: "Welcome Back",
@@ -81,13 +91,13 @@ const LoginPage = () => {
 					>
 						<label className="flex items-center justify-between w-full px-4 py-2 space-x-2 border-[1.5px] rounded-full border-muted_border focus-within:border-black">
 							<span className="text-muted">
-								<FaRegUser />
+								<FaRegEnvelope />
 							</span>
 							<input
-								type="username"
-								name="username"
+								type="email"
+								name="email"
 								className="w-full outline-none placeholder:text-muted placeholder:text-smr placeholder:select-none"
-								placeholder="Enter a username"
+								placeholder="Enter a email"
 								onChange={formHandler}
 								required
 							/>
@@ -97,7 +107,7 @@ const LoginPage = () => {
 								<FiLock />
 							</span>
 							<input
-								type={isPassVissible ? "text" : "password"}
+								type={isPassVisible ? "text" : "password"}
 								name="password"
 								className="w-full outline-none placeholder:text-muted placeholder:text-smr placeholder:select-none"
 								placeholder="Enter new password"
@@ -108,7 +118,7 @@ const LoginPage = () => {
 								className="cursor-pointer text-muted"
 								onClick={handleToggle}
 							>
-								{!isPassVissible ? (
+								{!isPassVisible ? (
 									<FaRegEye />
 								) : (
 									<FaRegEyeSlash />
@@ -166,7 +176,9 @@ const LoginPage = () => {
 								"Sign in"
 							) : (
 								<span className="flex items-center justify-center w-full h-full">
-									<Loader />
+									<span className="w-[1.3rem] aspect-square">
+										<Loader />
+									</span>
 								</span>
 							)}
 						</CTAButton>
