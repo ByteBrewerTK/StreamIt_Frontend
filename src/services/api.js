@@ -1,9 +1,19 @@
 import axios from "axios";
-import { getAccessToken, getRefreshToken, removeTokens } from "./authServices";
+import {
+	getAccessToken,
+	getRefreshToken,
+	removeTokens,
+	saveTokens,
+} from "./authServices";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
-export const apiRequest = async (url, method = "GET", data = null) => {
+export const apiRequest = async (
+	url,
+	method = "GET",
+	data = null,
+	source = {}
+) => {
 	try {
 		const accessToken = getAccessToken();
 
@@ -16,6 +26,7 @@ export const apiRequest = async (url, method = "GET", data = null) => {
 			method,
 			headers,
 			data,
+			cancelToken: source.token,
 		});
 
 		return response.data;
@@ -25,18 +36,35 @@ export const apiRequest = async (url, method = "GET", data = null) => {
 
 			try {
 				if (refreshToken) {
-					const data = await axios.post(
-						`${baseUrl}/auth/refresh-token`,
-						refreshToken
+					const { data } = await axios.post(
+						`${baseUrl}/user/refresh-token`,
+						{ refreshToken: refreshToken }
 					);
 
-					console.log(data);
+					const tokens = data.data;
+					saveTokens(tokens.accessToken, tokens.refreshToken);
+
+					const updatedAccessToken = getAccessToken();
+
+					const headers = {
+						Authorization: `Bearer ${updatedAccessToken}`,
+					};
+
+					const response = await axios({
+						url: `${baseUrl}${url}`,
+						method,
+						headers,
+						data,
+						cancelToken: source.token,
+					});
+
+					return response.data;
 				} else {
 					removeTokens();
 					window.location.href("/auth/login");
 				}
 			} catch (error) {
-				removeTokens();
+				console.log("unauthorized : ", error);
 				window.location.href = "/auth/login";
 			}
 		} else {
