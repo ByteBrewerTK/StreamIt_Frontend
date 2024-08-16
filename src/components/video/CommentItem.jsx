@@ -4,13 +4,16 @@ import { LuThumbsUp } from "react-icons/lu";
 import { useState } from "react";
 import { apiRequest } from "../../services/api";
 
-const CommentItem = (comment) => {
+const CommentItem = ({comment}) => {
 	const [isLiked, setIsLiked] = useState(comment.isLiked);
 	const [likes, setLikes] = useState(comment.likes);
+	const [likeLoading, setLikeLoading] = useState(false);
 	console.log(comment);
 
 	const toggleLike = async () => {
+		if (likeLoading) return;
 		try {
+			setLikeLoading(true);
 			const response = await apiRequest(
 				`/like/toggle/Comment/${comment._id}`,
 				"PATCH"
@@ -26,6 +29,8 @@ const CommentItem = (comment) => {
 			console.log(response);
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setLikeLoading(false);
 		}
 	};
 	return (
@@ -53,10 +58,14 @@ const CommentItem = (comment) => {
 				</div>
 				<div className="mt-2">
 					<div className="flex items-center space-x-1 cursor-pointer text-smr">
-						<LuThumbsUp
-							className={`${isLiked ? "fill-white" : ""}`}
-							onClick={toggleLike}
-						/>
+						{likeLoading ? (
+							<div className="animate-spin inline-block size-3 border-[2px] border-current border-t-transparent text-muted rounded-full dark:text-muted"></div>
+						) : (
+							<LuThumbsUp
+								className={`${isLiked ? "fill-white" : ""}`}
+								onClick={toggleLike}
+							/>
+						)}
 						<span>{likes}</span>
 					</div>
 					<span></span>
