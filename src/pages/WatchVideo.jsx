@@ -4,77 +4,128 @@ import { apiRequest, toggleLikeApi } from "../services/api";
 import { useSearchParams, Link } from "react-router-dom";
 import { LuThumbsUp } from "react-icons/lu";
 import { RiShareForwardLine } from "react-icons/ri";
-import { IoBookmarkOutline } from "react-icons/io5";
+import { IoMdThumbsUp } from "react-icons/io";
 import Comments from "../components/video/Comments";
+import { getTimeAgo } from "../utils/getTimeAgo";
+import { formatCounts } from "../utils/formatCounts";
+import Loader from "../components/ui/loader/Loader";
+import FetchError from "../components/ui/FetchError";
+import { LiaComments } from "react-icons/lia";
 
 const WatchVideo = () => {
 	const [searchParams] = useSearchParams();
+	const videoId = searchParams.get("v");
+
 	const [results, setResults] = useState(null);
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const [isLiked, setIsLiked] = useState(false);
+	const [likes, setLikes] = useState(0);
+	const [likeLoading, setLikeLoading] = useState(false);
+	const [isCommentsOpen, setCommentOpen] = useState(false);
+	const [initialComment, setInitialComment] = useState(null);
 
-	const videoId = searchParams.get("v");
+	const commentQuery = {
+		page: "1",
+		limit: "10",
+		sortBy: "createdAt",
+		sortType: "asc",
+	};
+
+	const commentRequestUrl = `/comment/${videoId}?page=${commentQuery.page}&limit=${commentQuery.limit}&sortBy=${commentQuery.sortBy}&sortType=${commentQuery.sortType}`;
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await apiRequest(`/video/${videoId}`);
-				if (response.data) {
-					setResults(response.data);
-				} else {
-					setError("No data found");
-				}
+				const [videoData, commentData] = await Promise.all([
+					apiRequest(`/video/${videoId}`, "GET"),
+					apiRequest(commentRequestUrl, "GET"),
+				]);
+
+				setIsLiked(videoData.data.isLiked);
+				setLikes(videoData.data.likes);
+
+				setResults({
+					video: videoData,
+					comments: commentData,
+				});
 			} catch (error) {
-				setError("Error while fetching video");
-				console.error("Error fetching video:", error);
+				setError("Error while fetching video and comments");
+				console.error("Error fetching video and comments:", error);
 			} finally {
 				setLoading(false);
 			}
 		};
-		fetchData();
-	}, [videoId]);
 
-	
-	const videoPlayerStyle = {
-		width: "100%",
-		height: "100%",
+		fetchData();
+		// return () => {
+		// 	source.cancel("Request cancel");
+		// };
+	}, [videoId, commentRequestUrl]);
+
+	const toggleLike = async () => {
+		if (likeLoading) return;
+		try {
+			setLikeLoading(true);
+			const response = await toggleLikeApi("Video", videoId);
+			if (response.statusCode === 200) {
+				setIsLiked((prev) => !prev);
+				setLikes((prev) => prev + (isLiked ? -1 : 1));
+			}
+		} catch (error) {
+			console.error("Error toggling like:", error);
+		} finally {
+			setLikeLoading(false);
+		}
 	};
-	
-	if (loading) return <p>Loading...</p>;
-	if (error) return <p>{error}</p>;
-	if (!results || !results.ownerDetails)
-		return <p>No video details available</p>;
-	
-	const toggleLike = async ()=>{
-		await toggleLikeApi("Video", videoId);
-	}
-	const { ownerDetails } = results;
+
+	if (loading)
+		return (
+			<div className="grid w-full h-full place-items-center">
+				{" "}
+				<span className=" size-14">
+					<Loader />
+				</span>
+			</div>
+		);
+	if (error) return <FetchError error={error} />;
+	if (!results || !results.video)
+		return <FetchError error={"No videos found"} />;
+
+	const { video, comments } = results;
+
+	const { ownerDetails } = video.data;
+
+	const handleInitialComment = (comment) => {
+		setInitialComment((comment.content).substring(0, 40));
+	};
 
 	return (
-		<div className="w-full text-white lg:px-4">
-			<section>
-				<div className=" lg:w-[70rem] aspect-video rounded-lg overflow-hidden bg-black">
+		<div className="flex-1 w-full h-full overflow-hidden text-white lg:px-4">
+			<section className="relative flex flex-col h-full">
+				<div className="lg:w-[70rem] aspect-video rounded-lg overflow-hidden bg-black">
 					<ReactPlayer
-						url={results.videoFile}
+						url={video.data.videoFile}
 						controls={true}
-						style={videoPlayerStyle}
 						width="100%"
 						height="100%"
 					/>
 				</div>
-
-				<div className="px-2 space-y-2 border border-red-500 md:space-y-4">
+				<div className="relative flex-1 h-full px-2 py-2">
 					<h2 className="font-semibold md:text-mid">
-						{results.title}
+						{video.data.title}
 					</h2>
-					<div className="flex flex-col items-center justify-between md:flex-row gap-y-4">
+					<div className="space-x-2 text-[0.6rem]">
+						<span>{formatCounts(video.data.views)}</span>
+						<span>{getTimeAgo(video.data.createdAt)}</span>
+					</div>
+					<div className="flex flex-col items-center justify-between my-4 md:flex-row gap-y-4">
 						<div className="flex items-center justify-between w-full md:space-x-4">
 							<div className="flex items-center space-x-2">
 								<Link
 									to={`/user/${ownerDetails._id}`}
 									className="overflow-hidden w-[35px] aspect-square rounded-full h-[35px] md:w-[45px] md:h-auto"
 								>
-									{/* Avatar */}
 									<img
 										src={ownerDetails.avatar}
 										alt={
@@ -87,14 +138,13 @@ const WatchVideo = () => {
 									/>
 								</Link>
 								<div className="flex items-center gap-2">
-									{/* Channel name and subscribers */}
 									<Link
 										to={`/user/${ownerDetails._id}`}
 										className="font-[500] text-sm"
 									>
 										{ownerDetails.fullName}
 									</Link>
-									<p className="inline-block text-smr text-muted_dark">
+									<p className="inline-block text-sm text-muted_dark">
 										{ownerDetails.subscribersCount}{" "}
 										<span className="hidden md:inline-block">
 											subscribers
@@ -102,52 +152,79 @@ const WatchVideo = () => {
 									</p>
 								</div>
 							</div>
-							<div>
-								{/* Subscribed button */}
-								<button className="px-3 py-1 text-black bg-white rounded-full text-smr md:px-4">
-									{ownerDetails.isSubscribed
-										? "Subscribed"
-										: "Subscribe"}
-								</button>
-							</div>
+							<button className="px-3 py-1 text-sm text-black bg-white rounded-full md:px-4">
+								{ownerDetails.isSubscribed
+									? "Subscribed"
+									: "Subscribe"}
+							</button>
 						</div>
 						<div className="w-full overflow-x-auto overflow-y-hidden">
 							<div className="flex items-center space-x-2">
 								<button
-									className="flex items-center px-6 py-1 space-x-2 text-sm border rounded-full border-muted"
+									className="flex items-center space-x-2 text-sm border rounded-full border-muted w-[80px] h-[32px] p-1"
 									onClick={toggleLike}
 								>
-									{/* like button */}
-									<LuThumbsUp className="text-sm " />
-									<span>{results.likes}</span>
+									<span className="w-[35%] border-r-2 border-gray-500 h-full flex items-center justify-center ">
+										{likeLoading ? (
+											<div className="w-[15px] h-[15px] ">
+												<span className="w-[5px] h-[5px]">
+													<Loader />
+												</span>
+											</div>
+										) : !isLiked ? (
+											<LuThumbsUp className="text-sm" />
+										) : (
+											<IoMdThumbsUp className="text-base text-white" />
+										)}
+									</span>
+									<span className="flex-1">{likes}</span>
 								</button>
 								<button className="flex items-center px-4 py-1 space-x-2 text-sm border rounded-full border-muted">
-									{/* share button */}
-									<RiShareForwardLine className="text-sm " />
+									<RiShareForwardLine className="text-sm" />
 									<span>Share</span>
 								</button>
 								<button className="flex items-center px-4 py-1 space-x-2 text-sm border rounded-full border-muted">
-									{/* save */}
-									<IoBookmarkOutline className="text-sm " />
+									{/* <IoBookmarkOutline className="text-sm" /> */}
 									<span>Save</span>
 								</button>
 							</div>
 						</div>
-					</div>
-					<div>
-						<div>
-							<div className="flex space-x-2">
-								<span>{results.views} views</span>
-								<span></span>
-							</div>
-
-							<div>{results.description}</div>
+						<div
+							className="flex w-full p-3 space-x-2 rounded-lg bg-primary text-muted text-nowrap"
+							onClick={() => {
+								setCommentOpen(true);
+							}}
+						>
+							<span className="">
+								<LiaComments />
+							</span>
+							<span className="w-full text-smr">
+								{initialComment ? (
+									<p className="pr-2 truncate">
+										{`${initialComment}...`}
+									</p>
+								) : (
+									"No comments"
+								)}
+							</span>
 						</div>
 					</div>
-					<Comments />
+					<section
+						className={`absolute w-full h-full  bg-primary m-auto inset-0 flex flex-col transition duration-500 ${
+							!isCommentsOpen ? "translate-y-[100%]" : ""
+						}`}
+					>
+						<Comments
+							comments={comments}
+							setCommentOpen={setCommentOpen}
+							handleInitialComment={handleInitialComment}
+							videoId={videoId}
+							setResults={setResults}
+						/>
+					</section>
 				</div>
 			</section>
-			<div></div>
+			{/* Uncomment to display comments */}
 		</div>
 	);
 };
