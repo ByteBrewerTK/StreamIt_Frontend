@@ -8,15 +8,15 @@ import SideNavbar from "../../components/shared/SideNavbar";
 const PrivateRoutes = () => {
 	const accessToken = localStorage.getItem("accessToken");
 
-	const [isVissible, setVissible] = useState(true);
+	const [isVisible, setVisible] = useState(true);
 	const [lastScrollY, setLastScrollY] = useState(0);
 
 	const controlNavbar = () => {
 		if (typeof window !== undefined) {
 			if (window.scrollY > lastScrollY) {
-				setVissible(false);
+				setVisible(false);
 			} else {
-				setVissible(true);
+				setVisible(true);
 			}
 			setLastScrollY(window.scrollY);
 		}
@@ -33,10 +33,10 @@ const PrivateRoutes = () => {
 	}, [lastScrollY]);
 
 	return (
-		<main className="h-full overflow-x-hidden overflow-y-auto md:flex-col md:flex sm:overflow-hidden bg-secondary">
+		<main className="flex flex-col h-full overflow-x-hidden overflow-y-auto md:flex-col md:flex sm:overflow-hidden bg-secondary">
 			<div
 				className={` ${
-					!isVissible
+					!isVisible
 						? "-translate-y-full overflow-hidden duration-500"
 						: ""
 				}  transition-all duration-300 w-full  sm:transition-none sm:translate-y-0 overflow-hidden md:relative  `}
