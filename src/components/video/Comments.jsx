@@ -2,11 +2,10 @@ import { useState } from "react";
 import CommentItem from "./CommentItem";
 import { IoMdClose } from "react-icons/io";
 import { useEffect } from "react";
-import { useContext } from "react";
-import { UserContext } from "../../contexts/userContext";
 import { AiOutlineSend } from "react-icons/ai";
 import { apiRequest } from "../../services/api";
 import Loader from "../ui/loader/Loader";
+import { getUserData } from "../../services/authServices";
 
 const Comments = ({
 	comments,
@@ -15,15 +14,15 @@ const Comments = ({
 	handleInitialComment,
 	setResults,
 }) => {
-	const { userData, setUserData } = useContext(UserContext);
-	const [isOpen, setIsOpen] = useState(false);
 	const [newComment, setNewComment] = useState("");
 	const [isCommentSending, setCommentSending] = useState(false);
-	const commentsData = comments.data.docs;
+
+	const userData = getUserData();
 	console.log(userData);
+	const commentsData = comments.data.docs;
 
 	useEffect(() => {
-		if (comments && commentsData.length > 0) {
+		if (comments && commentsData?.length > 0) {
 			const data = commentsData[0];
 			handleInitialComment(data);
 		}
@@ -98,13 +97,12 @@ const Comments = ({
 					}
 				>
 					{!isCommentSending ? (
-						<AiOutlineSend className="text-black"/>
+						<AiOutlineSend className="text-black" />
 					) : (
 						<span className="h-[20px] w-[20px] flex">
-							<Loader color={"black"}/>
+							<Loader color={"black"} />
 						</span>
 					)}
-						
 				</button>
 			</div>
 		</>
