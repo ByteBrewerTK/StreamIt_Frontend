@@ -15,6 +15,7 @@ const FeedsPage = () => {
 	};
 	const url = `/video?limit=${query.limit}&page=${query.page}&sortBy=${query.sortBy}&sortType=${query.sortType}`;
 
+
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -32,13 +33,11 @@ const FeedsPage = () => {
 	}, []);
 	// if (!data) return <p>Loading...</p>;
 	return (
-		<main className="grid flex-1 h-full sm:min-h-[100dvh] gap-4 overflow-auto grid-col-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 bg-secondary text-white px-4 pb-[8rem]">
+		<main className="grid flex-1 h-full sm:h-[100vh] gap-4 overflow-auto grid-col-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 bg-secondary text-white px-4 pb-[8rem]">
 			{data.map((element) => (
 				<VideoItem key={element._id} {...element} />
 			))}
-			{data.map((element) => (
-				<VideoItem key={element._id} {...element} />
-			))}
+			
 		</main>
 	);
 };
