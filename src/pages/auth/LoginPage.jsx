@@ -6,18 +6,15 @@ import OauthUi from "../../components/OauthUi";
 import { Link } from "react-router-dom";
 import CTAButton from "../../components/ui/CTAButton";
 import logo from "../../assets/logo.png";
-import { useContext } from "react";
-import { UserContext } from "../../contexts/userContext";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/ui/loader/Loader";
 import { apiInstance } from "../../services/api";
-import { saveTokens } from "../../services/authServices";
+import { saveTokens, saveUserData } from "../../services/authServices";
 import { FaRegEnvelope } from "react-icons/fa";
-import { useNavigation } from "react-router-dom";
 
 const LoginPage = () => {
 	const navigate = useNavigate();
-	const { setUserData } = useContext(UserContext);
+
 	const [isPassVisible, setPassVisible] = useState(false);
 	const [isLoading, setLoading] = useState(false);
 	const [error, setError] = useState(false);
@@ -39,8 +36,10 @@ const LoginPage = () => {
 			);
 
 			const { accessToken, refreshToken } = response.data.tokens;
-			
-			setUserData(response.data.loggedInUser);
+
+			console.log(response.data.loggedInUser);
+
+			saveUserData(response.data.loggedInUser);
 
 			saveTokens(accessToken, refreshToken);
 
