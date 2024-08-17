@@ -17,11 +17,11 @@ const VideoItem = (element) => {
 					{duration}
 				</span>
 			</div>
-			<div className="flex items-center justify-between p-2 space-x-2">
+			<div className="flex items-center justify-between p-2 space-x-2 ">
 				<div className="flex items-center space-x-2">
 					<Link
 						to={"/"}
-						className="overflow-hidden rounded-full  aspect-square w-[40px]"
+						className="w-8 overflow-hidden rounded-full aspect-square "
 					>
 						<img
 							src={element.avatar}
@@ -32,8 +32,8 @@ const VideoItem = (element) => {
 							className="object-cover object-center"
 						/>
 					</Link>
-					<div>
-						<h3 className="mb-2 leading-4  font-[500]">
+					<div className="flex-1 ">
+						<h3 className="mb-2 leading-5  font-[400] text-sm ">
 							{element.title}
 						</h3>
 						<div className="text-[0.7rem] flex flex-row gap-2 text-gray-400  md:flex-col md:gap-0 ">
@@ -50,7 +50,7 @@ const VideoItem = (element) => {
 						</div>
 					</div>
 				</div>
-				<div>
+				<div className="">
 					<IoMdMore className="text-[1.5rem] text-white" />
 				</div>
 			</div>
