@@ -24,6 +24,8 @@ const WatchVideo = () => {
 	const [likeLoading, setLikeLoading] = useState(false);
 	const [isCommentsOpen, setCommentOpen] = useState(false);
 	const [initialComment, setInitialComment] = useState(null);
+	const [isSubscribing, setSubscribing] = useState(false);
+	const [isSubscribed, setSubscribed] = useState(false);
 
 	const commentQuery = {
 		page: "1",
@@ -49,6 +51,8 @@ const WatchVideo = () => {
 					video: videoData,
 					comments: commentData,
 				});
+
+				setSubscribed(videoData.data.ownerDetails.isSubscribed);
 			} catch (error) {
 				setError("Error while fetching video and comments");
 				console.error("Error fetching video and comments:", error);
@@ -62,6 +66,25 @@ const WatchVideo = () => {
 		// 	source.cancel("Request cancel");
 		// };
 	}, [videoId, commentRequestUrl]);
+
+	const toggleSubscription = async () => {
+		if (isSubscribing) return;
+
+		try {
+			setSubscribing(true);
+			const response = await apiRequest(
+				`/subscription/channel/${videoId}`
+			);
+			if (response.statusCode === 200) {
+				setSubscribed((prev) => !prev);
+			}
+			console.log(response);
+		} catch (error) {
+			console.log("Error while subscribing : ", error);
+		} finally {
+			setSubscribing(false);
+		}
+	};
 
 	const toggleLike = async () => {
 		if (likeLoading) return;
@@ -97,7 +120,7 @@ const WatchVideo = () => {
 	const { ownerDetails } = video.data;
 
 	const handleInitialComment = (comment) => {
-		setInitialComment((comment.content).substring(0, 40));
+		setInitialComment(comment.content.substring(0, 40));
 	};
 
 	return (
@@ -152,10 +175,25 @@ const WatchVideo = () => {
 									</p>
 								</div>
 							</div>
-							<button className="px-3 py-1 text-sm text-black bg-white rounded-full md:px-4">
-								{ownerDetails.isSubscribed
-									? "Subscribed"
-									: "Subscribe"}
+							<button
+								className="text-sm rounded-full w-[6rem] h-[1.6rem] border flex items-center justify-center"
+								onClick={toggleSubscription}
+							>
+								{isSubscribing ? (
+									<span className="size-[20px]">
+										<Loader />
+									</span>
+								) : isSubscribed ? (
+									<span className="px-3 py-1 text-white rounded-full md:px-4">
+										{" "}
+										Subscribed
+									</span>
+								) : (
+									<span className="px-3 py-1 text-black bg-white border rounded-full md:px-4">
+										{" "}
+										Subscribe
+									</span>
+								)}
 							</button>
 						</div>
 						<div className="w-full overflow-x-auto overflow-y-hidden">
@@ -224,7 +262,6 @@ const WatchVideo = () => {
 					</section>
 				</div>
 			</section>
-			{/* Uncomment to display comments */}
 		</div>
 	);
 };
