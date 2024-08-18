@@ -25,7 +25,6 @@ const WatchVideo = () => {
 	const [isCommentsOpen, setCommentOpen] = useState(false);
 	const [initialComment, setInitialComment] = useState(null);
 	const [isSubscribing, setSubscribing] = useState(false);
-	const [isSubscribed, setSubscribed] = useState(false);
 
 	const commentQuery = {
 		page: "1",
@@ -51,8 +50,6 @@ const WatchVideo = () => {
 					video: videoData,
 					comments: commentData,
 				});
-
-				setSubscribed(videoData.data.ownerDetails.isSubscribed);
 			} catch (error) {
 				setError("Error while fetching video and comments");
 				console.error("Error fetching video and comments:", error);
@@ -73,10 +70,18 @@ const WatchVideo = () => {
 		try {
 			setSubscribing(true);
 			const response = await apiRequest(
-				`/subscription/channel/${videoId}`
+				`/subscription/channel/${video.data.ownerDetails._id}`,
+				"PATCH"
 			);
 			if (response.statusCode === 200) {
-				setSubscribed((prev) => !prev);
+				const { ownerDetails } = video.data;
+
+				const { subscribersCount, isSubscribed } = ownerDetails;
+
+				ownerDetails.isSubscribed = !isSubscribed;
+				ownerDetails.subscribersCount = !isSubscribed
+					? subscribersCount + 1
+					: subscribersCount - 1;
 			}
 			console.log(response);
 		} catch (error) {
@@ -92,8 +97,10 @@ const WatchVideo = () => {
 			setLikeLoading(true);
 			const response = await toggleLikeApi("Video", videoId);
 			if (response.statusCode === 200) {
-				setIsLiked((prev) => !prev);
-				setLikes((prev) => prev + (isLiked ? -1 : 1));
+				const { data } = video;
+
+				data.isLiked = !data.isLiked;
+				setLikes((prev) => prev + (data.isLiked ? 1 : -1));
 			}
 		} catch (error) {
 			console.error("Error toggling like:", error);
@@ -183,7 +190,7 @@ const WatchVideo = () => {
 									<span className="size-[20px]">
 										<Loader />
 									</span>
-								) : isSubscribed ? (
+								) : ownerDetails.isSubscribed ? (
 									<span className="px-3 py-1 text-white rounded-full md:px-4">
 										{" "}
 										Subscribed
