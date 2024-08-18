@@ -83,10 +83,12 @@ export const apiInstance = axios.create({
 
 export const toggleLikeApi = async (entityType, entityId) => {
 	try {
-		const result = await apiInstance.patch(
-			`/like/toggle/${entityType}/${entityId}`
+		const result = await apiRequest(
+			`/like/toggle/${entityType}/${entityId}`,
+			"PATCH"
 		);
 		console.log(result);
+		return result;
 	} catch (error) {
 		console.log("Error while like : ", error);
 	}
