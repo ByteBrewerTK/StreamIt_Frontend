@@ -74,7 +74,7 @@ const Comments = ({
 					))
 				)}
 			</div>
-			<div className="flex items-center justify-between w-full px-2 py-2 gap-x-2 bg-primary ">
+			<div className="flex items-center justify-between w-full px-2 py-2 rounded-full gap-x-2 bg-primary">
 				<div className="overflow-hidden rounded-full aspect-square w-[40px] bg-secondary">
 					<img
 						src={userData.avatar}
