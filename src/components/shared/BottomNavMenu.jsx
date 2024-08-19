@@ -4,11 +4,16 @@ import { MdOutlineSubscriptions } from "react-icons/md";
 import { BiMessageRoundedDetail } from "react-icons/bi";
 import { BsPatchPlus } from "react-icons/bs";
 import { getUserData } from "../../services/authServices";
+import { useNavigate } from "react-router-dom";
 
 const BottomNavMenu = ({ toggleCreatePanel, createPanelOpen }) => {
+	const navigate = useNavigate();
 
-	const user = getUserData()
-	
+	const user = getUserData();
+	console.log(user)
+	if (!user) return;
+	console.log(user)
+
 	return (
 		<main className="relative flex items-center w-full h-12 px-4 bg-primary z-[100]">
 			<div className="flex items-center justify-between w-full text-white ">
