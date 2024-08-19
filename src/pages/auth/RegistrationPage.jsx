@@ -16,7 +16,7 @@ import { apiInstance } from "../../services/api";
 import Loader from "../../components/ui/loader/Loader";
 const RegistrationPage = () => {
 	const [isLoading, setLoading] = useState(false);
-	const [isPassVissible, setPassVissible] = useState(false);
+	const [isPassVisible, setPassVisible] = useState(false);
 	const [formData, setFormData] = useState({
 		fullName: "",
 		email: "",
@@ -32,7 +32,7 @@ const RegistrationPage = () => {
 	};
 	
 	const handleToggle = () => {
-		setPassVissible(!isPassVissible);
+		setPassVisible(!isPassVisible);
 	};
 	
 	const submitHandler = async (e) => {
@@ -96,7 +96,7 @@ const RegistrationPage = () => {
 								<FiLock />
 							</span>
 							<input
-								type={isPassVissible ? "text" : "password"}
+								type={isPassVisible ? "text" : "password"}
 								name="password"
 								className="w-full outline-none placeholder:text-muted placeholder:text-smr placeholder:select-none "
 								placeholder="Enter new password"
@@ -107,7 +107,7 @@ const RegistrationPage = () => {
 								className="cursor-pointer text-muted"
 								onClick={handleToggle}
 							>
-								{!isPassVissible ? (
+								{!isPassVisible ? (
 									<FaRegEye />
 								) : (
 									<FaRegEyeSlash />
