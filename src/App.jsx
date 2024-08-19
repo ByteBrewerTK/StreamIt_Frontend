@@ -4,7 +4,8 @@ import PrivateRoutes from "./pages/auth/PrivateRoutes";
 import VerificationSuccess from "./pages/auth/VerificationSuccess";
 import ResendVerificationMail from "./pages/auth/ResendVerificationMail";
 import Loader from "./components/ui/loader/Loader";
-import {Toaster} from 'react-hot-toast';
+import {Toaster, toast} from 'react-hot-toast';
+import { useEffect } from "react";
 
 // Lazy load the component
 const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
@@ -15,10 +16,18 @@ const CreateNewPassword = lazy(() => import("./pages/auth/CreateNewPassword"));
 const VerifyOTP = lazy(() => import("./pages/auth/VerifyOTP"));
 const WatchVideo = lazy(() => import("./pages/WatchVideo"));
 
+
+
 function App() {
+	useEffect(() => {
+		toast("App in development—please ignore bugs and issues.", {
+			icon: "😊",
+		});
+	}, []);
 	return (
 		<>
 			<Toaster position="top-center" reverseOrder={false} />
+			
 			<div className="h-[calc(100dvh)] w-full font-poppins overflow-hidden">
 				<Suspense
 					fallback={
