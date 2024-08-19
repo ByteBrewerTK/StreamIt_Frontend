@@ -18,35 +18,35 @@ const FeedsPage = () => {
 
 	useEffect(() => {
 		const fetchData = async () => {
+			setLoading(true);
 			try {
-				setLoading(true);
 				const { data } = await apiRequest(url);
 
 				setData(data.docs);
-				console.log("data : ", data.docs);
-				setLoading(false);
 			} catch (error) {
 				console.log("Failed to fetch feeds : ", error);
+			} finally {
+				setLoading(false);
 			}
 		};
 		fetchData();
 	}, []);
-	if (!data)
+	if (loading)
 		return (
 			<main className="grid w-full h-full place-items-center">
 				<div className="size-[60px]">
-					
 					<Loader />
 				</div>
 			</main>
 		);
-	if(!data.totalDocs)return (
-		<main className="grid w-full h-full place-items-center">
-			<div className="text-xl text-muted">
-				No videos found
-			</div>
-		</main>
-	);
+	if (!data.length > 0)
+		return (
+			<main className="grid w-full h-full place-items-center">
+				<div className="text-xl select-none text-muted">
+					No videos found
+				</div>
+			</main>
+		);
 	return (
 		<main className="grid flex-1 h-full sm:h-[100vh] gap-4 overflow-auto grid-col-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 bg-secondary text-white px-4 pb-[8rem]">
 			{data.map((element) => (
