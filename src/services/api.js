@@ -3,6 +3,7 @@ import {
 	getAccessToken,
 	getRefreshToken,
 	removeTokens,
+	removeUserData,
 	saveTokens,
 } from "./authServices";
 
@@ -61,10 +62,13 @@ export const apiRequest = async (
 					return response.data;
 				} else {
 					removeTokens();
+					removeUserData();
 					window.location.href("/auth/login");
 				}
 			} catch (error) {
 				console.log("unauthorized : ", error);
+				removeTokens();
+				removeUserData()
 				window.location.href = "/auth/login";
 			}
 		} else {
