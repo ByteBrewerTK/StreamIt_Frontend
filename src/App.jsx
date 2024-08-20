@@ -15,6 +15,7 @@ const PasswordResetPage = lazy(() => import("./pages/auth/PasswordResetPage"));
 const CreateNewPassword = lazy(() => import("./pages/auth/CreateNewPassword"));
 const VerifyOTP = lazy(() => import("./pages/auth/VerifyOTP"));
 const WatchVideo = lazy(() => import("./pages/WatchVideo"));
+const UserProfilePage = lazy(() => import("./pages/UserProfilePage"));
 
 
 
@@ -69,6 +70,7 @@ function App() {
 						<Route element={<PrivateRoutes />}>
 							<Route path="/" element={<FeedsPage />} />
 							<Route path="/watch" element={<WatchVideo />} />
+							<Route path="/user/profile" element={<UserProfilePage />} />
 						</Route>
 					</Routes>
 				</Suspense>
