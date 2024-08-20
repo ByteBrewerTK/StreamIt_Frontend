@@ -14,9 +14,12 @@ import CTAButton from "../../components/ui/CTAButton";
 import logo from "../../assets/logo.png";
 import { apiInstance } from "../../services/api";
 import Loader from "../../components/ui/loader/Loader";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 const RegistrationPage = () => {
 	const [isLoading, setLoading] = useState(false);
 	const [isPassVisible, setPassVisible] = useState(false);
+	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
 		fullName: "",
 		email: "",
@@ -30,29 +33,43 @@ const RegistrationPage = () => {
 			[name]: value,
 		}));
 	};
-	
+
 	const handleToggle = () => {
 		setPassVisible(!isPassVisible);
 	};
-	
+
 	const submitHandler = async (e) => {
 		e.preventDefault();
-		setLoading(true)
-		try {
-			const response = await apiInstance.post("/user/register", formData);
-			console.log(response);
-			setLoading(false)
-		} catch (error) {
-			console.log("Error occurred while registering user : ", error);
-			setLoading(false)
-		}
+		setLoading(true);
+
+		toast
+			.promise(apiInstance.post("/user/register", formData), {
+				loading: "Signing Up...",
+				success: (response) => {
+					console.log(response);
+					return "Registration successfully completed";
+				},
+				error: (error) => {
+					const statusCode = error.response.status;
+					if (statusCode === 409) {
+						navigate(`/resend/confirm/${formData.email}`);
+					}
+					return statusCode === 409
+						? "User already registered in this email "
+						: error.message;
+				},
+			})
+			.finally(() => {
+				setLoading(false);
+			});
 	};
 
 	const form_header = {
 		heading: "Welcome",
 		description:
-		"Complete the registration form for exclusive features and personalized content.",
+			"Complete the registration form for exclusive features and personalized content.",
 	};
+
 	return (
 		<main className="grid w-full h-full place-items-center">
 			<div className="space-y-2 w-container h-fit sm:w-[360px]  sm:p-4 sm:rounded-2xl sm:shadow-lg sm:py-8">
