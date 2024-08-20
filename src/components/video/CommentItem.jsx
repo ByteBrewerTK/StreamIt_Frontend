@@ -4,11 +4,10 @@ import { LuThumbsUp } from "react-icons/lu";
 import { useState } from "react";
 import { apiRequest } from "../../services/api";
 
-const CommentItem = ({comment}) => {
+const CommentItem = ({ comment }) => {
 	const [isLiked, setIsLiked] = useState(comment.isLiked);
 	const [likes, setLikes] = useState(comment.likes);
 	const [likeLoading, setLikeLoading] = useState(false);
-	console.log(comment);
 
 	const toggleLike = async () => {
 		if (likeLoading) return;
@@ -26,7 +25,6 @@ const CommentItem = ({comment}) => {
 					setLikes((prev) => prev - 1);
 				}
 			}
-			console.log(response);
 		} catch (error) {
 			console.log(error);
 		} finally {

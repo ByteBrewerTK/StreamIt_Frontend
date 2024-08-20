@@ -14,7 +14,6 @@ const CreatePanel = () => {
 
 	const handleVideoFileChange = (event) => {
 		const file = event.target.files[0];
-		console.log(file);
 
 		if (file && file.type.startsWith("video/")) {
 			setVideoFile(file);
@@ -25,7 +24,6 @@ const CreatePanel = () => {
 	};
 	const handleThumbnailFileChange = (event) => {
 		const file = event.target.files[0];
-		console.log(file);
 		if (file && file.type.startsWith("image/")) {
 			setThumbnailFile(file);
 			setThumbnailPreview(URL.createObjectURL(file));
@@ -60,8 +58,7 @@ const CreatePanel = () => {
 		toast
 			.promise(apiRequest("/video", "POST", formData), {
 				loading: "Uploading video...",
-				success: (response) => {
-					console.log(response);
+				success: () => {
 					return "Video uploaded successfully!";
 				},
 				error: "Error while uploading video.",

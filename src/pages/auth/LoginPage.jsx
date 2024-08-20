@@ -37,8 +37,6 @@ const LoginPage = () => {
 
 			const { accessToken, refreshToken } = response.data.tokens;
 
-			console.log(response.data.loggedInUser);
-
 			saveUserData(response.data.loggedInUser);
 
 			saveTokens(accessToken, refreshToken);
@@ -62,7 +60,6 @@ const LoginPage = () => {
 			...prevState,
 			[name]: type === "checkbox" ? checked : value,
 		}));
-		console.log(formData);
 	};
 
 	const handleToggle = () => {

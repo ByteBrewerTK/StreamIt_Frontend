@@ -16,7 +16,6 @@ const PrivateRoutes = () => {
 
 	const toggleCreatePanel = () => {
 		setCreatePanelOpen((prev) => !prev);
-		console.log(createPanelOpen);
 	};
 
 	const controlNavbar = () => {

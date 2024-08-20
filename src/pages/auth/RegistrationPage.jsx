@@ -16,10 +16,12 @@ import { apiInstance } from "../../services/api";
 import Loader from "../../components/ui/loader/Loader";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import RegistrationSuccessPopup from "../../components/ui/RegistrationSuccessPopup";
 const RegistrationPage = () => {
 	const [isLoading, setLoading] = useState(false);
 	const [isPassVisible, setPassVisible] = useState(false);
 	const navigate = useNavigate();
+	const [isPopUpShow, setPopupShow] = useState(false);
 	const [formData, setFormData] = useState({
 		fullName: "",
 		email: "",
@@ -46,15 +48,18 @@ const RegistrationPage = () => {
 			.promise(apiInstance.post("/user/register", formData), {
 				loading: "Signing Up...",
 				success: (response) => {
-					console.log(response);
+					
+					if (response.data.statusCode === 200) {
+						setPopupShow(true);
+					}
 					return "Registration successfully completed";
 				},
 				error: (error) => {
-					const statusCode = error.response.status;
-					if (statusCode === 409) {
+					const isUserAlreadyExists = error.response.status === 409;
+					if (isUserAlreadyExists) {
 						navigate(`/resend/confirm/${formData.email}`);
 					}
-					return statusCode === 409
+					return isUserAlreadyExists
 						? "User already registered in this email "
 						: error.message;
 				},
@@ -69,9 +74,16 @@ const RegistrationPage = () => {
 		description:
 			"Complete the registration form for exclusive features and personalized content.",
 	};
+	const onPopUpClose = () => {
+		setPopupShow(false);
+	};
 
 	return (
 		<main className="grid w-full h-full place-items-center">
+			<RegistrationSuccessPopup
+				show={isPopUpShow}
+				onClose={onPopUpClose}
+			/>
 			<div className="space-y-2 w-container h-fit sm:w-[360px]  sm:p-4 sm:rounded-2xl sm:shadow-lg sm:py-8">
 				<FormHeader {...form_header}>
 					<img src={logo} alt="" width={60} height={60} />

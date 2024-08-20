@@ -3,7 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 
 const OauthUi = () => {
 	return (
-		<div className="relative space-y-2">
+		<div className="relative space-y-2 -z-10">
 			<div className="flex items-center justify-between py-2 space-x-4 select-none">
 				<span className="w-full h-px bg-muted_border" />
 				<span className="font-semibold text-muted text-smr">OR</span>

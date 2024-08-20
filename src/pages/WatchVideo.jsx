@@ -83,7 +83,6 @@ const WatchVideo = () => {
 					? subscribersCount + 1
 					: subscribersCount - 1;
 			}
-			console.log(response);
 		} catch (error) {
 			console.log("Error while subscribing : ", error);
 		} finally {

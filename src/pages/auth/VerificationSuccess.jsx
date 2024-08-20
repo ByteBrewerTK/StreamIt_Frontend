@@ -20,7 +20,6 @@ const VerificationSuccess = () => {
 				const response = await apiInstance.patch(
 					`/user/${pathname}${search}`
 				);
-				console.log(response);
 				setLoading(false);
 			} catch (error) {
 				setError("Error occurred while verifying email");
@@ -35,9 +34,7 @@ const VerificationSuccess = () => {
 		};
 	}, []);
 
-    if(isLoading) return (
-		<ScreenLoading/>
-	);
+	if (isLoading) return <ScreenLoading />;
 	return (
 		<div className="flex items-center justify-center min-h-screen bg-gray-100">
 			<div className="max-w-md p-8 text-center bg-white rounded-lg shadow-lg">

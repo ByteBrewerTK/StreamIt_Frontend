@@ -91,7 +91,7 @@ export const toggleLikeApi = async (entityType, entityId) => {
 			`/like/toggle/${entityType}/${entityId}`,
 			"PATCH"
 		);
-		console.log(result);
+		
 		return result;
 	} catch (error) {
 		console.log("Error while like : ", error);

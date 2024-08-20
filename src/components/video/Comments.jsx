@@ -18,7 +18,6 @@ const Comments = ({
 	const [isCommentSending, setCommentSending] = useState(false);
 
 	const userData = getUserData();
-	console.log(userData);
 	const commentsData = comments.data.docs;
 
 	useEffect(() => {

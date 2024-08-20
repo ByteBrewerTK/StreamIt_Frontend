@@ -10,9 +10,8 @@ const BottomNavMenu = ({ toggleCreatePanel, createPanelOpen }) => {
 	const navigate = useNavigate();
 
 	const user = getUserData();
-	console.log(user)
+
 	if (!user) return;
-	console.log(user)
 
 	return (
 		<main className="relative flex items-center w-full h-12 px-4 bg-primary z-[100]">
