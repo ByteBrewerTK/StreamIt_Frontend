@@ -5,7 +5,7 @@ import { formatCounts } from "../../utils/formatCounts";
 const VideoItem = (element) => {
 	let duration = `${(element.duration / 60).toFixed(2)}`.replace(".", ":");
 	return (
-		<Link to={`/watch?v=${element._id}`} className="rounded-md shadow-lg ">
+		<Link to={`/watch?v=${element._id}`} className="rounded-md shadow-lg h-fit">
 			<div className="relative w-full overflow-hidden rounded-lg aspect-video">
 				<img
 					src={element.thumbnail}
