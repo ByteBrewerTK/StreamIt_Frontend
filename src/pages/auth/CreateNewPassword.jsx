@@ -9,12 +9,12 @@ import { FaCheckCircle } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
 
 const CreateNewPassword = () => {
-	const [isPassVissible, setPassVissible] = useState(false);
+	const [isPassVisible, setPassVisible] = useState(false);
 	const [isPassMatched, setIsPassMatched] = useState(false);
 	const [newPassword, setNewPassword] = useState("");
 
 	const handleToggle = () => {
-		setPassVissible(!isPassVissible);
+		setPassVisible(!isPassVisible);
 	};
 	const form_header = {
 		heading: "Update password",
@@ -47,7 +47,7 @@ const CreateNewPassword = () => {
 						<FiLock />
 					</span>
 					<input
-						type={isPassVissible ? "text" : "password"}
+						type={isPassVisible ? "text" : "password"}
 						className="w-full outline-none placeholder:text-muted placeholder:text-smr placeholder:select-none "
 						placeholder="Enter new password"
 						value={newPassword}
@@ -59,7 +59,7 @@ const CreateNewPassword = () => {
 						className="cursor-pointer text-muted"
 						onClick={handleToggle}
 					>
-						{isPassVissible ? <FaRegEye /> : <FaRegEyeSlash />}
+						{isPassVisible ? <FaRegEye /> : <FaRegEyeSlash />}
 					</span>
 				</label>
 			</div>
