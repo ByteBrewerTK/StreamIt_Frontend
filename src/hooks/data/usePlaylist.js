@@ -2,15 +2,15 @@ import { useState, useEffect } from "react";
 import { apiRequest } from "../../services/api";
 
 const usePlaylist = (userId) => {
-	const [data, setData] = useState(null);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
+	const [playlistData, setPlaylistData] = useState(null);
+	const [playlistLoading, setLoading] = useState(true);
+	const [playlistError, setError] = useState(null);
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const response = await apiRequest(`/playlist/user/${userId}`);
-				setData(response);
+				setPlaylistData(response);
 			} catch (error) {
 				setError(error);
 				console.log(error);
@@ -22,7 +22,7 @@ const usePlaylist = (userId) => {
 		fetchData();
 	}, [userId]);
 
-	return { data, loading, error };
+	return { playlistData, playlistLoading, playlistError };
 };
 
 export default usePlaylist;
