@@ -135,7 +135,8 @@ const WatchVideo = () => {
 				<div className="lg:w-[70rem] aspect-video rounded-lg overflow-hidden bg-black">
 					<ReactPlayer
 						url={video.data.videoFile}
-						controls={true}
+						playing
+						controls
 						width="100%"
 						height="100%"
 					/>
