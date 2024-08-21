@@ -2,10 +2,13 @@ import { IoMdMore } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { formatCounts } from "../../utils/formatCounts";
+import formatVideoDuration from "../../utils/formatVideoDuration";
 const VideoItem = (element) => {
-	let duration = `${(element.duration / 60).toFixed(2)}`.replace(".", ":");
 	return (
-		<Link to={`/watch?v=${element._id}`} className="rounded-md shadow-lg h-fit">
+		<Link
+			to={`/watch?v=${element._id}`}
+			className="rounded-md shadow-lg h-fit"
+		>
 			<div className="relative w-full overflow-hidden rounded-lg aspect-video">
 				<img
 					src={element.thumbnail}
@@ -14,7 +17,7 @@ const VideoItem = (element) => {
 					className="object-cover object-center w-full "
 				/>
 				<span className="absolute px-1 text-white bg-black rounded-md bg-opacity-70 bottom-2 right-2">
-					{duration}
+					{formatVideoDuration(element.duration)}
 				</span>
 			</div>
 			<div className="flex items-center justify-between p-2 space-x-2 ">
