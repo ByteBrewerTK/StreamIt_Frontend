@@ -17,44 +17,32 @@ const PrivateRoutes = () => {
 	const toggleCreatePanel = () => {
 		setCreatePanelOpen((prev) => !prev);
 	};
+	const setNavVisible = (state)=>{
+		setVisible(state)
+	}
 
-	const controlNavbar = () => {
-		if (typeof window !== undefined) {
-			if (window.scrollY > lastScrollY) {
-				setVisible(false);
-			} else {
-				setVisible(true);
-			}
-			setLastScrollY(window.scrollY);
-		}
-	};
-
-	useEffect(() => {
-		if (typeof window !== undefined) {
-			window.addEventListener("scroll", controlNavbar);
-
-			return () => {
-				window.removeEventListener("scroll", controlNavbar);
-			};
-		}
-	}, [lastScrollY]);
+	
 
 	return (
-		<div className="w-full h-[100dvh] overflow-hidden relative">
+		<div className="w-full h-[100dvh] overflow-hidden relative ">
 			<main className="relative flex flex-col h-full overflow-hidden md:flex-col md:flex sm:overflow-hidden bg-secondary">
 				<div
 					className={` ${
 						!isVisible
-							? "-translate-y-full overflow-hidden duration-500"
+							? "-translate-y-full overflow-hidden duration-500 fixed"
 							: ""
-					}  transition-all duration-300 w-full  sm:transition-none sm:translate-y-0 overflow-hidden md:relative  `}
+					}  transition-all duration-500 w-full  sm:transition-none sm:translate-y-0 overflow-hidden md:relative  `}
 				>
 					<Navbar />
 				</div>
 
 				<section className="flex flex-1 overflow-auto sm:overflow-hidden">
 					<SideNavbar />
-					{accessToken ? <Outlet /> : <Navigate to="/auth/login" />}
+					{accessToken ? (
+						<Outlet context={{ setNavVisible }} />
+					) : (
+						<Navigate to="/auth/login" />
+					)}
 				</section>
 				<BottomNavMenu
 					toggleCreatePanel={toggleCreatePanel}
