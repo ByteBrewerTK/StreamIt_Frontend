@@ -2,14 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
 	/* Colors */
 	--color-primary: #1c1c1c;
 	--color-secondary: #262626;
 	--color-accent: #e3342f;
 	--color-muted: #6c757d;
-	--color-muted-dark: #D1D5DB;
+	--color-muted-dark: #d1d5db;
 	--color-border-muted: #dbdbdb;
 
 	/* Sizes */
@@ -25,4 +24,13 @@
 	--font-larger: 3.388640826rem;
 	--font-largest: 5.482820856rem;
 	--font-massive: 8.871204145rem;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+	display: none;
+}
+
+.scrollbar-hide {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 }
