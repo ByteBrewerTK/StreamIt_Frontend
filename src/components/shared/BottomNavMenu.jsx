@@ -4,10 +4,8 @@ import { MdOutlineSubscriptions } from "react-icons/md";
 import { BiMessageRoundedDetail } from "react-icons/bi";
 import { BsPatchPlus } from "react-icons/bs";
 import { getUserData } from "../../services/authServices";
-import { useNavigate } from "react-router-dom";
 
 const BottomNavMenu = ({ toggleCreatePanel, createPanelOpen }) => {
-	const navigate = useNavigate();
 
 	const user = getUserData();
 
@@ -32,7 +30,7 @@ const BottomNavMenu = ({ toggleCreatePanel, createPanelOpen }) => {
 				<Link to={"/"} className="">
 					<MdOutlineSubscriptions className="text-2xl" />
 				</Link>
-				<Link to={"/"} className="w-6 overflow-hidden rounded-full">
+				<Link to={"/user/profile"} className="w-6 overflow-hidden rounded-full">
 					<img src={user.avatar} alt="" />
 				</Link>
 			</div>
