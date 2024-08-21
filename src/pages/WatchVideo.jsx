@@ -11,6 +11,7 @@ import { formatCounts } from "../utils/formatCounts";
 import Loader from "../components/ui/loader/Loader";
 import FetchError from "../components/ui/FetchError";
 import { LiaComments } from "react-icons/lia";
+import { useOutletContext } from "react-router-dom";
 
 const WatchVideo = () => {
 	const [searchParams] = useSearchParams();
@@ -25,6 +26,7 @@ const WatchVideo = () => {
 	const [isCommentsOpen, setCommentOpen] = useState(false);
 	const [initialComment, setInitialComment] = useState(null);
 	const [isSubscribing, setSubscribing] = useState(false);
+	const { setNavVisible } = useOutletContext();
 
 	const commentQuery = {
 		page: "1",
@@ -34,6 +36,12 @@ const WatchVideo = () => {
 	};
 
 	const commentRequestUrl = `/comment/${videoId}?page=${commentQuery.page}&limit=${commentQuery.limit}&sortBy=${commentQuery.sortBy}&sortType=${commentQuery.sortType}`;
+
+	useEffect(() => {
+		setNavVisible(false);
+		// Cleanup if needed
+		return () => setNavVisible(true);
+	}, [setNavVisible]);
 
 	useEffect(() => {
 		const fetchData = async () => {
