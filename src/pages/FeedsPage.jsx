@@ -1,23 +1,22 @@
-import { useEffect } from "react";
-import { apiRequest } from "../services/api";
-import { useState } from "react";
+import { useEffect, useRef } from "react";
 import VideoItem from "../components/video/VideoItem";
 import Loader from "../components/ui/loader/Loader";
 import { useOutletContext } from "react-router-dom";
-import { useRef } from "react";
 import useContainerScroll from "../hooks/useContainerScroll";
+import useFeedVideos from "../hooks/data/useFeedVideos";
 
 const FeedsPage = () => {
-	const [data, setData] = useState([]);
-	const [loading, setLoading] = useState(false);
 	const feedRef = useRef(null);
 	const navbarVisible = useContainerScroll(feedRef);
 	const { setNavVisible } = useOutletContext();
 
-	console.log(navbarVisible)
+	console.log(navbarVisible);
 	useEffect(() => {
+		console.log(navbarVisible);
 		setNavVisible(navbarVisible);
-	}, [navbarVisible]);
+
+		return () => setNavVisible(false);
+	}, [navbarVisible, setNavVisible]);
 
 	const query = {
 		limit: 10,
@@ -27,26 +26,10 @@ const FeedsPage = () => {
 	};
 	const url = `/video?limit=${query.limit}&page=${query.page}&sortBy=${query.sortBy}&sortType=${query.sortType}`;
 
-	useEffect(() => {
-		const fetchData = async () => {
-			setLoading(true);
-			try {
-				const { data } = await apiRequest(url);
+	const { feedData, feedError, feedLoading } = useFeedVideos(url);
+	
 
-				setData(data.docs);
-			} catch (error) {
-				console.log("Failed to fetch feeds : ", error);
-			} finally {
-				setLoading(false);
-			}
-		};
-		fetchData();
-	}, []);
-
-	// const lastScrollY = useScroll();
-	// console.log(lastScrollY);
-
-	if (loading)
+	if (feedLoading)
 		return (
 			<main className="grid w-full h-full place-items-center">
 				<div className="size-[60px]">
@@ -54,11 +37,11 @@ const FeedsPage = () => {
 				</div>
 			</main>
 		);
-	if (!data.length > 0)
+	if (!feedData && !feedData?.length > 0)
 		return (
 			<main className="grid w-full h-full place-items-center">
 				<div className="text-xl select-none text-muted">
-					No videos found
+					{feedError ? feedError : "No videos found"}
 				</div>
 			</main>
 		);
@@ -67,7 +50,7 @@ const FeedsPage = () => {
 			ref={feedRef}
 			className="grid flex-1 h-full sm:h-[100vh] gap-4 overflow-x-hidden overflow-y-auto grid-col-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 bg-secondary text-white px-4 scrollbar-hide"
 		>
-			{data.map((element) => (
+			{feedData && feedData?.map((element) => (
 				<VideoItem key={element._id} {...element} />
 			))}
 		</main>
