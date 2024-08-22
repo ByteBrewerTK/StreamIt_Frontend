@@ -5,7 +5,9 @@ import useUserData from "../hooks/data/useUserData";
 import useWatchHistory from "../hooks/data/useWatchHistory";
 import { getUserData } from "../services/authServices";
 import Loader from "../components/ui/loader/Loader";
-import VideoItemWatchHistory from "../components/ui/VideoItemWatchHistory";
+import WatchHistory from "../components/user/WatchHistory";
+import Playlists from "../components/user/Playlists";
+import ProfileNav from "../components/user/ProfileNav";
 
 const UserProfilePage = () => {
 	const { setNavVisible } = useOutletContext();
@@ -24,6 +26,7 @@ const UserProfilePage = () => {
 		// Cleanup if needed
 		return () => setNavVisible(true);
 	}, [setNavVisible]);
+	``;
 
 	// Loading and Error handling
 	if (userDataLoading || playlistLoading || watchHistoryLoading) {
@@ -45,9 +48,10 @@ const UserProfilePage = () => {
 	}
 
 	return (
-		<main className="w-full h-full pt-6 text-white">
-			<div>
-				<section className="mx-auto w-container">
+		<main className="w-full h-full overflow-hidden text-white">
+			<div className="border-b-2 border-gray-800 shadow-sm bg-primary">
+				<ProfileNav />
+				<section className="py-4 mx-auto w-container ">
 					{/* Profile details */}
 					<div className="flex items-center gap-x-2">
 						<div className="overflow-hidden rounded-full size-[70px]">
@@ -68,42 +72,14 @@ const UserProfilePage = () => {
 						</div>
 					</div>
 				</section>
-
-				<section className="w-full">
-					{/* Watch history */}
-					<div className="my-4 h-[200px] px-2">
-						<div className="mx-2">
-							<h3 className=" text-xl font-[500]">History</h3>
-						</div>
-						<div className="grid w-full grid-flow-col my-4 overflow-x-auto overflow-y-hidden auto-cols-max scrollbar-hide ">
-							{watchHistoryData?.data?.length === 0
-								? "No watched video found"
-								: watchHistoryData.data.map((video) => (
-										<VideoItemWatchHistory
-											key={video._id}
-											{...video}
-										/>
-								  ))}
-						</div>
-					</div>
-
-					{/* Playlists */}
-					<div className="my-4 h-[200px] border">
-						<div className="mx-2">
-							<h3>Playlists</h3>
-						</div>
-						<div className="grid w-full grid-flow-col my-4 overflow-x-auto overflow-y-hidden auto-cols-max scrollbar-hide">
-							{playlistData?.data?.length === 0
-								? "No playlist found"
-								: playlistData.data.map((playlist) => (
-										<div key={playlist._id}>
-											{playlist.name}
-										</div>
-								  ))}
-						</div>
-					</div>
-				</section>
 			</div>
+			<section className="w-full overflow-y-auto scrollbar-hide">
+				{/* Watch history */}
+				<WatchHistory {...watchHistoryData} />
+
+				{/* Playlists */}
+				<Playlists {...playlistData} />
+			</section>
 		</main>
 	);
 };
