@@ -11,13 +11,14 @@ import Loader from "../../components/ui/loader/Loader";
 import { apiInstance } from "../../services/api";
 import { saveTokens, saveUserData } from "../../services/authServices";
 import { FaRegEnvelope } from "react-icons/fa";
+import { loginUserError } from "../../utils/customErrorMessage";
 
 const LoginPage = () => {
 	const navigate = useNavigate();
 
 	const [isPassVisible, setPassVisible] = useState(false);
 	const [isLoading, setLoading] = useState(false);
-	const [error, setError] = useState(false);
+	const [error, setError] = useState("");
 
 	const [formData, setFormData] = useState({
 		email: "",
@@ -29,6 +30,7 @@ const LoginPage = () => {
 		setLoading(true);
 		e.preventDefault();
 
+		setError("");
 		try {
 			const { data: response } = await apiInstance.post(
 				"/user/login",
@@ -45,10 +47,11 @@ const LoginPage = () => {
 			navigate("/");
 		} catch (error) {
 			console.log("Login Failed : ", error);
+			const errorMessage = loginUserError(error.response.status);
+			setError(errorMessage);
 			if (error.response && error.response.status === 403) {
 				navigate(`/resend/confirm/${formData.email}`);
 			}
-			setError("Something went wrong while sign in");
 		} finally {
 			setLoading(false);
 		}
@@ -71,8 +74,6 @@ const LoginPage = () => {
 			"Log in to access your account and continue enjoying our features.",
 	};
 
-	// const accessToken = localStorage.getItem("accessToken")
-
 	return (
 		<main className="grid w-full h-full place-items-center">
 			<div className="space-y-2 w-container h-fit sm:w-[360px]  sm:p-4 sm:rounded-2xl sm:shadow-lg sm:py-8">
@@ -80,7 +81,10 @@ const LoginPage = () => {
 					<img src={logo} alt="" width={60} height={60} />
 				</FormHeader>
 
-				<div className="space-y-4">
+				<div className="relative space-y-5">
+					<p className="absolute w-full text-center text-red-500 -top-5 text-smr">
+						{!error ? "" : error}
+					</p>
 					<form
 						onSubmit={submitHandler}
 						className="flex flex-col space-y-2"
@@ -106,7 +110,7 @@ const LoginPage = () => {
 								type={isPassVisible ? "text" : "password"}
 								name="password"
 								className="w-full outline-none placeholder:text-muted placeholder:text-smr placeholder:select-none"
-								placeholder="Enter new password"
+								placeholder="Enter password"
 								onChange={formHandler}
 								required
 							/>
