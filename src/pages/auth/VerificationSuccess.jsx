@@ -4,8 +4,8 @@ import { apiInstance } from "../../services/api";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import Loader from "../../components/ui/loader/Loader";
 import ScreenLoading from "../../components/ui/ScreenLoading";
+import CTAButton from "../../components/ui/CTAButton";
 
 const VerificationSuccess = () => {
 	const { pathname, search } = useLocation();
@@ -50,11 +50,8 @@ const VerificationSuccess = () => {
 				</p>
 
 				{!error ? (
-					<Link
-						to={"/auth/login"}
-						className="px-4 py-2 text-white transition duration-300 bg-blue-500 rounded hover:bg-blue-600"
-					>
-						Go to Login
+					<Link to={"/auth/login"}>
+						<CTAButton>Go to Login</CTAButton>
 					</Link>
 				) : (
 					<p className="text-red-500">{error}</p>
