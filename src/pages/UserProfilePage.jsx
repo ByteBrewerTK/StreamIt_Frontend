@@ -26,7 +26,6 @@ const UserProfilePage = () => {
 		// Cleanup if needed
 		return () => setNavVisible(true);
 	}, [setNavVisible]);
-	``;
 
 	// Loading and Error handling
 	if (userDataLoading || playlistLoading || watchHistoryLoading) {
