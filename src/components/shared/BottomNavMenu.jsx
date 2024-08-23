@@ -27,7 +27,7 @@ const BottomNavMenu = ({ toggleCreatePanel, createPanelOpen }) => {
 						}`}
 					/>
 				</button>
-				<Link to={"/"} className="">
+				<Link to={"/user/subscriptions"} className="">
 					<MdOutlineSubscriptions className="text-2xl" />
 				</Link>
 				<Link to={"/user/profile"} className="w-6 overflow-hidden rounded-full">
