@@ -78,7 +78,7 @@ const WatchVideo = () => {
 		try {
 			setSubscribing(true);
 			const response = await apiRequest(
-				`/subscription/channel/${video.data.ownerDetails._id}`,
+				`/subscriptions/channel/${video.data.ownerDetails._id}`,
 				"PATCH"
 			);
 			if (response.statusCode === 200) {
