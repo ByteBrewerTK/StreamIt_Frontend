@@ -17,16 +17,19 @@ import Loader from "../../components/ui/loader/Loader";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import RegistrationSuccessPopup from "../../components/ui/RegistrationSuccessPopup";
+import { registerUserError } from "../../utils/customErrorMessage";
 const RegistrationPage = () => {
 	const [isLoading, setLoading] = useState(false);
 	const [isPassVisible, setPassVisible] = useState(false);
 	const navigate = useNavigate();
 	const [isPopUpShow, setPopupShow] = useState(false);
-	const [formData, setFormData] = useState({
+	const [responseError, setResponseError] = useState("");
+	const initialFormData = {
 		fullName: "",
 		email: "",
 		password: "",
-	});
+	};
+	const [formData, setFormData] = useState(initialFormData);
 
 	const formHandler = (e) => {
 		const { name, value } = e.target;
@@ -42,31 +45,33 @@ const RegistrationPage = () => {
 
 	const submitHandler = async (e) => {
 		e.preventDefault();
+		
 		setLoading(true);
 
 		toast
 			.promise(apiInstance.post("/user/register", formData), {
 				loading: "Signing Up...",
 				success: (response) => {
-					
 					if (response.data.statusCode === 200) {
 						setPopupShow(true);
 					}
 					return "Registration successfully completed";
 				},
 				error: (error) => {
-					const isUserAlreadyExists = error.response.status === 409;
-					if (isUserAlreadyExists) {
+					const statusCode = error.response.status;
+					const errorMessage = registerUserError(statusCode);
+					setResponseError(errorMessage);
+					if (statusCode === 403) {
 						navigate(`/resend/confirm/${formData.email}`);
 					}
-					return isUserAlreadyExists
-						? "User already registered in this email "
-						: error.message;
+					return errorMessage;
 				},
 			})
 			.finally(() => {
+				setResponseError("");
 				setLoading(false);
 			});
+			
 	};
 
 	const form_header = {
@@ -79,17 +84,21 @@ const RegistrationPage = () => {
 	};
 
 	return (
-		<main className="grid w-full h-full place-items-center">
+		<main className="relative grid w-full h-full overflow-y-auto place-items-center">
 			<RegistrationSuccessPopup
 				show={isPopUpShow}
 				onClose={onPopUpClose}
 			/>
-			<div className="space-y-2 w-container h-fit sm:w-[360px]  sm:p-4 sm:rounded-2xl sm:shadow-lg sm:py-8">
+			<div className="space-y-2 w-container h-fit sm:w-[360px]  sm:p-4 sm:rounded-2xl sm:shadow-lg sm:py-8 ">
 				<FormHeader {...form_header}>
 					<img src={logo} alt="" width={60} height={60} />
 				</FormHeader>
 
-				<div className="space-y-4">
+				<div className="relative space-y-5">
+					<p className="absolute w-full text-center text-red-500 -top-5 text-smr">
+						{!responseError ? "" : responseError}
+					</p>
+
 					<form
 						onSubmit={submitHandler}
 						className="flex flex-col space-y-2"
