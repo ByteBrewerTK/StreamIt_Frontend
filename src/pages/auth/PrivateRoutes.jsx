@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import Navbar from "../../components/shared/Navbar";
 import { useState } from "react";
-import { useEffect } from "react";
 import SideNavbar from "../../components/shared/SideNavbar";
 import BottomNavMenu from "../../components/shared/BottomNavMenu";
 import CreatePanel from "../../components/video/CreatePanel";
@@ -11,7 +10,6 @@ const PrivateRoutes = () => {
 	const accessToken = localStorage.getItem("accessToken");
 
 	const [isVisible, setVisible] = useState(true);
-	const [lastScrollY, setLastScrollY] = useState(0);
 	const [createPanelOpen, setCreatePanelOpen] = useState(false);
 
 	const toggleCreatePanel = () => {
