@@ -13,14 +13,14 @@ const useFeedVideos = (url) => {
 
 				setFeedData(data.docs);
 			} catch (error) {
-				setFeedError(error);
+				setFeedError(error.message);
 				console.log("Failed to fetch feeds : ", error);
 			} finally {
 				setFeedLoading(false);
 			}
 		};
 		fetchData();
-	}, [feedData,url]);
+	}, [url]);
 
 	return { feedData, feedLoading, feedError };
 };
