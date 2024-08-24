@@ -58,7 +58,7 @@ const SubscriptionsPage = () => {
 					))}
 				</div>
 				<Link
-					to={"/"}
+					to={"/user/subscriptions/list"}
 					className="w-[40px] text-sm grid place-content-center text-blue-300"
 				>
 					All
