@@ -169,7 +169,7 @@ const RegistrationPage = () => {
 					<OauthUi />
 
 					<div className="text-[0.75rem] text-muted text-center">
-						already have an account?{" "}
+						Already have an account?{" "}
 						<Link
 							to="/auth/login"
 							className="font-semibold text-black"
