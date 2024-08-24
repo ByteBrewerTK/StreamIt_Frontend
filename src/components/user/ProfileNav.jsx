@@ -16,7 +16,7 @@ const ProfileNav = () => {
 				</button>
 
 				<div>
-					<Link to={"/"}>
+					<Link to={"/user/settings"}>
 						<GoGear className="text-xl"/>
 					</Link>
 				</div>
