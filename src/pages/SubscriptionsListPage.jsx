@@ -50,7 +50,7 @@ const SubscriptionsListPage = () => {
 			</header>
 
 			<div className="flex-1 p-4 overflow-x-hidden overflow-y-auto scrollbar-hide">
-				<div className="size-full">
+				<div className="space-y-2 size-full">
 					{!subscriptionData ? (
 						<div className="grid size-full place-content-center text-muted">
 							No subscriptions found
