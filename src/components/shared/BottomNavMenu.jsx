@@ -1,15 +1,15 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { GoHome } from "react-icons/go";
 import { MdOutlineSubscriptions } from "react-icons/md";
 import { BiMessageRoundedDetail } from "react-icons/bi";
 import { BsPatchPlus } from "react-icons/bs";
-import { getUserData } from "../../services/authServices";
+import { UserContext } from "../../contexts/userContext";
 
 const BottomNavMenu = ({ toggleCreatePanel, createPanelOpen }) => {
+	const { userData } = useContext(UserContext);
 
-	const user = getUserData();
-
-	if (!user) return;
+	if (!userData) return;
 
 	return (
 		<main className="relative flex items-center w-full h-12 px-4 bg-primary z-[100]">
@@ -30,8 +30,11 @@ const BottomNavMenu = ({ toggleCreatePanel, createPanelOpen }) => {
 				<Link to={"/user/subscriptions"} className="">
 					<MdOutlineSubscriptions className="text-2xl" />
 				</Link>
-				<Link to={"/user/profile"} className="w-6 overflow-hidden rounded-full">
-					<img src={user.avatar} alt="" />
+				<Link
+					to={"/user/profile"}
+					className="w-6 overflow-hidden rounded-full"
+				>
+					<img src={userData.avatar} alt="" />
 				</Link>
 			</div>
 		</main>
