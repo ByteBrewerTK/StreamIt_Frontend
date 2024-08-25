@@ -26,9 +26,9 @@ export const removeUserData = () => {
 
 export const getUserData = () => {
 	const userString = localStorage.getItem(USER_DATA);
-	return JSON.parse(userString) ;
+	return userString ? JSON.parse(userString) : null;
 };
 
 export const saveUserData = (user) => {
-    localStorage.setItem(USER_DATA, JSON.stringify(user));
+	localStorage.setItem(USER_DATA, JSON.stringify(user));
 };
