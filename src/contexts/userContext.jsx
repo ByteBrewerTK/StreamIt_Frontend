@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { createContext } from "react";
+import { getUserData, saveUserData } from "../services/authServices";
 
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-	const [userData, setData] = useState({});
+	const user = getUserData();
+	const [userData, setData] = useState(user);
 
 	const setUserData = (data) => {
+		saveUserData(data);
 		setData(data);
 	};
 
