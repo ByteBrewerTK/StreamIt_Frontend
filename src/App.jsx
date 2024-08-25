@@ -8,6 +8,7 @@ import { Toaster, toast } from "react-hot-toast";
 import { useEffect } from "react";
 import NotFound from "./pages/error/NotFound";
 import Account from "./pages/settings/Account";
+import Settings from "./pages/settings/Settings";
 
 // Lazy load the component
 const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
@@ -88,14 +89,15 @@ function App() {
 									path="subscriptions/list"
 									element={<SubscriptionsListPage />}
 								/>
-								<Route path="settings">
-									<Route path="" element={<SettingsPage />} />
+								<Route
+									path="settings"
+									element={<SettingsPage />}
+								>
+									<Route path="" element={<Settings />} />
 									<Route
 										path="account"
 										element={<Account />}
-									>
-										
-									</Route>
+									></Route>
 								</Route>
 								<Route path="*" element={<NotFound />} />
 							</Route>
