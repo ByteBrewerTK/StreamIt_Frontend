@@ -1,6 +1,6 @@
 import { useState } from "react";
 import FormHeader from "../../components/ui/FormHeader";
-import { FaRegEye, FaRegEyeSlash, FaRegUser } from "react-icons/fa6";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { FiLock } from "react-icons/fi";
 import OauthUi from "../../components/OauthUi";
 import { Link } from "react-router-dom";
@@ -12,14 +12,16 @@ import { apiInstance } from "../../services/api";
 import { saveTokens, saveUserData } from "../../services/authServices";
 import { FaRegEnvelope } from "react-icons/fa";
 import { loginUserError } from "../../utils/customErrorMessage";
+import {UserContext} from "../../contexts/userContext";
+import { useContext } from "react";
 
 const LoginPage = () => {
 	const navigate = useNavigate();
-
+	const { setUserData } = useContext(UserContext);
 	const [isPassVisible, setPassVisible] = useState(false);
 	const [isLoading, setLoading] = useState(false);
 	const [error, setError] = useState("");
-
+	
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
@@ -39,7 +41,10 @@ const LoginPage = () => {
 
 			const { accessToken, refreshToken } = response.data.tokens;
 
-			saveUserData(response.data.loggedInUser);
+			const data = response.data.loggedInUser;
+
+			setUserData(data);
+			saveUserData(data);
 
 			saveTokens(accessToken, refreshToken);
 
