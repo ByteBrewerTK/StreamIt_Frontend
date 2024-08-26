@@ -2,7 +2,7 @@ import Loader from "../components/ui/loader/Loader";
 import useGetSubscriptions from "../hooks/data/useGetSubscriptions";
 import { MdArrowBack } from "react-icons/md";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, Link } from "react-router-dom";
 import { useEffect } from "react";
 
 const SubscriptionsListPage = () => {
@@ -57,15 +57,16 @@ const SubscriptionsListPage = () => {
 						</div>
 					) : (
 						subscriptionData.map((channel) => (
-							<div
+							<Link
+								to={`/user/${channel._id}`}
 								key={channel._id}
 								className="flex items-center space-x-2"
 							>
-								<div className="w-[40px] rounded-full overflow-hidden">
+								<div className="w-[40px] rounded-full overflow-hidden aspect-square">
 									<img src={channel.avatar} alt="" />
 								</div>
 								<span>{channel.fullName}</span>
-							</div>
+							</Link>
 						))
 					)}
 				</div>
