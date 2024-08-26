@@ -43,14 +43,16 @@ const SubscriptionsPage = () => {
 				<div className="flex flex-1 pl-2 overflow-x-auto overflow-y-hidden scrollbar-hide">
 					{subscriptionData.map((channel) => (
 						<div key={channel._id} className="w-[65px] m-1">
-							<div className="size-[60px] rounded-full overflow-hidden">
-								<img
-									src={channel.avatar}
-									alt=""
-									loading="lazy"
-									className="object-cover object-center "
-								/>
-							</div>
+							<Link to={`/user/${channel.username}`}>
+								<div className="size-[60px] rounded-full overflow-hidden">
+									<img
+										src={channel.avatar}
+										alt=""
+										loading="lazy"
+										className="object-cover object-center "
+									/>
+								</div>
+							</Link>
 							<h3 className="w-full mt-1 text-white truncate text-smr">
 								{channel.fullName}
 							</h3>
