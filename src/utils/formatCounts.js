@@ -1,12 +1,12 @@
-export const formatCounts = (views) => {
-	if (views >= 1_000_000_000) {
-		return `${(views / 1_000_000_000).toFixed(1)}B views`; // Billion
+export const formatCounts = (count, type = "views") => {
+	if (count >= 1_000_000_000) {
+		return `${(count / 1_000_000_000).toFixed(1)}B count`; // Billion
 	}
-	if (views >= 1_000_000) {
-		return `${(views / 1_000_000).toFixed(1)}M views`; // Million
+	if (count >= 1_000_000) {
+		return `${(count / 1_000_000).toFixed(1)}M count`; // Million
 	}
-	if (views >= 1_000) {
-		return `${(views / 1_000).toFixed(1)}K views`; // Thousand
+	if (count >= 1_000) {
+		return `${(count / 1_000).toFixed(1)}K count`; // Thousand
 	}
-	return `${views} views`; // Less than thousand
+	return `${count} ${type}`; // Less than thousand
 };
