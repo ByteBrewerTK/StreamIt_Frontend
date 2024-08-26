@@ -1,14 +1,10 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoutes from "./pages/auth/PrivateRoutes";
 import VerificationSuccess from "./pages/auth/VerificationSuccess";
 import ResendVerificationMail from "./pages/auth/ResendVerificationMail";
 import Loader from "./components/ui/loader/Loader";
 import { Toaster, toast } from "react-hot-toast";
-import { useEffect } from "react";
-import NotFound from "./pages/error/NotFound";
-import Account from "./pages/settings/Account";
-import Settings from "./pages/settings/Settings";
 
 // Lazy load the component
 const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
@@ -23,7 +19,11 @@ const SubscriptionsPage = lazy(() => import("./pages/SubscriptionsPage"));
 const SubscriptionsListPage = lazy(() =>
 	import("./pages/SubscriptionsListPage")
 );
+const NotFound = lazy(() => import("./pages/error/NotFound"));
+const Account = lazy(() => import("./pages/settings/Account"));
 const SettingsPage = lazy(() => import("./pages/settings/SettingsPage"));
+const Settings = lazy(() => import("./pages/settings/Settings"));
+const ChannelPage = lazy(() => import("./pages/channel/ChannelPage"));
 
 function App() {
 	useEffect(() => {
@@ -77,6 +77,10 @@ function App() {
 							<Route path="/" element={<FeedsPage />} />
 							<Route path="/watch" element={<WatchVideo />} />
 							<Route path="user">
+								<Route
+									path=":username"
+									element={<ChannelPage />}
+								/>
 								<Route
 									path="profile"
 									element={<UserProfilePage />}
