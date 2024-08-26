@@ -23,7 +23,7 @@ const VideoItem = (element) => {
 			<div className="flex items-center justify-between p-2 space-x-2 ">
 				<div className="flex items-center space-x-2">
 					<Link
-						to={"/"}
+						to={`/user/${element.username}`}
 						className="w-8 overflow-hidden rounded-full aspect-square "
 					>
 						<img
@@ -41,7 +41,7 @@ const VideoItem = (element) => {
 						</h3>
 						<div className="text-[0.7rem] flex flex-row gap-2 text-gray-400  md:flex-col md:gap-0 ">
 							<Link
-								to={`/channel/${element.username}`}
+								to={`/user/${element.username}`}
 								className="transition-all md:text-smr hover:text-gray-100"
 							>
 								{element.channelName}
