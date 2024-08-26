@@ -161,7 +161,7 @@ const WatchVideo = () => {
 						<div className="flex items-center justify-between w-full md:space-x-4">
 							<div className="flex items-center space-x-2">
 								<Link
-									to={`/user/${ownerDetails._id}`}
+									to={`/user/${ownerDetails.username}`}
 									className="overflow-hidden w-[35px] aspect-square rounded-full h-[35px] md:w-[45px] md:h-auto"
 								>
 									<img
@@ -177,7 +177,7 @@ const WatchVideo = () => {
 								</Link>
 								<div className="flex items-center gap-2">
 									<Link
-										to={`/user/${ownerDetails._id}`}
+										to={`/user/${ownerDetails.username}`}
 										className="font-[500] text-sm"
 									>
 										{ownerDetails.fullName}
