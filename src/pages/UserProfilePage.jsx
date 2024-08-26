@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, Link } from "react-router-dom";
 import usePlaylist from "../hooks/data/usePlaylist";
 import useUserData from "../hooks/data/useUserData";
 import useWatchHistory from "../hooks/data/useWatchHistory";
@@ -52,7 +52,10 @@ const UserProfilePage = () => {
 				<ProfileNav />
 				<section className="py-4 mx-auto w-container ">
 					{/* Profile details */}
-					<div className="flex items-center gap-x-2">
+					<Link
+						to={`/user/${userData.username}`}
+						className="flex items-center gap-x-2"
+					>
 						<div className="overflow-hidden rounded-full size-[70px]">
 							<img
 								src={userData.avatar}
@@ -69,7 +72,7 @@ const UserProfilePage = () => {
 								<span className="text-muted">View Channel</span>
 							</div>
 						</div>
-					</div>
+					</Link>
 				</section>
 			</div>
 			<section className="w-full overflow-y-auto scrollbar-hide">
