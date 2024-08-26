@@ -32,7 +32,7 @@ const BottomNavMenu = ({ toggleCreatePanel, createPanelOpen }) => {
 				</Link>
 				<Link
 					to={"/user/profile"}
-					className="w-6 overflow-hidden rounded-full"
+					className="w-6 overflow-hidden rounded-full aspect-square"
 				>
 					<img src={userData.avatar} alt="" />
 				</Link>
