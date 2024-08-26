@@ -21,6 +21,8 @@ const Account = () => {
 	const [avatarUploading, setAvatarUploading] = useState(false);
 	const [isDisabled, setDisabled] = useState(true);
 	const [isUsernameAvailable, setUsernameAvailable] = useState(false);
+	const [updateLoading, setUpdateLoading] = useState(false);
+	const [checkLoading, setCheckLoading] = useState(false);
 	const [infoFormData, setInfoFormData] = useState({
 		fullName: userData.fullName,
 		username: userData.username,
@@ -31,20 +33,23 @@ const Account = () => {
 		const source = axios.CancelToken.source();
 		const username = e.target.value;
 
-		if (!username) return;
+		if (!username || checkLoading) return;
+		setCheckLoading(true);
 
 		try {
 			const { data } = await apiInstance.get(`/user/check/${username}`, {
 				cancelToken: source.token,
 			});
 			setUsernameAvailable(data.data.isAvailable);
-			console.log(data.data.isAvailable);
 		} catch (error) {
 			if (axios.isCancel(error)) {
 				console.log("Request canceled:", error.message);
 			} else {
+				toast.error("Something went wrong");
 				console.log("Error:", error);
 			}
+		} finally {
+			setCheckLoading(false);
 		}
 	};
 
@@ -54,25 +59,26 @@ const Account = () => {
 			setAvatar(file);
 			setAvatarPreview(URL.createObjectURL(file));
 		}
-		console.log(avatarPreview);
-		console.log(avatar);
 	};
 
 	const submitHandler = async () => {
-		const { username, fullName } = userData;
-		if (
-			infoFormData.username === username &&
-			infoFormData.fullName === fullName
-		) {
+		console.log("inside");
+		const { fullName } = userData;
+		if (!isUsernameAvailable && infoFormData.fullName === fullName) {
 			return;
 		}
+
 		try {
 			const response = await apiRequest(
 				"/user/update-account-details",
 				"POST",
 				infoFormData
 			);
-			console.log(response);
+
+			setUserData(response.data);
+			setUsernameAvailable(false);
+
+			toast.success("Account details updated");
 		} catch (error) {
 			console.log(error);
 		}
@@ -217,24 +223,42 @@ const Account = () => {
 								defaultValue={userData.username}
 								maxLength={20}
 							/>
-							{!(userData.username === infoFormData.username) && (
-								<span className="absolute top-[50%] -translate-y-[50%] right-2">
-									{isUsernameAvailable ? (
-										<FaCheckCircle className="text-green-500" />
-									) : (
-										<IoMdCloseCircle className="text-red-500" />
-									)}
-								</span>
-							)}
+							{!(userData.username === infoFormData.username) &&
+								infoFormData.username && (
+									<span className="absolute top-[50%] -translate-y-[50%] right-2">
+										{isUsernameAvailable ? (
+											<FaCheckCircle className="text-green-500" />
+										) : (
+											<IoMdCloseCircle className="text-red-500" />
+										)}
+									</span>
+								)}
 						</div>
 					</label>
 				</div>
-				<button
-					onClick={submitHandler}
-					className="py-1 font-semibold text-black bg-white rounded-full"
-				>
-					Update
-				</button>
+				{infoFormData.fullName !== userData.fullName ||
+				isUsernameAvailable ||
+				updateLoading ? (
+					<button
+						onClick={submitHandler}
+						className="flex items-center justify-center h-8 py-1 font-semibold text-black bg-white rounded-full"
+					>
+						Update
+					</button>
+				) : (
+					<button
+						className="flex items-center justify-center h-8 py-1 font-semibold text-black bg-white rounded-full disabled:bg-opacity-50"
+						disabled
+					>
+						{updateLoading ? (
+							<span className="size-4">
+								<Loader />
+							</span>
+						) : (
+							"Update"
+						)}
+					</button>
+				)}
 			</section>
 		</main>
 	);
