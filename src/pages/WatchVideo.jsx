@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
-import { apiRequest, toggleLikeApi } from "../services/api";
+import { apiRequest, toggleLikeApi, toggleSubscription } from "../services/api";
 import { useSearchParams, Link } from "react-router-dom";
 import { LuThumbsUp } from "react-icons/lu";
 import { RiShareForwardLine } from "react-icons/ri";
@@ -16,7 +16,6 @@ import { useOutletContext } from "react-router-dom";
 const WatchVideo = () => {
 	const [searchParams] = useSearchParams();
 	const videoId = searchParams.get("v");
-
 	const [results, setResults] = useState(null);
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(true);
@@ -29,17 +28,17 @@ const WatchVideo = () => {
 	const { setNavVisible } = useOutletContext();
 
 	const commentQuery = {
+		videoId,
 		page: "1",
 		limit: "10",
 		sortBy: "createdAt",
 		sortType: "asc",
 	};
 
-	const commentRequestUrl = `/comment/${videoId}?page=${commentQuery.page}&limit=${commentQuery.limit}&sortBy=${commentQuery.sortBy}&sortType=${commentQuery.sortType}`;
+	const commentRequestUrl = `/comment/${commentQuery.videoId}?page=${commentQuery.page}&limit=${commentQuery.limit}&sortBy=${commentQuery.sortBy}&sortType=${commentQuery.sortType}`;
 
 	useEffect(() => {
 		setNavVisible(false);
-		// Cleanup if needed
 		return () => setNavVisible(true);
 	}, [setNavVisible]);
 
@@ -72,32 +71,6 @@ const WatchVideo = () => {
 		// };
 	}, [videoId, commentRequestUrl]);
 
-	const toggleSubscription = async () => {
-		if (isSubscribing) return;
-
-		try {
-			setSubscribing(true);
-			const response = await apiRequest(
-				`/subscriptions/channel/${video.data.ownerDetails._id}`,
-				"PATCH"
-			);
-			if (response.statusCode === 200) {
-				const { ownerDetails } = video.data;
-
-				const { subscribersCount, isSubscribed } = ownerDetails;
-
-				ownerDetails.isSubscribed = !isSubscribed;
-				ownerDetails.subscribersCount = !isSubscribed
-					? subscribersCount + 1
-					: subscribersCount - 1;
-			}
-		} catch (error) {
-			console.log("Error while subscribing : ", error);
-		} finally {
-			setSubscribing(false);
-		}
-	};
-
 	const toggleLike = async () => {
 		if (likeLoading) return;
 		try {
@@ -114,6 +87,14 @@ const WatchVideo = () => {
 		} finally {
 			setLikeLoading(false);
 		}
+	};
+	const subscriptionToggle = async () => {
+		const updatedOwnerDetails = await toggleSubscription(
+			isSubscribing,
+			setSubscribing,
+			video.data.ownerDetails
+		);
+		video.data.ownerDetails = updatedOwnerDetails;
 	};
 
 	if (loading)
@@ -192,7 +173,7 @@ const WatchVideo = () => {
 							</div>
 							<button
 								className="text-sm rounded-full w-[6rem] h-[1.6rem] border flex items-center justify-center"
-								onClick={toggleSubscription}
+								onClick={subscriptionToggle}
 							>
 								{isSubscribing ? (
 									<span className="size-[20px]">
