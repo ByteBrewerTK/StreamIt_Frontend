@@ -24,6 +24,7 @@ const Account = lazy(() => import("./pages/settings/Account"));
 const SettingsPage = lazy(() => import("./pages/settings/SettingsPage"));
 const Settings = lazy(() => import("./pages/settings/Settings"));
 const ChannelPage = lazy(() => import("./pages/channel/ChannelPage"));
+const GeneralSettingsPage = lazy(() => import("./pages/settings/GeneralSettingsPage"));
 
 function App() {
 	useEffect(() => {
@@ -101,7 +102,11 @@ function App() {
 									<Route
 										path="account"
 										element={<Account />}
-									></Route>
+									/>
+									<Route
+										path="general"
+										element={<GeneralSettingsPage />}
+									/>
 								</Route>
 								<Route path="*" element={<NotFound />} />
 							</Route>
