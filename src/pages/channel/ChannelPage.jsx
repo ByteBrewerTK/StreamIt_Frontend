@@ -7,20 +7,34 @@ import { formatCounts } from "../../utils/formatCounts";
 import { MdArrowBack } from "react-icons/md";
 import ChannelVideos from "../../components/video/ChannelVideos";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { toggleSubscription } from "../../services/api";
+import useIsMyProfile from "../../hooks/useIsMyProfile";
 
 const ChannelPage = () => {
+	const [isSubscribing, setSubscribing] = useState(false);
 	const { setNavVisible } = useOutletContext();
 	const { username } = useParams();
-    const navigate = useNavigate()
+	const navigate = useNavigate();
 	const { channelData, channelError, channelDataLoading } =
 		useGetChannel(username);
-
+	const isMyProfile = useIsMyProfile(username);
+	console.log(isMyProfile);
 	useEffect(() => {
 		setNavVisible(false);
 		return () => {
 			setNavVisible(true);
 		};
 	});
+	const subscriptionToggle = async () => {
+		const updatedOwnerDetails = await toggleSubscription(
+			isSubscribing,
+			setSubscribing,
+			channelData
+		);
+		channelData.isSubscribed = updatedOwnerDetails.isSubscribed;
+		channelData.subscribersCount = updatedOwnerDetails.subscribersCount;
+	};
 	// Loading and Error handling
 	if (channelDataLoading) {
 		return (
@@ -43,7 +57,11 @@ const ChannelPage = () => {
 		<section className="flex flex-col flex-1 overflow-hidden">
 			<header className="bg-primary">
 				<nav className="flex items-center py-2 mx-auto text-white w-container gap-x-2">
-					<button onClick={()=>{navigate(-1)}}>
+					<button
+						onClick={() => {
+							navigate(-1);
+						}}
+					>
 						<MdArrowBack className="text-2xl" />
 					</button>
 					<span>{channelData.fullName}</span>
@@ -55,7 +73,7 @@ const ChannelPage = () => {
 						<div className="w-full aspect-[8/2]  overflow-hidden rounded-lg">
 							<img
 								src={channelData.coverImage}
-                                loading="lazy"
+								loading="lazy"
 								alt=""
 								className="object-cover object-center w-full h-full"
 							/>
@@ -64,7 +82,11 @@ const ChannelPage = () => {
 						<div>
 							<div className="flex items-center py-4 gap-x-2">
 								<div className="size-[80px] overflow-hidden rounded-full">
-									<img src={channelData.avatar} alt="" loading="lazy"/>
+									<img
+										src={channelData.avatar}
+										alt=""
+										loading="lazy"
+									/>
 								</div>
 								<div>
 									<h2 className="font-bold">
@@ -87,11 +109,31 @@ const ChannelPage = () => {
 									</div>
 								</div>
 							</div>
-							<button className="w-full h-8 text-center text-black bg-white rounded-full ">
-								{channelData.isSubscribe
-									? "Subscribe"
-									: "Subscribed"}
-							</button>
+							{!isMyProfile && (
+								<button
+									onClick={subscriptionToggle}
+									className={`w-full h-8 text-black rounded-full flex justify-center items-center ${
+										!(
+											channelData.isSubscribed ||
+											isSubscribing
+										)
+											? "bg-white"
+											: "border bg-transparent text-white"
+									}`}
+								>
+									{!isSubscribing ? (
+										!channelData.isSubscribed ? (
+											"Subscribe"
+										) : (
+											"Subscribed"
+										)
+									) : (
+										<span className="size-[20px]">
+											<Loader />
+										</span>
+									)}
+								</button>
+							)}
 						</div>
 					</div>
 				</section>
