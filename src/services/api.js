@@ -68,7 +68,7 @@ export const apiRequest = async (
 			} catch (error) {
 				console.log("unauthorized : ", error);
 				removeTokens();
-				removeUserData()
+				removeUserData();
 				window.location.href = "/auth/login";
 			}
 		} else {
@@ -91,9 +91,38 @@ export const toggleLikeApi = async (entityType, entityId) => {
 			`/like/toggle/${entityType}/${entityId}`,
 			"PATCH"
 		);
-		
+
 		return result;
 	} catch (error) {
 		console.log("Error while like : ", error);
+	}
+};
+
+export const toggleSubscription = async (
+	isSubscribing,
+	setSubscribing,
+	ownerDetails
+) => {
+	if (isSubscribing) return;
+
+	try {
+		setSubscribing(true);
+		const response = await apiRequest(
+			`/subscriptions/channel/${ownerDetails._id}`,
+			"PATCH"
+		);
+		if (response.statusCode === 200) {
+			const { subscribersCount, isSubscribed } = ownerDetails;
+
+			ownerDetails.isSubscribed = !isSubscribed;
+			ownerDetails.subscribersCount = !isSubscribed
+				? subscribersCount + 1
+				: subscribersCount - 1;
+		}
+		return ownerDetails;
+	} catch (error) {
+		console.log("Error while subscribing : ", error);
+	} finally {
+		setSubscribing(false);
 	}
 };
