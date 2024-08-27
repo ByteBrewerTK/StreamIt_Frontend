@@ -11,7 +11,7 @@ const useGetSubscriptions = () => {
 		const fetchData = async () => {
 			try {
 				const {data} = await apiRequest("/subscriptions");
-				setSubscriptionData(data.subscribedChannels);
+				setSubscriptionData(data);
 			} catch (error) {
 				setSubscriptionError(error);
                 console.log("Error while fetch all subscriptions : ",error)
