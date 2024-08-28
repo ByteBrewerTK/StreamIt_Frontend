@@ -19,7 +19,6 @@ const Account = () => {
 	const [avatarPreview, setAvatarPreview] = useState("");
 	const avatarInputRef = useRef(null);
 	const [avatarUploading, setAvatarUploading] = useState(false);
-	const [isDisabled, setDisabled] = useState(true);
 	const [isUsernameAvailable, setUsernameAvailable] = useState(false);
 	const [updateLoading, setUpdateLoading] = useState(false);
 	const [checkLoading, setCheckLoading] = useState(false);
@@ -67,6 +66,7 @@ const Account = () => {
 		if (!isUsernameAvailable && infoFormData.fullName === fullName) {
 			return;
 		}
+		setUpdateLoading(true);
 
 		try {
 			const response = await apiRequest(
@@ -81,6 +81,8 @@ const Account = () => {
 			toast.success("Account details updated");
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setUpdateLoading(false);
 		}
 	};
 
