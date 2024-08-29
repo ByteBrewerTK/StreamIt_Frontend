@@ -5,6 +5,7 @@ import { apiRequest } from "../../services/api";
 import toast from "react-hot-toast";
 import { changePasswordError } from "../../utils/customErrorMessage";
 import Loader from "../../components/ui/loader/Loader";
+import { Link } from "react-router-dom";
 
 const PasswordModal = ({ togglePassModal }) => {
 	const [currentPassVisible, setCurrentPassVisible] = useState(false);
@@ -119,18 +120,23 @@ const PasswordModal = ({ togglePassModal }) => {
 						{formError}
 					</p>
 				)}
-				<button
-					disabled={updateLoading}
-					className="float-right px-2 w-20 h-8 mt-8 text-black bg-white rounded-full font-[500] flex items-center justify-center disabled:bg-opacity-70"
-				>
-					{!updateLoading ? (
-						"Update"
-					) : (
-						<span className="size-[20px]">
-							<Loader />
-						</span>
-					)}
-				</button>
+				<div className="flex items-center justify-between mt-8">
+					<Link to={"/auth/reset-password"} className="text-sm text-muted">
+						Reset Password
+					</Link>
+					<button
+						disabled={updateLoading}
+						className=" px-2 w-20 h-8  text-black bg-white rounded-full font-[500] flex items-center justify-center disabled:bg-opacity-70"
+					>
+						{!updateLoading ? (
+							"Update"
+						) : (
+							<span className="size-[20px]">
+								<Loader />
+							</span>
+						)}
+					</button>
+				</div>
 			</form>
 		</section>
 	);
