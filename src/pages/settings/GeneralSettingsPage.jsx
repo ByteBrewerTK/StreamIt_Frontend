@@ -1,11 +1,26 @@
+import GeneralSettingsOptions from "../../components/settings/GeneralSettingsOptions";
+import { AiOutlinePlayCircle } from "react-icons/ai";
+import { IoPlayForwardOutline } from "react-icons/io5";
 const GeneralSettingsPage = () => {
-    
-    return (
-        <div className="mx-auto my-2 w-container">
-            This is general settings page
-        </div>
-    )
-    
-}
+	const options = [
+		{
+			title: "Auto Play on Start",
+			icon: AiOutlinePlayCircle,
+			path: "password",
+		},
+		{
+			title: "Auto Play Next",
+			icon: IoPlayForwardOutline,
+			path: "password",
+		},
+	];
+	return (
+		<section className="w-full mx-auto">
+			{options.map((option, index) => (
+				<GeneralSettingsOptions key={index} {...option} />
+			))}
+		</section>
+	);
+};
 
-export default GeneralSettingsPage
+export default GeneralSettingsPage;
