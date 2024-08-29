@@ -5,6 +5,7 @@ import VerificationSuccess from "./pages/auth/VerificationSuccess";
 import ResendVerificationMail from "./pages/auth/ResendVerificationMail";
 import Loader from "./components/ui/loader/Loader";
 import { Toaster, toast } from "react-hot-toast";
+import SecurityPage from "./pages/settings/SecurityPage";
 
 // Lazy load the component
 const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
@@ -24,7 +25,9 @@ const Account = lazy(() => import("./pages/settings/Account"));
 const SettingsPage = lazy(() => import("./pages/settings/SettingsPage"));
 const Settings = lazy(() => import("./pages/settings/Settings"));
 const ChannelPage = lazy(() => import("./pages/channel/ChannelPage"));
-const GeneralSettingsPage = lazy(() => import("./pages/settings/GeneralSettingsPage"));
+const GeneralSettingsPage = lazy(() =>
+	import("./pages/settings/GeneralSettingsPage")
+);
 
 function App() {
 	useEffect(() => {
@@ -106,6 +109,10 @@ function App() {
 									<Route
 										path="general"
 										element={<GeneralSettingsPage />}
+									/>
+									<Route
+										path="security"
+										element={<SecurityPage />}
 									/>
 								</Route>
 								<Route path="*" element={<NotFound />} />
