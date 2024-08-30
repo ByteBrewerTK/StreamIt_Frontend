@@ -87,3 +87,30 @@ export const changePasswordError = (statusCode) => {
 	}
 	return error;
 };
+export const changeEmailError = (statusCode) => {
+	let error = "";
+	switch (statusCode) {
+		case 400: {
+			error = "All fields are required";
+			break;
+		}
+		case 403: {
+			error = "Incorrect password";
+			break;
+		}
+		case 409: {
+			error = "Email in use";
+			break;
+		}
+		case 422: {
+			error = "Email domain is not allowed";
+			break;
+		}
+
+		default: {
+			error = "Something went wrong";
+			break;
+		}
+	}
+	return error;
+};
