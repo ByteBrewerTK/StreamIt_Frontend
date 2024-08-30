@@ -2,12 +2,17 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { useState } from "react";
 import PasswordModal from "../../components/settings/PasswordModal";
 import { RiMailSettingsLine } from "react-icons/ri";
+import EmailModal from "../../components/settings/EmailModal";
 
 const SecurityPage = () => {
 	const [passModalVisible, setPassModalVisible] = useState(false);
+	const [mailModalVisible, setMailModalVisible] = useState(false);
 
 	const togglePassModal = (state) => {
 		setPassModalVisible(state);
+	};
+	const toggleMailModal = (state) => {
+		setMailModalVisible(state);
 	};
 
 	return (
@@ -15,6 +20,9 @@ const SecurityPage = () => {
 			<div>
 				{passModalVisible && (
 					<PasswordModal togglePassModal={togglePassModal} />
+				)}
+				{mailModalVisible && (
+					<EmailModal toggleMailModal={toggleMailModal} />
 				)}
 			</div>
 			<div>
@@ -26,6 +34,15 @@ const SecurityPage = () => {
 				>
 					<RiLockPasswordLine className="text-xl" />
 					<span>Password</span>
+				</div>
+				<div
+					onClick={() => {
+						toggleMailModal(true);
+					}}
+					className="flex items-center px-4 py-2 space-x-2 hover:bg-white hover:bg-opacity-10 group"
+				>
+					<RiMailSettingsLine className="text-xl" />
+					<span>Change Email</span>
 				</div>
 			</div>
 		</section>
