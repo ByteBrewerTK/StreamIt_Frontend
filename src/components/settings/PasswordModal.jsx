@@ -83,7 +83,7 @@ const PasswordModal = ({ togglePassModal }) => {
 									setCurrentPassVisible((prev) => !prev);
 								}}
 							>
-								{currentPassVisible ? <LuEyeOff /> : <LuEye />}
+								{!currentPassVisible ? <LuEyeOff /> : <LuEye />}
 							</span>
 						</span>
 					</div>
@@ -111,7 +111,7 @@ const PasswordModal = ({ togglePassModal }) => {
 								setConfirmPassVisible((prev) => !prev);
 							}}
 						>
-							{confirmPassVisible ? <LuEyeOff /> : <LuEye />}
+							{!confirmPassVisible ? <LuEyeOff /> : <LuEye />}
 						</span>
 					</div>
 				</div>
