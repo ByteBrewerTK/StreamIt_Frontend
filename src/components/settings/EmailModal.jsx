@@ -4,7 +4,7 @@ import Loader from "../ui/loader/Loader";
 import { useState } from "react";
 import { IoMdArrowForward } from "react-icons/io";
 import { apiRequest } from "../../services/api";
-import { changeEmailError } from "../../utils/customErrorMessage";
+import { changeEmailError, otpVerifyError } from "../../utils/customErrorMessage";
 import OtpInput from "react-otp-input";
 import toast from "react-hot-toast";
 
@@ -63,7 +63,7 @@ const EmailModal = ({ toggleMailModal }) => {
 			toast.success("Email changed");
 		} catch (error) {
 			const statusCode = error.response.status;
-			setFormError(changeEmailError(statusCode));
+			setOtpError(otpVerifyError(statusCode));
 			console.log(error);
 		} finally {
 			setUpdateLoading(false);
@@ -89,7 +89,7 @@ const EmailModal = ({ toggleMailModal }) => {
 			toast.success("Otp sent");
 		} catch (error) {
 			const statusCode = error.response.status;
-			setOtpError(changeEmailError(statusCode));
+			setFormError(changeEmailError(statusCode));
 			console.log(error);
 		} finally {
 			setUpdateLoading(false);
