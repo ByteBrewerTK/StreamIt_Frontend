@@ -114,3 +114,18 @@ export const changeEmailError = (statusCode) => {
 	}
 	return error;
 };
+export const otpVerifyError = (statusCode) => {
+	let error = "";
+	switch (statusCode) {
+		case 403: {
+			error = "Invalid otp";
+			break;
+		}
+
+		default: {
+			error = "Something went wrong";
+			break;
+		}
+	}
+	return error;
+};
