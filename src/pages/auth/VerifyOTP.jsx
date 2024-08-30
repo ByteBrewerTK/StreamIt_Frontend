@@ -16,7 +16,6 @@ const VerifyOTP = () => {
 		display: "flex",
 		justifyContent: "space-between",
 		width: "100%",
-		// maxWidth: "200px",
 	};
 	const otpInputStyle = {
 		border: "2px solid  #dbdbdb",
@@ -50,7 +49,7 @@ const VerifyOTP = () => {
 						inputStyle={otpInputStyle}
 						containerStyle={otpContainerStyle}
 					/>
-					<button className="text-smr font-[500] float-right mt-2">
+					<button type="button" className="text-smr font-[500] float-right mt-2">
 						Resend code
 					</button>
 				</div>
