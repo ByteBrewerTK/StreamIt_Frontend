@@ -34,7 +34,7 @@ const PrivateRoutes = () => {
 					<Navbar />
 				</div>
 
-				<section className="flex flex-1 overflow-auto sm:overflow-hidden">
+				<section className="relative flex flex-1 overflow-hidden sm:overflow-hidden">
 					<SideNavbar />
 					{accessToken ? (
 						<Outlet context={{ setNavVisible }} />
