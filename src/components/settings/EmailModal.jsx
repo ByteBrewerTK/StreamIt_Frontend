@@ -180,6 +180,7 @@ const EmailModal = ({ toggleMailModal }) => {
 				</button>
 			</form>
 			<form
+				ref={modalRef}
 				onSubmit={verifyOtp}
 				className={`w-[18rem] bg-primary rounded-lg p-4 shadow-lg relative overflow-hidden h-[14rem] flex flex-col justify-center ${
 					!otpSent ? "hidden" : ""
