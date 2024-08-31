@@ -4,9 +4,14 @@ import Loader from "../ui/loader/Loader";
 import { useState } from "react";
 import { IoMdArrowForward } from "react-icons/io";
 import { apiRequest } from "../../services/api";
-import { changeEmailError, otpVerifyError } from "../../utils/customErrorMessage";
+import {
+	changeEmailError,
+	otpVerifyError,
+} from "../../utils/customErrorMessage";
 import OtpInput from "react-otp-input";
 import toast from "react-hot-toast";
+import { useRef } from "react";
+import { useEffect } from "react";
 
 const EmailModal = ({ toggleMailModal }) => {
 	const [otp, setOtp] = useState("");
@@ -15,10 +20,25 @@ const EmailModal = ({ toggleMailModal }) => {
 	const [otpError, setOtpError] = useState("");
 	const [updateLoading, setUpdateLoading] = useState("");
 	const [otpSent, setOtpSent] = useState(false);
+	const modalRef = useRef(null);
 	const [formData, setFormData] = useState({
 		newEmail: "",
 		password: "",
 	});
+
+	useEffect(() => {
+		document.addEventListener("mousedown", modalCloseHandler);
+
+		return () => {
+			document.removeEventListener("mousedown", modalCloseHandler);
+		};
+	}, []);
+
+	const modalCloseHandler = (e) => {
+		if (modalRef.current && !modalRef.current.contains(e.target)) {
+			toggleMailModal(false);
+		}
+	};
 
 	const otpContainerStyle = {
 		display: "flex",
@@ -59,7 +79,7 @@ const EmailModal = ({ toggleMailModal }) => {
 
 		try {
 			await apiRequest("/user/verify-email-otp", "POST", { otp });
-            toggleMailModal(false);
+			toggleMailModal(false);
 			toast.success("Email changed");
 		} catch (error) {
 			const statusCode = error.response.status;
@@ -98,6 +118,7 @@ const EmailModal = ({ toggleMailModal }) => {
 	return (
 		<section className="absolute grid size-full backdrop-blur-sm place-items-center">
 			<form
+				ref={modalRef}
 				onSubmit={submitHandler}
 				className={`w-[18rem] bg-primary rounded-lg p-4 shadow-lg relative overflow-hidden h-[14rem] ${
 					otpSent ? "hidden" : ""
@@ -160,7 +181,9 @@ const EmailModal = ({ toggleMailModal }) => {
 			</form>
 			<form
 				onSubmit={verifyOtp}
-				className={`w-[18rem] bg-primary rounded-lg p-4 shadow-lg relative overflow-hidden h-[14rem] flex flex-col justify-center ${!otpSent ? "hidden" : ""}`}
+				className={`w-[18rem] bg-primary rounded-lg p-4 shadow-lg relative overflow-hidden h-[14rem] flex flex-col justify-center ${
+					!otpSent ? "hidden" : ""
+				}`}
 			>
 				<span
 					onClick={() => {
