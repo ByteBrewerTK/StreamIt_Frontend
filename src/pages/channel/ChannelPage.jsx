@@ -67,7 +67,7 @@ const ChannelPage = () => {
 					<span>{channelData.fullName}</span>
 				</nav>
 			</header>
-			<main className="flex flex-col overflow-hidden text-white size-full">
+			<main className="flex flex-col overflow-auto text-white size-full scrollbar-hide">
 				<section className="w-full pb-4 bg-primary">
 					<div className="mx-auto w-container">
 						<div className="w-full aspect-[8/2]  overflow-hidden rounded-lg">
