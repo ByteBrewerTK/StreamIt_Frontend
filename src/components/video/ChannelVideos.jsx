@@ -34,7 +34,7 @@ const ChannelVideos = (username) => {
 	return (
 		<div className="py-2 mx-auto w-container">
 			{channelVideosData.map((video) => (
-				<VideoItem key={video._id} {...video} />
+				<VideoItem key={video._id} element={video} />
 			))}
 		</div>
 	);
