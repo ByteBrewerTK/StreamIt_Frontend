@@ -6,18 +6,28 @@ import toast from "react-hot-toast";
 import { changePasswordError } from "../../utils/customErrorMessage";
 import Loader from "../../components/ui/loader/Loader";
 import { Link } from "react-router-dom";
+import { useRef } from "react";
+import { useEffect } from "react";
 
 const PasswordModal = ({ togglePassModal }) => {
 	const [currentPassVisible, setCurrentPassVisible] = useState(false);
 	const [confirmPassVisible, setConfirmPassVisible] = useState(false);
 	const [updateLoading, setUpdateLoading] = useState(false);
 	const [formError, setFormError] = useState("");
-
+	const modalRef = useRef(null);
 	const [formData, setFormData] = useState({
 		currentPassword: "",
 		newPassword: "",
 		confirmPassword: "",
 	});
+
+	useEffect(() => {
+		document.addEventListener("mousedown", modalCloseHandler);
+
+		return () => {
+			document.removeEventListener("mousedown", modalCloseHandler);
+		};
+	}, []);
 
 	const formInputHandler = (e) => {
 		const target = e.target;
@@ -26,6 +36,12 @@ const PasswordModal = ({ togglePassModal }) => {
 			...prev,
 			[target.name]: target.value,
 		}));
+	};
+
+	const modalCloseHandler = (e) => {
+		if (modalRef.current && !modalRef.current.contains(e.target)) {
+			togglePassModal(false);
+		}
 	};
 
 	const submitHandler = (e) => {
@@ -57,8 +73,9 @@ const PasswordModal = ({ togglePassModal }) => {
 	return (
 		<section className="absolute grid size-full backdrop-blur-sm place-items-center">
 			<form
+				ref={modalRef}
 				onSubmit={submitHandler}
-				className="w-[16rem] bg-primary rounded-lg p-4 shadow-lg relative overflow-hidden"
+				className="w-[16rem] bg-primary rounded-lg p-4 shadow-lg relative overflow-hidden "
 			>
 				<span
 					onClick={() => {
@@ -121,7 +138,10 @@ const PasswordModal = ({ togglePassModal }) => {
 					</p>
 				)}
 				<div className="flex items-center justify-between mt-8">
-					<Link to={"/auth/reset-password"} className="text-sm text-muted">
+					<Link
+						to={"/auth/reset-password"}
+						className="text-sm text-muted"
+					>
 						Reset Password
 					</Link>
 					<button
