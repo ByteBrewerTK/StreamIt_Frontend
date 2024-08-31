@@ -21,6 +21,7 @@ const EmailModal = ({ toggleMailModal }) => {
 	const [updateLoading, setUpdateLoading] = useState("");
 	const [otpSent, setOtpSent] = useState(false);
 	const modalRef = useRef(null);
+	const modalOtpRef = useRef(null);
 	const [formData, setFormData] = useState({
 		newEmail: "",
 		password: "",
@@ -35,7 +36,10 @@ const EmailModal = ({ toggleMailModal }) => {
 	}, []);
 
 	const modalCloseHandler = (e) => {
-		if (modalRef.current && !modalRef.current.contains(e.target)) {
+		if (
+			(modalRef.current && !modalRef.current.contains(e.target)) &&
+			(modalOtpRef.current && !modalOtpRef.current.contains(e.target))
+		) {
 			toggleMailModal(false);
 		}
 	};
@@ -180,7 +184,7 @@ const EmailModal = ({ toggleMailModal }) => {
 				</button>
 			</form>
 			<form
-				ref={modalRef}
+				ref={modalOtpRef}
 				onSubmit={verifyOtp}
 				className={`w-[18rem] bg-primary rounded-lg p-4 shadow-lg relative overflow-hidden h-[14rem] flex flex-col justify-center ${
 					!otpSent ? "hidden" : ""
