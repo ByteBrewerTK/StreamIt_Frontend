@@ -1,6 +1,6 @@
 import VideoItemWatchHistory from "../ui/VideoItemWatchHistory";
 
-const WatchHistory = ({ data }) => {
+const WatchHistory = ({ data, moreOptionsHandler }) => {
 	return (
 		<div className="my-4 h-[190px] px-2">
 			<div className="mx-2">
@@ -14,7 +14,12 @@ const WatchHistory = ({ data }) => {
 			) : (
 				<div className="grid w-full grid-flow-col my-2 overflow-x-auto overflow-y-hidden auto-cols-max scrollbar-hide">
 					{data.map((video) => (
-						<VideoItemWatchHistory key={video._id} {...video} />
+						<VideoItemWatchHistory
+							key={video._id}
+							video={video}
+							moreOptionsHandler={moreOptionsHandler}
+							
+						/>
 					))}
 				</div>
 			)}
@@ -22,4 +27,4 @@ const WatchHistory = ({ data }) => {
 	);
 };
 
-export default WatchHistory
+export default WatchHistory;
