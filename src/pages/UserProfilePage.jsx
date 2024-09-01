@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useOutletContext, Link } from "react-router-dom";
 import usePlaylist from "../hooks/data/usePlaylist";
 import useUserData from "../hooks/data/useUserData";
@@ -8,11 +8,12 @@ import Loader from "../components/ui/loader/Loader";
 import WatchHistory from "../components/user/WatchHistory";
 import Playlists from "../components/user/Playlists";
 import ProfileNav from "../components/user/ProfileNav";
+import MorePanel from "../components/video/MorePanel";
 
 const UserProfilePage = () => {
 	const { setNavVisible } = useOutletContext();
-
-	// Fetch user data, playlist, and watch history
+	const [isMoreOptionsOpen, setMoreOptionsOpen] = useState(false);
+	const [videoId, setVideoId] = useState(null);
 	const { userData, userDataLoading, userDataError } = useUserData();
 	const localUser = getUserData();
 	const { playlistData, playlistLoading, playlistError } = usePlaylist(
@@ -23,9 +24,13 @@ const UserProfilePage = () => {
 
 	useEffect(() => {
 		setNavVisible(false);
-		// Cleanup if needed
 		return () => setNavVisible(true);
 	}, [setNavVisible]);
+
+	const moreOptionsHandler = (state, videoId) => {
+		setVideoId(videoId);
+		setMoreOptionsOpen(state);
+	};
 
 	// Loading and Error handling
 	if (userDataLoading || playlistLoading || watchHistoryLoading) {
@@ -47,42 +52,55 @@ const UserProfilePage = () => {
 	}
 
 	return (
-		<main className="w-full h-full overflow-hidden text-white">
-			<div className="border-b-2 border-gray-800 shadow-sm bg-primary">
-				<ProfileNav />
-				<section className="py-4 mx-auto w-container ">
-					{/* Profile details */}
-					<Link
-						to={`/user/${userData.username}`}
-						className="flex items-center gap-x-2"
-					>
-						<div className="overflow-hidden rounded-full size-[70px]">
-							<img
-								src={userData.avatar}
-								alt="Profile Avatar"
-								loading="lazy"
-							/>
-						</div>
-						<div className="flex flex-col flex-1 leading-5 h-fit">
-							<h2 className="text-[1.4rem]">
-								{userData.fullName}
-							</h2>
-							<div className="flex space-x-3 text-smr">
-								<span>@{userData.username}</span>
-								<span className="text-muted">View Channel</span>
+		<>
+			<main className="w-full h-full overflow-hidden text-white">
+				<div className="border-b-2 border-gray-800 shadow-sm bg-primary">
+					<ProfileNav />
+					<section className="py-4 mx-auto w-container ">
+						{/* Profile details */}
+						<Link
+							to={`/user/${userData.username}`}
+							className="flex items-center gap-x-2"
+						>
+							<div className="overflow-hidden rounded-full size-[70px]">
+								<img
+									src={userData.avatar}
+									alt="Profile Avatar"
+									loading="lazy"
+								/>
 							</div>
-						</div>
-					</Link>
-				</section>
-			</div>
-			<section className="w-full overflow-y-auto scrollbar-hide">
-				{/* Watch history */}
-				<WatchHistory {...watchHistoryData} />
+							<div className="flex flex-col flex-1 leading-5 h-fit">
+								<h2 className="text-[1.4rem]">
+									{userData.fullName}
+								</h2>
+								<div className="flex space-x-3 text-smr">
+									<span>@{userData.username}</span>
+									<span className="text-muted">
+										View Channel
+									</span>
+								</div>
+							</div>
+						</Link>
+					</section>
+				</div>
+				<section className="w-full overflow-y-auto scrollbar-hide">
+					{/* Watch history */}
+					<WatchHistory
+						data={watchHistoryData.data}
+						moreOptionsHandler={moreOptionsHandler}
+					/>
 
-				{/* Playlists */}
-				<Playlists {...playlistData} />
-			</section>
-		</main>
+					{/* Playlists */}
+					<Playlists {...playlistData} />
+				</section>
+			</main>
+			<MorePanel
+				setMoreOptionsOpen={setMoreOptionsOpen}
+				isMoreOptionsOpen={isMoreOptionsOpen}
+				videoId={videoId}
+				removeVideoButton = {true}
+			/>
+		</>
 	);
 };
 
