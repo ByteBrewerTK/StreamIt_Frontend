@@ -5,6 +5,7 @@ import PlaylistPanel from "../playlist/PlaylistPanel";
 import { IoTrashOutline } from "react-icons/io5";
 import { apiRequest } from "../../services/api";
 import toast from "react-hot-toast";
+import Loader from "../ui/loader/Loader";
 
 const VideoItemMorePanel = ({
 	isMoreOptionsOpen,
@@ -13,6 +14,7 @@ const VideoItemMorePanel = ({
 	removeVideoButton,
 }) => {
 	const [openMorePanel, setMorePanel] = useState(null);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		if (isMoreOptionsOpen) {
@@ -25,6 +27,8 @@ const VideoItemMorePanel = ({
 	};
 
 	const removeFromHistoryHandler = async () => {
+		if (loading) return;
+		setLoading(true);
 		try {
 			await apiRequest(`/user/watch-history/remove/${videoId}`, "DELETE");
 		} catch (error) {
@@ -32,6 +36,7 @@ const VideoItemMorePanel = ({
 			console.log(error);
 		} finally {
 			setMoreOptionsOpen(false);
+			setLoading(false);
 		}
 	};
 	return (
@@ -64,7 +69,14 @@ const VideoItemMorePanel = ({
 							}}
 							className="flex items-center w-full h-12 px-2 rounded-lg gap-x-4 bg-primary"
 						>
-							<IoTrashOutline className="text-2xl text-red-500" />
+							{loading ? (
+								<span className="size-5">
+									<Loader />
+								</span>
+							) : (
+								<IoTrashOutline className="text-2xl text-red-500" />
+							)}
+
 							<span className="text-muted">Remove</span>
 						</div>
 					)}
