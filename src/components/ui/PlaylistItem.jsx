@@ -1,14 +1,15 @@
 import { IoMdMore } from "react-icons/io";
 import { RiPlayList2Fill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-const PlaylistItem = ({ _id, name, videos }) => {
+const PlaylistItem = ({ playlist, playlistMoreOptionsHandler }) => {
+	const { _id, name, videos } = playlist;
 	const banner = videos[0].thumbnail;
 	return (
-		<Link
-			to={`/playlist/${_id}`}
-			className="relative flex flex-col w-[130px] mx-2 h-[145px] shadow-lg my-1 text-white before:w-[90%] before:h-[10%] before:bg-gray-500 before:absolute before:left-[50%] before:-translate-x-[50%] before:-top-1 before:rounded-full"
-		>
-			<div className="relative w-full overflow-hidden rounded-lg aspect-video ">
+		<div className="relative flex flex-col w-[130px] mx-2 h-[145px] shadow-lg my-1 text-white before:w-[90%] before:h-[10%] before:bg-gray-500 before:absolute before:left-[50%] before:-translate-x-[50%] before:-top-1 before:rounded-full">
+			<Link
+				to={`/playlist/${_id}`}
+				className="relative w-full overflow-hidden rounded-lg aspect-video "
+			>
 				{/* Banner */}
 				<img
 					src={banner}
@@ -20,18 +21,25 @@ const PlaylistItem = ({ _id, name, videos }) => {
 					<RiPlayList2Fill />
 					<span>{videos?.length}</span>
 				</span>
-			</div>
+			</Link>
 			<div className="flex justify-between flex-1 py-2 ">
 				{/* details */}
-				<div className="flex flex-col justify-between">
+				<Link
+					to={`/playlist/${_id}`}
+					className="flex flex-col justify-between"
+				>
 					<p className="text-sm leading-4">{name}</p>
-				</div>
+				</Link>
 
-				<span>
+				<span
+					onClick={() => {
+						playlistMoreOptionsHandler(true, _id);
+					}}
+				>
 					<IoMdMore className="text-[1rem]" />
 				</span>
 			</div>
-		</Link>
+		</div>
 	);
 };
 
