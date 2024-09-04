@@ -9,11 +9,15 @@ import WatchHistory from "../components/user/WatchHistory";
 import Playlists from "../components/user/Playlists";
 import ProfileNav from "../components/user/ProfileNav";
 import MorePanel from "../components/video/MorePanel";
+import PlaylistMorePanel from "../components/playlist/PlaylistMorePanel";
 
 const UserProfilePage = () => {
 	const { setNavVisible } = useOutletContext();
 	const [isMoreOptionsOpen, setMoreOptionsOpen] = useState(false);
+	const [isPlaylistMoreOptionsOpen, setPlaylistMoreOptionsOpen] =
+		useState(false);
 	const [videoId, setVideoId] = useState(null);
+	const [playlistId, setPlaylistId] = useState(null);
 	const { userData, userDataLoading, userDataError } = useUserData();
 	const localUser = getUserData();
 	const { playlistData, playlistLoading, playlistError } = usePlaylist(
@@ -31,6 +35,12 @@ const UserProfilePage = () => {
 		setVideoId(videoId);
 		setMoreOptionsOpen(state);
 	};
+	const playlistMoreOptionsHandler = (state, playlistId) => {
+		setPlaylistId(playlistId);
+		setPlaylistMoreOptionsOpen(state);
+	};
+
+	console.log(playlistId)
 
 	// Loading and Error handling
 	if (userDataLoading || playlistLoading || watchHistoryLoading) {
@@ -91,14 +101,22 @@ const UserProfilePage = () => {
 					/>
 
 					{/* Playlists */}
-					<Playlists {...playlistData} />
+					<Playlists
+						data={playlistData.data}
+						playlistMoreOptionsHandler={playlistMoreOptionsHandler}
+					/>
 				</section>
 			</main>
 			<MorePanel
 				setMoreOptionsOpen={setMoreOptionsOpen}
 				isMoreOptionsOpen={isMoreOptionsOpen}
 				videoId={videoId}
-				removeVideoButton = {true}
+				removeVideoButton={true}
+			/>
+			<PlaylistMorePanel
+				isPlaylistMoreOptionsOpen={isPlaylistMoreOptionsOpen}
+				setPlaylistMoreOptionsOpen={setPlaylistMoreOptionsOpen}
+				playlistId={playlistId}
 			/>
 		</>
 	);
