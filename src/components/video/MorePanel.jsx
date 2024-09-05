@@ -19,7 +19,6 @@ const MorePanel = ({
 	}, []);
 
 	const outsideClick = (event) => {
-		console.log(moreOptionsRef.current.contains(event.target));
 		if (
 			moreOptionsRef.current &&
 			!moreOptionsRef.current.contains(event.target)
