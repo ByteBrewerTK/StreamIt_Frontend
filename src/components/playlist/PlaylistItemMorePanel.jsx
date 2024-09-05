@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { GoBookmark } from "react-icons/go";
 import { PiShareFat } from "react-icons/pi";
-import PlaylistPanel from "../playlist/PlaylistPanel";
 import { IoTrashOutline } from "react-icons/io5";
 import { apiRequest } from "../../services/api";
 import toast from "react-hot-toast";
 import Loader from "../ui/loader/Loader";
+import { baseUrl } from "../../data/constants";
 
 const PlaylistItemMorePanel = ({
 	isPlaylistMoreOptionsOpen,
@@ -24,6 +23,32 @@ const PlaylistItemMorePanel = ({
 	const toggleMorePanel = (state) => {
 		setMorePanel(state);
 	};
+	console.log(navigator.share)
+
+	const shareHandler = async () => {
+		const shareUrl = `${baseUrl}/playlist/${playlistId}`;
+		if (navigator.share) {
+			try {
+				await navigator.share({
+					title: "Playlist",
+					url: shareUrl,
+				});
+			} catch (error) {
+				toast.error("Error while share playlist");
+				console.error("Error sharing", error);
+			}
+		} else {
+			navigator.clipboard
+				.writeText(shareUrl)
+				.then(() => {
+					toast.success("Link copied to clipboard!");
+				})
+				.catch((error) => {
+					toast.error("Error while coping playlist url")
+					console.error("Error copying url: ", error);
+				});
+		}
+	};
 
 	const deletePlaylistHandler = async () => {
 		if (loading) return;
@@ -41,15 +66,13 @@ const PlaylistItemMorePanel = ({
 	return (
 		<>
 			<div className="flex flex-col justify-around pb-4 mx-auto text-white w-container gap-y-2">
-				<div
-					onClick={() => {
-						toggleMorePanel(2);
-					}}
+				<button
+					onClick={shareHandler}
 					className="flex items-center w-full h-12 px-2 rounded-lg gap-x-4 bg-primary"
 				>
 					<PiShareFat className="text-2xl" />
 					<span className="text-muted">Share</span>
-				</div>
+				</button>
 
 				<div
 					onClick={() => {
