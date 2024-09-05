@@ -9,7 +9,10 @@ const Navbar = ({ sidebarHandler }) => {
 		<header className="flex items-center w-full bg-primary h-navbar">
 			<div className="flex items-center justify-between mx-auto w-container md:w-[95%] z-10">
 				<div className="flex items-center gap-x-2">
-					<button onClick={() => sidebarHandler()}>
+					<button
+						onClick={() => sidebarHandler()}
+						className="hidden md:block"
+					>
 						<RxHamburgerMenu className="text-2xl text-white" />
 					</button>
 					<Link to={"/"}>
