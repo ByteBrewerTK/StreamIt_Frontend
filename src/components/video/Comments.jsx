@@ -57,7 +57,7 @@ const Comments = ({
 	return (
 		<>
 			<div
-				className={`flex justify-between p-4 border-b border-gray-600 `}
+				className="flex justify-between p-4 border-b border-gray-600 md:hidden"
 			>
 				<h2 className="font-[500]">Comments</h2>
 				<button onClick={closeDropdown}>{<IoMdClose />}</button>
@@ -73,7 +73,7 @@ const Comments = ({
 					))
 				)}
 			</div>
-			<div className="flex items-center justify-between w-full px-2 py-2 rounded-full gap-x-2 bg-primary">
+			<div className="flex items-center justify-between w-full px-2 py-2 rounded-full gap-x-2 bg-primary  md:py-0 md: md:h-[4rem]">
 				<div className="overflow-hidden rounded-full aspect-square w-[40px] bg-secondary">
 					<img
 						src={userData.avatar}
@@ -89,7 +89,7 @@ const Comments = ({
 					className="w-full h-8 px-2 text-sm rounded outline-none bg-secondary outline-1 focus:outline-muted_border placeholder:text-smr"
 				/>
 				<button
-					className="flex items-center justify-center h-full text-center bg-white rounded-full disabled:opacity-60 aspect-square"
+					className="flex items-center justify-center h-full text-center bg-white rounded-full disabled:opacity-60 aspect-square md:h-[40px]"
 					onClick={addNewComment}
 					disabled={
 						!((newComment && newComment.trim()) || isCommentSending)
