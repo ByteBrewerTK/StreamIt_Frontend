@@ -35,7 +35,7 @@ const SubscriptionsListPage = () => {
 		);
 	return (
 		<main className="flex flex-col w-full overflow-hidden text-white">
-			<header className="w-full py-2 bg-primary">
+			<header className="w-full py-2 bg-primary md:hidden">
 				<nav className="flex items-center justify-between mx-auto w-container">
 					<div className="flex items-center space-x-2">
 						<span>
