@@ -119,9 +119,9 @@ const WatchVideo = () => {
 	};
 
 	return (
-		<div className="flex-1 w-full h-full overflow-hidden text-white lg:px-4">
-			<section className="relative flex flex-col h-full">
-				<div className="lg:w-[70rem] aspect-video rounded-lg overflow-hidden bg-black">
+		<div className="grid flex-1 w-full h-full overflow-hidden text-white lg:px-4 md:overflow-auto scrollbar-hide lg:grid-cols-[70%_1fr]">
+			<section className="relative flex flex-col w-full">
+				<div className="w-full overflow-hidden bg-black border rounded-lg aspect-video">
 					<ReactPlayer
 						url={video.data.videoFile}
 						playing
@@ -224,7 +224,7 @@ const WatchVideo = () => {
 							</div>
 						</div>
 						<div
-							className="flex w-full p-3 space-x-2 rounded-lg bg-primary text-muted text-nowrap"
+							className="flex w-full p-3 space-x-2 rounded-lg bg-primary text-muted text-nowrap md:hidden"
 							onClick={() => {
 								setCommentOpen(true);
 							}}
@@ -244,7 +244,7 @@ const WatchVideo = () => {
 						</div>
 					</div>
 					<section
-						className={`absolute w-full h-full  bg-primary m-auto inset-0 flex flex-col transition duration-500 ${
+						className={`absolute w-full h-full  bg-primary m-auto inset-0 flex flex-col transition duration-500 md:translate-y-0 md:relative md:inset-auto md:flex-col-reverse border md:h-fit ${
 							!isCommentsOpen ? "translate-y-[100%]" : ""
 						}`}
 					>
