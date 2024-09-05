@@ -12,7 +12,7 @@ const BottomNavMenu = ({ toggleCreatePanel, createPanelOpen }) => {
 	if (!userData) return;
 
 	return (
-		<main className="relative flex items-center w-full h-12 px-4 bg-primary z-[100]">
+		<main className="relative flex items-center w-full h-12 px-4 bg-primary z-[100] md:hidden">
 			<div className="flex items-center justify-between w-full text-white ">
 				<Link to={"/"} className="">
 					<GoHome className="text-2xl " />
