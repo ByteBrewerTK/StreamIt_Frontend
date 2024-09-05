@@ -10,16 +10,18 @@ const PrivateRoutes = () => {
 	const accessToken = localStorage.getItem("accessToken");
 
 	const [isVisible, setVisible] = useState(true);
+	const [isSidebarOpen, setSidebarOpen] = useState(false);
 	const [createPanelOpen, setCreatePanelOpen] = useState(false);
 
 	const toggleCreatePanel = () => {
 		setCreatePanelOpen((prev) => !prev);
 	};
-	const setNavVisible = (state)=>{
-		setVisible(state)
-	}
-
-	
+	const setNavVisible = (state) => {
+		setVisible(state);
+	};
+	const sidebarHandler = () => {
+		setSidebarOpen((prev) => !prev);
+	};
 
 	return (
 		<div className="w-full h-[100dvh] overflow-hidden relative ">
@@ -31,11 +33,11 @@ const PrivateRoutes = () => {
 							: ""
 					}  transition-all duration-500 w-full  sm:transition-none sm:translate-y-0 overflow-hidden md:relative  `}
 				>
-					<Navbar />
+					<Navbar sidebarHandler={sidebarHandler} />
 				</div>
 
 				<section className="relative flex flex-1 overflow-hidden sm:overflow-hidden">
-					<SideNavbar />
+					<SideNavbar isSidebarOpen={isSidebarOpen} />
 					{accessToken ? (
 						<Outlet context={{ setNavVisible }} />
 					) : (
@@ -48,8 +50,8 @@ const PrivateRoutes = () => {
 				/>
 				<div
 					className={`${
-						!createPanelOpen ? "translate-y-full" : ""
-					} absolute z-10 w-full h-[calc(100%-3rem)] transition duration-500 bg-secondary p-4`}
+						!createPanelOpen ? "translate-y-full " : ""
+					} absolute z-10 w-full h-[calc(100%-3rem)] transition duration-500 bg-secondary p-4 overflow-hidden md:hidden`}
 				>
 					<CreatePanel />
 				</div>
