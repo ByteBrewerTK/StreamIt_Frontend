@@ -36,7 +36,7 @@ const PrivateRoutes = () => {
 					<Navbar sidebarHandler={sidebarHandler} />
 				</div>
 
-				<section className="relative flex flex-1 overflow-hidden sm:overflow-hidden">
+				<section className="relative flex flex-1 overflow-hidden">
 					<SideNavbar isSidebarOpen={isSidebarOpen} />
 					{accessToken ? (
 						<Outlet context={{ setNavVisible }} />
