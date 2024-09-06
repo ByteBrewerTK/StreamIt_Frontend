@@ -31,7 +31,7 @@ const PrivateRoutes = () => {
 						!isVisible
 							? "-translate-y-full overflow-hidden duration-500 fixed"
 							: ""
-					}  transition-all duration-500 w-full  sm:transition-none sm:translate-y-0 overflow-hidden md:relative  `}
+					}  transition-all duration-500 w-full  sm:transition-none sm:translate-y-0  md:relative z-50`}
 				>
 					<Navbar sidebarHandler={sidebarHandler} />
 				</div>
