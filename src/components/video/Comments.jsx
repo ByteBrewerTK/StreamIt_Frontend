@@ -26,7 +26,6 @@ const Comments = ({
 			handleInitialComment(data);
 		}
 	}, [commentsData, handleInitialComment]);
-	// handleInitialComment(commentsData[0])
 
 	const addNewComment = async () => {
 		if (newComment === "") return;
@@ -62,7 +61,7 @@ const Comments = ({
 				<h2 className="font-[500]">Comments</h2>
 				<button onClick={closeDropdown}>{<IoMdClose />}</button>
 			</div>
-			<div className="flex-1 h-32 p-2 overflow-x-hidden overflow-y-auto bg-secondary scrollbar-w-[2px] ">
+			<div className="flex-1 h-32 p-2 overflow-x-hidden overflow-y-auto bg-secondary">
 				{!commentsData.length ? (
 					<div className="grid w-full h-full text-center place-items-center text-muted">
 						No comments found
