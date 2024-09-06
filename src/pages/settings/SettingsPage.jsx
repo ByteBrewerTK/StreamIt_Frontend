@@ -7,15 +7,11 @@ import useSetNavTitle from "../../hooks/useSetNavTitle";
 const SettingsPage = () => {
 	useNavVisible();
 	const navigate = useNavigate();
-	const {navTitle} = useSetNavTitle("Settings");
-	
-
-	
-	
+	const { navTitle } = useSetNavTitle("Settings");
 
 	return (
 		<main className="flex flex-col overflow-hidden text-white size-full">
-			<header className="w-full py-2 bg-primary">
+			<header className="w-full py-2 md:hidden bg-primary">
 				<nav className="flex items-center mx-auto space-x-4 w-container">
 					<span
 						onClick={() => {
