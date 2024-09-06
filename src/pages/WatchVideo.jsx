@@ -121,7 +121,7 @@ const WatchVideo = () => {
 	return (
 		<div className="grid flex-1 w-full h-full overflow-hidden text-white lg:px-4 md:overflow-auto scrollbar-hide lg:grid-cols-[70%_1fr]">
 			<section className="relative flex flex-col w-full">
-				<div className="w-full overflow-hidden bg-black border rounded-lg aspect-video">
+				<div className="w-full overflow-hidden bg-black rounded-lg aspect-video">
 					<ReactPlayer
 						url={video.data.videoFile}
 						playing
@@ -244,7 +244,7 @@ const WatchVideo = () => {
 						</div>
 					</div>
 					<section
-						className={`absolute w-full h-full  bg-primary m-auto inset-0 flex flex-col transition duration-500 md:translate-y-0 md:relative md:inset-auto md:flex-col-reverse border md:h-fit ${
+						className={`absolute w-full h-full  bg-primary m-auto inset-0 flex flex-col transition duration-500 md:translate-y-0 md:relative md:inset-auto md:flex-col-reverse md:h-fit ${
 							!isCommentsOpen ? "translate-y-[100%]" : ""
 						}`}
 					>
