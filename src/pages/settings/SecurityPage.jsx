@@ -3,8 +3,11 @@ import { useState } from "react";
 import PasswordModal from "../../components/settings/PasswordModal";
 import { RiMailSettingsLine } from "react-icons/ri";
 import EmailModal from "../../components/settings/EmailModal";
+import useDeviceType from "../../hooks/useDeviceType";
+import DeviceAccessDenied from "../../components/shared/DeviceAccessDenied";
 
 const SecurityPage = () => {
+	const deviceType = useDeviceType();
 	const [passModalVisible, setPassModalVisible] = useState(false);
 	const [mailModalVisible, setMailModalVisible] = useState(false);
 
@@ -14,6 +17,10 @@ const SecurityPage = () => {
 	const toggleMailModal = (state) => {
 		setMailModalVisible(state);
 	};
+
+	if (deviceType === "Desktop") {
+		return <DeviceAccessDenied />;
+	}
 
 	return (
 		<section className="relative flex-1 w-full mx-auto">
