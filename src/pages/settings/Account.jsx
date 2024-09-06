@@ -11,8 +11,11 @@ import { UserContext } from "../../contexts/userContext";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
 import axios from "axios";
+import DeviceAccessDenied from "../../components/shared/DeviceAccessDenied";
+import useDeviceType from "../../hooks/useDeviceType";
 
 const Account = () => {
+	const deviceType = useDeviceType();
 	const { userData, setUserData } = useContext(UserContext);
 	const [isAvatarPopupActive, setAvatarPopupActive] = useState(false);
 	const [avatar, setAvatar] = useState(null);
@@ -130,6 +133,9 @@ const Account = () => {
 		}));
 	};
 
+	if (deviceType === "Desktop") {
+		return <DeviceAccessDenied />;
+	}
 	return (
 		<main className="relative flex flex-col flex-1 text-white">
 			<section
