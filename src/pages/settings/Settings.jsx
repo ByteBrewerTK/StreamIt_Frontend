@@ -9,8 +9,11 @@ import { LuSettings2 } from "react-icons/lu";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { FaRegBell } from "react-icons/fa";
 import { FiLock } from "react-icons/fi";
+import DesktopVSettings from "../../components/settings/desktopDevice/DesktopVSettings";
+import useDeviceType from "../../hooks/useDeviceType";
 
 const Settings = () => {
+	const deviceType = useDeviceType();
 	const navigate = useNavigate();
 
 	const logoutUser = () => {
@@ -57,19 +60,22 @@ const Settings = () => {
 		},
 	];
 
-	return (
-		<div className="flex-1">
-			<SettingsOptions options = {options}>
-				<button
-					onClick={logoutUser}
-					className="flex items-center w-full px-4 py-2 mt-4 space-x-2 border-t border-gray-600 hover:bg-red-500 hover:bg-opacity-30 group border-opacity-55"
-				>
-					<IoLogOutOutline className="text-xl text-red-400 " />
-					<span>Logout</span>
-				</button>
-			</SettingsOptions>
-		</div>
-	);
+	if (deviceType === "Desktop"){
+		return <DesktopVSettings />;
+	}
+		return (
+			<div className="flex-1">
+				<SettingsOptions options={options}>
+					<button
+						onClick={logoutUser}
+						className="flex items-center w-full px-4 py-2 mt-4 space-x-2 border-t border-gray-600 hover:bg-red-500 hover:bg-opacity-30 group border-opacity-55"
+					>
+						<IoLogOutOutline className="text-xl text-red-400 " />
+						<span>Logout</span>
+					</button>
+				</SettingsOptions>
+			</div>
+		);
 };
 
 export default Settings;
