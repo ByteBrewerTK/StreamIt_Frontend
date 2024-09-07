@@ -46,7 +46,7 @@ const ProfileOptionPanel = () => {
 			</div>
 			<div>
 				<Link
-					to={"/user/settings"}
+					to={"/user/settings/desktop/account"}
 					className="flex items-center px-4 py-2 space-x-2 hover:bg-white hover:bg-opacity-10 group"
 				>
 					<GoGear className="text-xl" />
