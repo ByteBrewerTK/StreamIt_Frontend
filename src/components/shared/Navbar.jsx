@@ -11,11 +11,17 @@ import { useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 import ProfileOptionPanel from "../navbar/ProfileOptionPanel";
+import { useLocation } from "react-router-dom";
 const Navbar = ({ sidebarHandler }) => {
+	const { pathname } = useLocation();
 	const { userData } = useContext(UserContext);
 	const moreRef = useRef(null);
 	const profileRef = useRef(null);
 	const [isProfileOptionsOpen, setProfileOptionsOpen] = useState(false);
+
+	useEffect(() => {
+		setProfileOptionsOpen(false);
+	}, [pathname]);
 
 	useEffect(() => {
 		const handleOutsideClick = (e) => {
