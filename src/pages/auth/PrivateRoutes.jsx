@@ -24,19 +24,17 @@ const PrivateRoutes = () => {
 	};
 
 	return (
-		<div className="w-full h-[100dvh] overflow-hidden relative ">
+		<div className="w-full h-[100dvh] overflow-hidden relative  z-50">
 			<main className="relative flex flex-col h-full overflow-hidden md:flex-col md:flex sm:overflow-hidden bg-secondary">
 				<div
-					className={` ${
-						!isVisible
-							? "-translate-y-full overflow-hidden duration-500 fixed"
-							: ""
-					}  transition-all duration-500 w-full  sm:transition-none sm:translate-y-0  md:relative z-50`}
+					className={`z-50 transition-all duration-500 w-full  sm:transition-none sm:translate-y-0 md:relative ${
+						!isVisible ? "-translate-y-full duration-500 fixed" : ""
+					}`}
 				>
 					<Navbar sidebarHandler={sidebarHandler} />
 				</div>
 
-				<section className="relative flex flex-1 overflow-hidden">
+				<section className="flex overflow-hidden size-full">
 					<SideNavbar isSidebarOpen={isSidebarOpen} />
 					{accessToken ? (
 						<Outlet context={{ setNavVisible }} />
