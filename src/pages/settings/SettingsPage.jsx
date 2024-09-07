@@ -23,7 +23,10 @@ const SettingsPage = () => {
 					<h2 className="text-lg">{navTitle}</h2>
 				</nav>
 			</header>
-			<Outlet />
+
+			<section className="flex flex-row flex-1">
+				<Outlet />
+			</section>
 		</main>
 	);
 };
