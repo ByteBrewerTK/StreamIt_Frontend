@@ -20,7 +20,7 @@ const ImageCropper = ({ setAvatarPopupActive }) => {
 	const fileInputRef = useRef(null);
 	const [fileError, setFileError] = useState("");
 	const [imageSrc, setImageSrc] = useState("");
-	const [crop, setCrop] = useState();
+	const [crop, setCrop] = useState(null);
 	const [croppedImage, setCroppedImage] = useState(null);
 	const [updateLoading, setUpdateLoading] = useState(false);
 
@@ -43,7 +43,7 @@ const ImageCropper = ({ setAvatarPopupActive }) => {
 
 		if (!file) return;
 
-		if (file.type.split("/").at(0) !== "image") {
+		if (file.type.split("/")[0] !== "image") {
 			setFileError("Invalid file type");
 			return;
 		}
@@ -93,10 +93,13 @@ const ImageCropper = ({ setAvatarPopupActive }) => {
 					/>
 					<button
 						onClick={() => {
-							fileInputRef.current.value = null;
+							if (fileInputRef && fileInputRef.current.value) {
+								fileInputRef.current.value = null;
+							}
 							setCrop(null);
 							setFileError(null);
 							setImageSrc(null);
+							setCroppedImage(null);
 						}}
 					>
 						<IoMdCloseCircle className="text-red-500" />
@@ -104,7 +107,11 @@ const ImageCropper = ({ setAvatarPopupActive }) => {
 				</div>
 				<div className="grid w-full py-4 mx-auto rounded-lg bg-secondary place-items-center min-h-[10rem]">
 					{!imageSrc || croppedImage ? (
-						<div className="text-muted">Please select an image</div>
+						!croppedImage && (
+							<div className="text-muted">
+								Please select an image
+							</div>
+						)
 					) : (
 						<>
 							<ReactCrop
