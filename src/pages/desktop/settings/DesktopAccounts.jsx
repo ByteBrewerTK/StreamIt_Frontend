@@ -19,8 +19,7 @@ const Account = () => {
 	const deviceType = useDeviceType();
 	const { userData, setUserData } = useContext(UserContext);
 	const [isAvatarPopupActive, setAvatarPopupActive] = useState(false);
-	const [avatar, setAvatar] = useState(null);
-	const [avatarPreview, setAvatarPreview] = useState("");
+
 	const avatarInputRef = useRef(null);
 	const [avatarUploading, setAvatarUploading] = useState(false);
 	const [isUsernameAvailable, setUsernameAvailable] = useState(false);
@@ -56,14 +55,6 @@ const Account = () => {
 		}
 	};
 
-	const avatarInputHandler = (e) => {
-		const file = e.target.files[0];
-		if (file && file.type.startsWith("image/")) {
-			setAvatar(file);
-			setAvatarPreview(URL.createObjectURL(file));
-		}
-	};
-
 	const submitHandler = async () => {
 		console.log("inside");
 		const { fullName } = userData;
@@ -90,16 +81,13 @@ const Account = () => {
 		}
 	};
 
-	const avatarSubmitHandler = async () => {
-		console.log(avatarUploading);
+	const avatarSubmitHandler = async (avatar) => {
 		if (!avatar && setAvatarUploading) return;
 
 		setAvatarUploading(true);
 
 		const formData = new FormData();
 		formData.append("avatar", avatar);
-
-		avatarPopupClose();
 
 		try {
 			const response = await apiRequest(
@@ -120,12 +108,6 @@ const Account = () => {
 		}
 	};
 
-	const avatarPopupClose = () => {
-		avatarInputRef.current.value = "";
-		setAvatarPreview("");
-		setAvatar(null);
-		setAvatarPopupActive(false);
-	};
 	const inputChangeHandler = (e) => {
 		const target = e.target;
 		setInfoFormData((prev) => ({
@@ -135,15 +117,13 @@ const Account = () => {
 	};
 
 	if (!deviceType === "Desktop") {
-		return <DeviceAccessDenied type="Desktop"/>;
+		return <DeviceAccessDenied type="Desktop" />;
 	}
 	return (
 		<main className="relative flex flex-col flex-1 text-white">
-			{
-				isAvatarPopupActive && (
-					<ImageCropper/>
-				)
-			}
+			{isAvatarPopupActive && (
+				<ImageCropper setAvatarPopupActive={setAvatarPopupActive} />
+			)}
 			<form
 				onSubmit={submitHandler}
 				className="flex flex-col items-center py-4 bg-primary"
