@@ -19,8 +19,6 @@ const Account = () => {
 	const deviceType = useDeviceType();
 	const { userData, setUserData } = useContext(UserContext);
 	const [isAvatarPopupActive, setAvatarPopupActive] = useState(false);
-
-	const avatarInputRef = useRef(null);
 	const [avatarUploading, setAvatarUploading] = useState(false);
 	const [isUsernameAvailable, setUsernameAvailable] = useState(false);
 	const [updateLoading, setUpdateLoading] = useState(false);
