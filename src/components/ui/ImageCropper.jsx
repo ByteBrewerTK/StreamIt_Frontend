@@ -14,7 +14,7 @@ import { useRef } from "react";
 const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 150;
 
-const ImageCropper = ({ setAvatarPopupActive }) => {
+const ImageCropper = ({ setAvatarPopupActive, avatarSubmitHandler }) => {
 	const imgRef = useRef(null);
 	const previewCanvasRef = useRef(null);
 	const fileInputRef = useRef(null);
@@ -22,7 +22,6 @@ const ImageCropper = ({ setAvatarPopupActive }) => {
 	const [imageSrc, setImageSrc] = useState("");
 	const [crop, setCrop] = useState(null);
 	const [croppedImage, setCroppedImage] = useState(null);
-	const [updateLoading, setUpdateLoading] = useState(false);
 
 	const cropHandler = () => {
 		setCanvasPreview(
@@ -34,10 +33,29 @@ const ImageCropper = ({ setAvatarPopupActive }) => {
 				imgRef.current.height
 			)
 		);
-		const croppedImage = previewCanvasRef.current;
-		setCroppedImage(croppedImage);
+		const cropped = previewCanvasRef.current;
+		setCroppedImage(cropped);
 		previewCanvasRef.current.style.display = "block";
 	};
+
+	const getCroppedImageBlob = (canvas, callback) => {
+		if (!canvas) return;
+		canvas.toBlob((blob) => {
+			callback(blob);
+		}, "image/jpeg");
+	};
+
+	const handleSubmit = () => {
+		getCroppedImageBlob(croppedImage, (blob) => {
+			if (blob) {
+				avatarSubmitHandler(blob);
+				setAvatarPopupActive(false);
+			} else {
+				console.error("Cropped image Blob generation failed.");
+			}
+		});
+	};
+
 	const onSelectFile = (e) => {
 		const file = e.target.files?.[0];
 
@@ -53,6 +71,10 @@ const ImageCropper = ({ setAvatarPopupActive }) => {
 		reader.onload = () => {
 			const imageUrl = reader.result.toString() || "";
 			setImageSrc(imageUrl);
+			if (crop) {
+				setCrop(null);
+				setCroppedImage(null);
+			}
 		};
 		reader.readAsDataURL(file);
 	};
@@ -75,6 +97,11 @@ const ImageCropper = ({ setAvatarPopupActive }) => {
 	return (
 		<section className="absolute z-50 grid size-full aspect-square place-items-center backdrop-blur-sm">
 			<div className="relative w-[35rem] bg-primary rounded-lg shadow-lg  py-4 flex flex-col overflow-hidden">
+				{fileError && (
+					<p className="absolute text-red-500 top-2 left-4 text-smr">
+						{fileError}
+					</p>
+				)}
 				<button
 					onClick={() => {
 						setAvatarPopupActive(false);
@@ -89,21 +116,26 @@ const ImageCropper = ({ setAvatarPopupActive }) => {
 						onChange={onSelectFile}
 						type="file"
 						accept="image/*"
-						className="file:bg-gray-300 file:rounded-full file:outline-none file:border-none text-muted"
+						className="cursor-pointer file:bg-gray-300 file:rounded-full file:outline-none file:border-none text-muted file:cursor-pointer"
 					/>
-					<button
-						onClick={() => {
-							if (fileInputRef && fileInputRef.current.value) {
-								fileInputRef.current.value = null;
-							}
-							setCrop(null);
-							setFileError(null);
-							setImageSrc(null);
-							setCroppedImage(null);
-						}}
-					>
-						<IoMdCloseCircle className="text-red-500" />
-					</button>
+					{imageSrc && (
+						<button
+							onClick={() => {
+								if (
+									fileInputRef &&
+									fileInputRef.current.value
+								) {
+									fileInputRef.current.value = null;
+								}
+								setCrop(null);
+								setFileError(null);
+								setImageSrc(null);
+								setCroppedImage(null);
+							}}
+						>
+							<IoMdCloseCircle className="text-red-500" />
+						</button>
+					)}
 				</div>
 				<div className="grid w-full py-4 mx-auto rounded-lg bg-secondary place-items-center min-h-[10rem]">
 					{!imageSrc || croppedImage ? (
@@ -170,7 +202,10 @@ const ImageCropper = ({ setAvatarPopupActive }) => {
 										<FiEdit />
 										Edit
 									</button>
-									<button className="flex items-center px-2 py-1 text-black bg-white rounded-full gap-x-2">
+									<button
+										onClick={handleSubmit}
+										className="flex items-center px-2 py-1 text-black bg-white rounded-full gap-x-2"
+									>
 										{" "}
 										<FiUploadCloud />
 										Update
