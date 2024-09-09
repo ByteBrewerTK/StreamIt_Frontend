@@ -12,6 +12,7 @@ import Loader from "../components/ui/loader/Loader";
 import FetchError from "../components/ui/FetchError";
 import { LiaComments } from "react-icons/lia";
 import { useOutletContext } from "react-router-dom";
+import { IoBookmarkOutline } from "react-icons/io5";
 
 const WatchVideo = () => {
 	const [searchParams] = useSearchParams();
@@ -139,7 +140,7 @@ const WatchVideo = () => {
 						<span>{getTimeAgo(video.data.createdAt)}</span>
 					</div>
 					<div className="flex flex-col items-center justify-between my-4 md:flex-row gap-y-4">
-						<div className="flex items-center justify-between w-full md:space-x-4">
+						<div className="flex items-center justify-between w-full md:space-x-4 md:justify-normal md:w-fit">
 							<div className="flex items-center space-x-2">
 								<Link
 									to={`/user/${ownerDetails.username}`}
@@ -156,14 +157,14 @@ const WatchVideo = () => {
 										loading="lazy"
 									/>
 								</Link>
-								<div className="flex items-center gap-2">
+								<div className="flex items-center gap-x-2 md:flex-col md:items-start">
 									<Link
 										to={`/user/${ownerDetails.username}`}
-										className="font-[500] text-sm"
+										className="font-[500] text-sm md:text-lg"
 									>
 										{ownerDetails.fullName}
 									</Link>
-									<p className="inline-block text-sm text-muted_dark">
+									<p className="inline-block text-sm text-muted_dark md:text-xs md:text-nowrap">
 										{ownerDetails.subscribersCount}{" "}
 										<span className="hidden md:inline-block">
 											subscribers
@@ -172,27 +173,27 @@ const WatchVideo = () => {
 								</div>
 							</div>
 							<button
-								className="text-sm rounded-full w-[6rem] h-[1.6rem] border flex items-center justify-center"
+								className="text-sm rounded-full w-[6rem] h-[1.6rem] border flex items-center justify-center md:h-full"
 								onClick={subscriptionToggle}
 							>
 								{isSubscribing ? (
-									<span className="size-[20px]">
+									<span className="size-[20px] h-[1.6rem]">
 										<Loader />
 									</span>
 								) : ownerDetails.isSubscribed ? (
-									<span className="px-3 py-1 text-white rounded-full md:px-4">
+									<span className="px-3 text-white rounded-full md:h-[1.6rem] md:px-4 flex items-center">
 										{" "}
 										Subscribed
 									</span>
 								) : (
-									<span className="px-3 py-1 text-black bg-white border rounded-full md:px-4">
+									<span className="px-3 text-black bg-white rounded-full md:h-[1.6rem] md:px-4 flex items-center">
 										{" "}
 										Subscribe
 									</span>
 								)}
 							</button>
 						</div>
-						<div className="w-full overflow-x-auto overflow-y-hidden">
+						<div className="w-full overflow-x-auto overflow-y-hidden md:w-fit">
 							<div className="flex items-center space-x-2">
 								<button
 									className="flex items-center space-x-2 text-sm border rounded-full border-muted w-[80px] h-[32px] p-1"
@@ -218,7 +219,7 @@ const WatchVideo = () => {
 									<span>Share</span>
 								</button>
 								<button className="flex items-center px-4 py-1 space-x-2 text-sm border rounded-full border-muted">
-									{/* <IoBookmarkOutline className="text-sm" /> */}
+									<IoBookmarkOutline className="text-sm" />
 									<span>Save</span>
 								</button>
 							</div>
