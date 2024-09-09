@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 function NotFound() {
 	const navigate = useNavigate();
 	return (
-		<div className="flex items-center justify-center h-screen bg-black">
+		<div className="flex items-center justify-center w-full h-screen bg-black">
 			<div className="text-center">
 				<h1 className="font-bold text-white text-7xl">404</h1>
 				<p className="mt-4 text-2xl text-white">
