@@ -54,7 +54,6 @@ const Account = () => {
 	};
 
 	const submitHandler = async () => {
-		console.log("inside");
 		const { fullName } = userData;
 		if (!isUsernameAvailable && infoFormData.fullName === fullName) {
 			return;
@@ -81,7 +80,6 @@ const Account = () => {
 
 	const avatarSubmitHandler = async (avatar) => {
 		if (!avatar && setAvatarUploading) return;
-
 		setAvatarUploading(true);
 
 		const formData = new FormData();
@@ -120,7 +118,10 @@ const Account = () => {
 	return (
 		<main className="relative flex flex-col flex-1 text-white">
 			{isAvatarPopupActive && (
-				<ImageCropper setAvatarPopupActive={setAvatarPopupActive} />
+				<ImageCropper
+					setAvatarPopupActive={setAvatarPopupActive}
+					avatarSubmitHandler={avatarSubmitHandler}
+				/>
 			)}
 			<form
 				onSubmit={submitHandler}
