@@ -177,9 +177,11 @@ const WatchVideo = () => {
 								onClick={subscriptionToggle}
 							>
 								{isSubscribing ? (
-									<span className="size-[20px] h-[1.6rem]">
-										<Loader />
-									</span>
+									<div className="flex items-center justify-center h-[1.6rem]">
+										<span className="size-[20px]">
+											<Loader />
+										</span>
+									</div>
 								) : ownerDetails.isSubscribed ? (
 									<span className="px-3 text-white rounded-full md:h-[1.6rem] md:px-4 flex items-center">
 										{" "}
@@ -202,7 +204,7 @@ const WatchVideo = () => {
 									<span className="w-[35%] border-r-2 border-gray-500 h-full flex items-center justify-center ">
 										{likeLoading ? (
 											<div className="w-[15px] h-[15px] ">
-												<span className="w-[5px] h-[5px]">
+												<span className="size-[15px]">
 													<Loader />
 												</span>
 											</div>
