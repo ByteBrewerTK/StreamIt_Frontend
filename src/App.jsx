@@ -5,6 +5,10 @@ import VerificationSuccess from "./pages/auth/VerificationSuccess";
 import ResendVerificationMail from "./pages/auth/ResendVerificationMail";
 import Loader from "./components/ui/loader/Loader";
 import { Toaster, toast } from "react-hot-toast";
+import DesktopSecurityPage from "./pages/desktop/settings/DesktopSecurityPage";
+import DesktopGeneralSettings from "./pages/desktop/settings/DesktopGeneralSettings";
+import DesktopNotificationSetting from "./pages/desktop/settings/DesktopNotificationSetting";
+import About from "./pages/channel/About";
 
 // Lazy load the component
 const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
@@ -125,8 +129,26 @@ function App() {
 										element={<DesktopSettingsPage />}
 									>
 										<Route
+											path="security"
+											element={<DesktopSecurityPage />}
+										/>
+										<Route
 											path="account"
 											element={<DesktopAccounts />}
+										/>
+										<Route
+											path="general"
+											element={<DesktopGeneralSettings />}
+										/>
+										<Route
+											path="notifications"
+											element={
+												<DesktopNotificationSetting />
+											}
+										/>
+										<Route
+											path="about"
+											element={<About />}
 										/>
 									</Route>
 								</Route>
