@@ -13,6 +13,7 @@ import FetchError from "../components/ui/FetchError";
 import { LiaComments } from "react-icons/lia";
 import { useOutletContext } from "react-router-dom";
 import { IoBookmarkOutline } from "react-icons/io5";
+import VideoDescription from "../components/video/VideoDescription";
 
 const WatchVideo = () => {
 	const [searchParams] = useSearchParams();
@@ -113,7 +114,8 @@ const WatchVideo = () => {
 
 	const { video, comments } = results;
 
-	const { ownerDetails } = video.data;
+	const { data } = video;
+	const { ownerDetails } = data;
 
 	const handleInitialComment = (comment) => {
 		setInitialComment(comment.content.substring(0, 40));
@@ -124,7 +126,7 @@ const WatchVideo = () => {
 			<section className="relative flex flex-col w-full">
 				<div className="w-full overflow-hidden bg-black rounded-lg aspect-video">
 					<ReactPlayer
-						url={video.data.videoFile}
+						url={data.videoFile}
 						playing
 						controls
 						width="100%"
@@ -133,11 +135,11 @@ const WatchVideo = () => {
 				</div>
 				<div className="relative flex-1 h-full px-2 py-2">
 					<h2 className="font-semibold md:text-mid">
-						{video.data.title}
+						{data.title}
 					</h2>
 					<div className="space-x-2 text-[0.6rem]">
-						<span>{formatCounts(video.data.views)}</span>
-						<span>{getTimeAgo(video.data.createdAt)}</span>
+						<span>{formatCounts(data.views)}</span>
+						<span>{getTimeAgo(data.createdAt)}</span>
 					</div>
 					<div className="flex flex-col items-center justify-between my-4 md:flex-row gap-y-4">
 						<div className="flex items-center justify-between w-full md:space-x-4 md:justify-normal md:w-fit">
@@ -246,6 +248,7 @@ const WatchVideo = () => {
 							</span>
 						</div>
 					</div>
+					<VideoDescription description={data.description} />
 					<section
 						className={`absolute w-full h-full  bg-primary m-auto inset-0 flex flex-col transition duration-500 md:translate-y-0 md:relative md:inset-auto md:flex-col-reverse md:h-fit ${
 							!isCommentsOpen ? "translate-y-[100%]" : ""
