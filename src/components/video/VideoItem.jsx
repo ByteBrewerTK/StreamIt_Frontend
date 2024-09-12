@@ -6,10 +6,10 @@ import formatVideoDuration from "../../utils/formatVideoDuration";
 
 const VideoItem = ({ element, moreOptionsHandler }) => {
 	return (
-		<div className="relative flex flex-col w-full rounded-md shadow-lg h-fit">
+		<div className="relative flex flex-col max-w-[24.5rem] md:max-w-[22.5rem] rounded-md shadow-lg h-[260px] md:h-[300px]">
 			<Link
 				to={`/watch?v=${element._id}`}
-				className="relative w-full max-w-[360px] overflow-hidden rounded-lg aspect-video"
+				className="relative w-full overflow-hidden rounded-lg aspect-video"
 			>
 				<img
 					src={element.thumbnail}
