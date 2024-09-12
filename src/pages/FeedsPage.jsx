@@ -40,7 +40,7 @@ const FeedsPage = () => {
 		);
 	return (
 		<>
-			<main className="grid flex-1 h-full sm:h-[100vh] gap-4 overflow-x-hidden overflow-y-auto grid-col-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 bg-secondary text-white scrollbar-hide">
+			<main className="grid flex-1 h-full sm:h-[100vh] gap-x-4 overflow-x-hidden overflow-y-auto grid-col-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 bg-secondary text-white scrollbar-hide ">
 				{feedData &&
 					feedData?.map((element) => (
 						<VideoItem
