@@ -1,10 +1,14 @@
 import { useState } from "react";
 
 const VideoDescription = ({ description }) => {
-	const [isTruncate, setTruncate] = useState(false);
+	const descLength = description.length;
+	description = description.slice(0, 20);
+
+	const [isTruncate, setTruncate] = useState(descLength > 100);
 	return (
-		<div className="h-[5rem] rounded-lg bg-primary mb-4 text-muted_dark p-2 w-64 overflow-hidden text-ellipsis whitespace-nowrap border">
+		<div className="p-2 mb-4 overflow-hidden rounded-lg bg-primary text-muted_dark h">
 			{description}
+			{isTruncate && "..."}
 		</div>
 	);
 };
