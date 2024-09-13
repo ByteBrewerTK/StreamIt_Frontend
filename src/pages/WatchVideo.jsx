@@ -134,9 +134,7 @@ const WatchVideo = () => {
 					/>
 				</div>
 				<div className="relative flex-1 h-full px-2 py-2">
-					<h2 className="font-semibold md:text-mid">
-						{data.title}
-					</h2>
+					<h2 className="font-semibold md:text-mid">{data.title}</h2>
 					<div className="space-x-2 text-[0.6rem]">
 						<span>{formatCounts(data.views)}</span>
 						<span>{getTimeAgo(data.createdAt)}</span>
