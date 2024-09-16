@@ -11,6 +11,7 @@ import DesktopNotificationSetting from "./pages/desktop/settings/DesktopNotifica
 import About from "./pages/channel/About";
 import LikedVideosPage from "./pages/LikedVideosPage";
 import UserVideosPage from "./pages/desktop/UserVideosPage";
+import UserPlaylist from "./pages/UserPlaylist";
 
 // Lazy load the component
 const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
@@ -100,6 +101,10 @@ function App() {
 								<Route
 									path="profile"
 									element={<UserProfilePage />}
+								/>
+								<Route
+									path="playlists"
+									element={<UserPlaylist />}
 								/>
 								<Route
 									path="videos"
