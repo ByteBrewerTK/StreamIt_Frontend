@@ -10,16 +10,18 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toggleSubscription } from "../../services/api";
 import useIsMyProfile from "../../hooks/useIsMyProfile";
+import { Link } from "react-router-dom";
 
 const ChannelPage = () => {
 	const [isSubscribing, setSubscribing] = useState(false);
 	const { setNavVisible } = useOutletContext();
 	const { username } = useParams();
 	const navigate = useNavigate();
+	const updatedUsername = username.replace("@", "");
 	const { channelData, channelError, channelDataLoading } =
-		useGetChannel(username);
-	const isMyProfile = useIsMyProfile(username);
-	console.log(isMyProfile);
+		useGetChannel(updatedUsername);
+	const isMyProfile = useIsMyProfile(updatedUsername);
+
 	useEffect(() => {
 		setNavVisible(false);
 		return () => {
@@ -35,7 +37,7 @@ const ChannelPage = () => {
 		channelData.isSubscribed = updatedOwnerDetails.isSubscribed;
 		channelData.subscribersCount = updatedOwnerDetails.subscribersCount;
 	};
-	// Loading and Error handling
+
 	if (channelDataLoading) {
 		return (
 			<div className="grid w-full h-full place-items-center">
@@ -55,7 +57,7 @@ const ChannelPage = () => {
 	}
 	return (
 		<section className="flex flex-col flex-1 overflow-hidden">
-			<header className="bg-primary">
+			<header className="bg-primary md:hidden">
 				<nav className="flex items-center py-2 mx-auto text-white w-container gap-x-2">
 					<button
 						onClick={() => {
@@ -69,44 +71,69 @@ const ChannelPage = () => {
 			</header>
 			<main className="flex flex-col overflow-auto text-white size-full scrollbar-hide">
 				<section className="w-full pb-4 bg-primary">
-					<div className="mx-auto w-container">
-						<div className="w-full aspect-[8/2]  overflow-hidden rounded-lg">
-							<img
-								src={channelData.coverImage}
-								loading="lazy"
-								alt=""
-								className="object-cover object-center w-full h-full"
-							/>
-						</div>
+					<div className="mx-auto w-container md:w-full">
+						{!isMyProfile && (
+							<div className="w-full aspect-[8/2]  overflow-hidden rounded-lg">
+								<img
+									src={channelData.coverImage}
+									loading="lazy"
+									alt=""
+									className="object-cover object-center w-full h-full"
+								/>
+							</div>
+						)}
 
 						<div>
 							<div className="flex items-center py-4 gap-x-2">
-								<div className="size-[80px] overflow-hidden rounded-full">
+								<div className="size-[80px] overflow-hidden rounded-full md:size-[160px]">
 									<img
 										src={channelData.avatar}
 										alt=""
 										loading="lazy"
 									/>
 								</div>
-								<div>
-									<h2 className="font-bold">
+								<div className="flex flex-col gap-y-2">
+									<h2 className="font-bold md:text-4xl">
 										{channelData.fullName}
 									</h2>
-									<span className="text-smr text-muted_dark">
-										@{channelData.username}
-									</span>
-									<div className="space-x-2 text-[0.75rem] text-muted_dark">
-										<span>
-											{formatCounts(
-												channelData.subscribersCount,
-												"subscribers"
-											)}
+									<div className="md:flex gap-x-2">
+										<span className="text-smr text-muted_dark md:text-base">
+											@{channelData.username}
 										</span>
+										<div className="space-x-2 text-[0.75rem] text-muted_dark md:text-base">
+											<span className="hidden md:inline-block">
+												{" "}
+												&bull;{" "}
+											</span>
+											<span>
+												{formatCounts(
+													channelData.subscribersCount,
+													"subscribers"
+												)}
+											</span>
 
-										<span>
-											{channelData.totalVideos} Videos
-										</span>
+											<span className="hidden md:inline-block">
+												{" "}
+												&bull;{" "}
+											</span>
+											<span>
+												{channelData.totalVideos} Videos
+											</span>
+										</div>
 									</div>
+									{isMyProfile && (
+										<div className="flex flex-col gap-y-2 md:flex-row md:gap-x-2">
+											<Link
+												to={"/user/settings/account"}
+												className="w-full px-4 py-1 text-center text-black bg-white rounded-full md:w-auto md:bg-transparent md:text-white md:bg-white md:bg-opacity-15"
+											>
+												Customize Channel
+											</Link>
+											<Link className="w-full px-4 py-1 text-center text-white border rounded-full md:w-auto md:bg-transparent md:text-white md:bg-white md:bg-opacity-15 md:border-transparent">
+												Manage Videos
+											</Link>
+										</div>
+									)}
 								</div>
 							</div>
 							{!isMyProfile && (
