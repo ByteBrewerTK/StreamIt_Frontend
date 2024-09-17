@@ -4,13 +4,13 @@ import { MdArrowBack } from "react-icons/md";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useOutletContext, Link } from "react-router-dom";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SubscriptionsListPage = () => {
+	const navigate = useNavigate();
 	const { setNavVisible } = useOutletContext();
 	const { subscriptionData, subscriptionError, subscriptionLoading } =
 		useGetSubscriptions();
-
-	console.log(subscriptionData);
 
 	useEffect(() => {
 		setNavVisible(false);
@@ -38,7 +38,7 @@ const SubscriptionsListPage = () => {
 			<header className="w-full py-2 bg-primary md:hidden">
 				<nav className="flex items-center justify-between mx-auto w-container">
 					<div className="flex items-center space-x-2">
-						<span>
+						<span onClick={() => navigate("/user/subscriptions")}>
 							<MdArrowBack className="text-xl" />
 						</span>
 						<h2 className="text-lg">All Subscriptions</h2>
@@ -58,7 +58,7 @@ const SubscriptionsListPage = () => {
 					) : (
 						subscriptionData.map((channel) => (
 							<Link
-								to={`/user/${channel._id}`}
+								to={`/user/@${channel.username}`}
 								key={channel._id}
 								className="flex items-center space-x-2"
 							>
