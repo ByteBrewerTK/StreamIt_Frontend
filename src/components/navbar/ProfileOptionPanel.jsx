@@ -39,7 +39,10 @@ const ProfileOptionPanel = () => {
 					<span className="text-sm text-muted_dark">
 						@{userData.username}
 					</span>
-					<Link to={"/"} className="text-sm text-blue-500">
+					<Link
+						to={`/user/@${userData.username}`}
+						className="text-sm text-blue-500"
+					>
 						View your channel
 					</Link>
 				</div>
