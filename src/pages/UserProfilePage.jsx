@@ -40,9 +40,6 @@ const UserProfilePage = () => {
 		setPlaylistMoreOptionsOpen(state);
 	};
 
-	console.log(playlistId)
-
-	// Loading and Error handling
 	if (userDataLoading || playlistLoading || watchHistoryLoading) {
 		return (
 			<div className="grid w-full h-full place-items-center">
