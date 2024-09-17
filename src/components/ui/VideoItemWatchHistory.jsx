@@ -28,7 +28,7 @@ const VideoItemWatchHistory = ({ video, moreOptionsHandler }) => {
 						{title.slice(0, 26)}...
 					</Link>
 					<Link
-						to={`/user/${owner.username}`}
+						to={`/user/@${owner.username}`}
 						className="text-[0.6rem] text-muted"
 					>
 						{owner.fullName}
