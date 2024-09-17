@@ -24,7 +24,7 @@ const VideoItem = ({ element, moreOptionsHandler }) => {
 			<div className="flex items-center justify-between p-2 space-x-2 ">
 				<div className="flex items-center space-x-2">
 					<Link
-						to={`/user/${element.username}`}
+						to={`/user/@${element.username}`}
 						className="w-8 overflow-hidden rounded-full aspect-square "
 					>
 						<img
