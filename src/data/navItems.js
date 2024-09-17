@@ -11,6 +11,9 @@ import { BiSolidTv } from "react-icons/bi";
 import { RiPlayList2Line } from "react-icons/ri";
 import { MdVideoLibrary } from "react-icons/md";
 import { IoMdThumbsUp } from "react-icons/io";
+import { getUserData } from "../services/authServices";
+
+const {username} = getUserData();
 
 export const sideNavItems = [
 	{
@@ -29,7 +32,7 @@ export const sideNavItems = [
 		name: "Your Channel",
 		icon: GrChannel,
 		activeIcon: BiSolidTv,
-		path: "/user/channel",
+		path: `/user/@${username}`,
 	},
 	{
 		name: "History",
