@@ -55,7 +55,7 @@ const LoginPage = () => {
 			const errorMessage = loginUserError(error.response.status);
 			setError(errorMessage);
 			if (error.response && error.response.status === 403) {
-				navigate(`/resend/confirm/${formData.email}`);
+				navigate(`/auth/resend/confirm/${formData.email}`);
 			}
 		} finally {
 			setLoading(false);
