@@ -62,7 +62,7 @@ const RegistrationPage = () => {
 					const errorMessage = registerUserError(statusCode);
 					setResponseError(errorMessage);
 					if (statusCode === 403) {
-						navigate(`/resend/confirm/${formData.email}`);
+						navigate(`/auth/resend/confirm/${formData.email}`);
 					}
 					return errorMessage;
 				},
