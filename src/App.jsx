@@ -13,6 +13,7 @@ import LikedVideosPage from "./pages/LikedVideosPage";
 import UserVideosPage from "./pages/desktop/UserVideosPage";
 import UserPlaylist from "./pages/UserPlaylist";
 import WatchHistoryPage from "./pages/WatchHistoryPage";
+import AllPlaylistPage from "./pages/AllPlaylistPage";
 
 // Lazy load the component
 const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
@@ -118,6 +119,10 @@ function App() {
 								<Route
 									path="history"
 									element={<WatchHistoryPage />}
+								/>
+								<Route
+									path="playlists"
+									element={<AllPlaylistPage />}
 								/>
 								<Route
 									path="subscriptions"
