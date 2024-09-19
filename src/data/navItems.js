@@ -13,7 +13,11 @@ import { MdVideoLibrary } from "react-icons/md";
 import { IoMdThumbsUp } from "react-icons/io";
 import { getUserData } from "../services/authServices";
 
-const {username} = getUserData();
+const userData = getUserData();
+let username = "";
+if (userData) {
+	username = userData.username;
+}
 
 export const sideNavItems = [
 	{
