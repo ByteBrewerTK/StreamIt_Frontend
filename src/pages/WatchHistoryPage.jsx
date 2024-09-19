@@ -23,11 +23,11 @@ const WatchHistoryPage = () => {
 	}
 	const { data } = watchHistoryData;
 	return (
-		<main className="grid grid-cols-[70%,1fr] size-full text-white">
-			<section className="h-full overflow-x-hidden overflow-y-auto border scrollbar-hide">
-				<h2>Watch History</h2>
+		<main className="grid lg:grid-cols-[70%,1fr] size-full text-white grid-cols-1 grid-flow-row">
+			<section className="h-full p-4 overflow-x-hidden overflow-y-auto scrollbar-hide">
+				<h2 className="mb-8 text-4xl font-bold">Watch History</h2>
 
-				<div>
+				<div className="md:space-y-4">
 					{data.map((item) => (
 						<HistoryVideoItem key={item._id} item={item} />
 					))}
