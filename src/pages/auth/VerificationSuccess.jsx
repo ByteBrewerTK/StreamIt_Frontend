@@ -17,8 +17,8 @@ const VerificationSuccess = () => {
 		const source = axios.CancelToken.source();
 		const verifyEmail = async () => {
 			try {
-				const response = await apiInstance.patch(
-					`/user/${pathname}${search}`
+				await apiInstance.patch(
+					`/user/confirm/${pathname.split("/").at(-1)}${search}`
 				);
 				setLoading(false);
 			} catch (error) {
