@@ -4,6 +4,7 @@ import { getUserData } from "../services/authServices";
 import Playlists from "../components/user/Playlists";
 import PlaylistMorePanel from "../components/playlist/PlaylistMorePanel";
 import Loader from "../components/ui/loader/Loader";
+import PlaylistItem from "../components/ui/PlaylistItem";
 
 const UserPlaylist = () => {
 	const localUser = getUserData();
@@ -35,17 +36,31 @@ const UserPlaylist = () => {
 		return <div>No Playlist found</div>;
 	}
 	return (
-		<>
-			<Playlists
-				data={playlistData.data}
-				playlistMoreOptionsHandler={playlistMoreOptionsHandler}
-			/>
+		<div>
+			{playlistData?.data?.length === 0 ? (
+				<div className="grid w-full h-full place-content-center text-muted">
+					No playlists found
+				</div>
+			) : (
+				<div className="grid w-full grid-flow-col my-2 overflow-x-auto overflow-y-hidden auto-cols-max scrollbar-hide">
+					{playlistData?.data.map((playlist) => (
+						<div key={playlist._id}>
+							<PlaylistItem
+								playlist={playlist}
+								playlistMoreOptionsHandler={
+									playlistMoreOptionsHandler
+								}
+							/>
+						</div>
+					))}
+				</div>
+			)}
 			<PlaylistMorePanel
 				isPlaylistMoreOptionsOpen={isPlaylistMoreOptionsOpen}
 				setPlaylistMoreOptionsOpen={setPlaylistMoreOptionsOpen}
 				playlistId={playlistId}
 			/>
-		</>
+		</div>
 	);
 };
 
