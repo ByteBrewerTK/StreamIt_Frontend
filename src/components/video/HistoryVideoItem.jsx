@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import formatVideoDuration from "../../utils/formatVideoDuration";
+import { IoMdClose } from "react-icons/io";
+import { IoMdMore } from "react-icons/io";
+import { formatCounts } from "../../utils/formatCounts";
 
 const HistoryVideoItem = ({ item }) => {
 	console.log(item);
@@ -18,18 +21,22 @@ const HistoryVideoItem = ({ item }) => {
 					</span>
 				</div>
 			</Link>
-			<div>
-				<h3>{item.title}</h3>
-				<div className="flex">
-					<Link to={`/user/@${item.owner.username}`}>
-						<div className="overflow-hidden rounded-full w-[40px] aspect-square">
-							<img src={item.owner.avatar} alt="" />
-						</div>
-					</Link>
+			<div className="flex-1 border">
+				<div className="flex justify-between w-full text-2xl border">
+					<h3>{item.title}</h3>
 					<div>
-						<Link>{item.owner.fullName}</Link>
-						<span>{item.views}</span>
+						<button>
+							<IoMdClose />
+						</button>
+						<button>
+							<IoMdMore />
+						</button>
 					</div>
+				</div>
+				<div className="flex gap-x-2">
+					<Link>{item.owner.fullName}</Link>
+					&bull;
+					<span>{formatCounts(item.views)}</span>
 				</div>
 			</div>
 		</div>
