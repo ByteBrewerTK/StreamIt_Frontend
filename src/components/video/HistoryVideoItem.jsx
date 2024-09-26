@@ -34,7 +34,9 @@ const HistoryVideoItem = ({ item }) => {
 					</div>
 				</div>
 				<div className="flex gap-x-2">
-					<Link>{item.owner.fullName}</Link>
+					<Link to={`/user/@${item.owner.username}`}>
+						{item.owner.fullName}
+					</Link>
 					&bull;
 					<span>{formatCounts(item.views)}</span>
 				</div>
