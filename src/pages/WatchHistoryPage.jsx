@@ -33,7 +33,7 @@ const WatchHistoryPage = () => {
 					))}
 				</div>
 			</section>
-			<section className="border border-red-500"></section>
+			<section></section>
 		</main>
 	);
 };
