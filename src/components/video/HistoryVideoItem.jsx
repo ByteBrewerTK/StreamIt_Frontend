@@ -21,8 +21,8 @@ const HistoryVideoItem = ({ item }) => {
 					</span>
 				</div>
 			</Link>
-			<div className="flex-1 border">
-				<div className="flex justify-between w-full text-2xl border">
+			<div className="flex-1">
+				<div className="flex justify-between w-full text-2xl">
 					<h3>{item.title}</h3>
 					<div>
 						<button>
