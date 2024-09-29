@@ -5,7 +5,6 @@ import { IoMdMore } from "react-icons/io";
 import { formatCounts } from "../../utils/formatCounts";
 
 const HistoryVideoItem = ({ item }) => {
-	console.log(item);
 	return (
 		<div className="flex flex-col w-full md:gap-x-4 md:flex-row">
 			<Link to={`/watch?v=${item._id}`}>
