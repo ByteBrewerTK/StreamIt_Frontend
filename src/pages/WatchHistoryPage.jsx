@@ -27,10 +27,18 @@ const WatchHistoryPage = () => {
 			<section className="h-full p-4 overflow-x-hidden overflow-y-auto scrollbar-hide">
 				<h2 className="mb-8 text-4xl font-bold">Watch History</h2>
 
-				<div className="md:space-y-4">
-					{data.map((item) => (
-						<HistoryVideoItem key={item._id} item={item} />
-					))}
+				<div className="md:space-y-4 size-full">
+					{data.length > 0 ? (
+						data.map((item) => (
+							<HistoryVideoItem key={item._id} item={item} />
+						))
+					) : (
+						<div className="grid size-full place-items-center">
+							<span className="text-xl text-muted">
+								History not found
+							</span>
+						</div>
+					)}
 				</div>
 			</section>
 			<section></section>
