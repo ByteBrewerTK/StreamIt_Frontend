@@ -1,10 +1,10 @@
 import { useState } from "react";
 import usePlaylist from "../hooks/data/usePlaylist";
 import { getUserData } from "../services/authServices";
-import Playlists from "../components/user/Playlists";
 import PlaylistMorePanel from "../components/playlist/PlaylistMorePanel";
 import Loader from "../components/ui/loader/Loader";
 import PlaylistItem from "../components/ui/PlaylistItem";
+import useNavVisible from "../hooks/useNavVisible";
 
 const UserPlaylist = () => {
 	const localUser = getUserData();
@@ -18,6 +18,7 @@ const UserPlaylist = () => {
 		setPlaylistId(playlistId);
 		setPlaylistMoreOptionsOpen(state);
 	};
+	useNavVisible(false);
 	if (playlistLoading) {
 		return (
 			<div className="grid w-full h-full place-items-center">
@@ -36,13 +37,13 @@ const UserPlaylist = () => {
 		return <div>No Playlist found</div>;
 	}
 	return (
-		<div>
+		<div className="size-full h-[calc(100%-.5rem)]">
 			{playlistData?.data?.length === 0 ? (
 				<div className="grid w-full h-full place-content-center text-muted">
 					No playlists found
 				</div>
 			) : (
-				<div className="grid w-full grid-flow-col my-2 overflow-x-auto overflow-y-hidden auto-cols-max scrollbar-hide">
+				<div className="grid w-full h-full grid-flow-row px-2 overflow-x-auto overflow-y-hidden border md:my-2 md:grid md:grid-flow-col md:auto-cols-max scrollbar-hide auto-rows-max">
 					{playlistData?.data.map((playlist) => (
 						<div key={playlist._id}>
 							<PlaylistItem
