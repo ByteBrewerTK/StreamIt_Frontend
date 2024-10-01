@@ -27,9 +27,9 @@ const HistoryVideoItem = ({ item }) => {
 		}
 	};
 	return (
-		<div className="flex flex-col w-full md:gap-x-4 md:flex-row">
+		<div className="grid w-full grid-cols-2 lg:flex lg:flex-col gap-x-4">
 			<Link to={`/watch?v=${item._id}`}>
-				<div className="relative overflow-hidden rounded-lg max-w-[300px] aspect-video">
+				<div className="relative overflow-hidden rounded-lg lg:max-w-[300px] aspect-video">
 					<img
 						src={item.thumbnail}
 						alt=""
@@ -42,10 +42,13 @@ const HistoryVideoItem = ({ item }) => {
 				</div>
 			</Link>
 			<div className="flex-1">
-				<div className="flex justify-between w-full text-2xl">
-					<h3 className=" text-wrap">{item.title}</h3>
+				<div className="flex justify-between w-full lg:text-2xl">
+					<h3 className=" text-wrap text-smr">{item.title}</h3>
 					<div>
-						<button onClick={removeFromHistoryHandler}>
+						<button
+							onClick={removeFromHistoryHandler}
+							className="hidden md:inline"
+						>
 							<IoMdClose />
 						</button>
 						<button>
@@ -53,11 +56,11 @@ const HistoryVideoItem = ({ item }) => {
 						</button>
 					</div>
 				</div>
-				<div className="flex gap-x-2 text-muted_dark">
+				<div className="flex gap-x-2 text-muted_dark text-[.76rem] flex-col md:flex-row leading-none">
 					<Link to={`/user/@${item.owner.username}`}>
 						{item.owner.fullName}
 					</Link>
-					&bull;
+					<span className="hidden md:inline">&bull;</span>
 					<span>{formatCounts(item.views)}</span>
 				</div>
 			</div>
