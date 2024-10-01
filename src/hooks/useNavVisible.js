@@ -1,16 +1,15 @@
 import { useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 
-const useNavVisible = () =>{
-    const { setNavVisible } = useOutletContext();
-    useEffect(() => {
-		
-		setNavVisible(false);
+const useNavVisible = (state = false) => {
+	const { setNavVisible } = useOutletContext();
+	useEffect(() => {
+		setNavVisible(state);
 
 		return () => {
-			setNavVisible(true);
+			setNavVisible(!state);
 		};
 	}, []);
-}
+};
 
 export default useNavVisible;
