@@ -3,8 +3,8 @@ import usePlaylist from "../hooks/data/usePlaylist";
 import { getUserData } from "../services/authServices";
 import PlaylistMorePanel from "../components/playlist/PlaylistMorePanel";
 import Loader from "../components/ui/loader/Loader";
-import PlaylistItem from "../components/ui/PlaylistItem";
 import useNavVisible from "../hooks/useNavVisible";
+import AllPlaylistItem from "../components/playlist/AllPlaylistItem";
 
 const UserPlaylist = () => {
 	const localUser = getUserData();
@@ -43,10 +43,10 @@ const UserPlaylist = () => {
 					No playlists found
 				</div>
 			) : (
-				<div className="grid w-full h-full grid-flow-row px-2 overflow-x-auto overflow-y-hidden border md:my-2 md:grid md:grid-flow-col md:auto-cols-max scrollbar-hide auto-rows-max">
+				<div className="grid w-full h-full grid-flow-row px-2 md:overflow-y-hidden md:overflow-x-auto md:my-2 md:grid md:grid-flow-col md:auto-cols-max scrollbar-hide auto-rows-max gap-y-2">
 					{playlistData?.data.map((playlist) => (
 						<div key={playlist._id}>
-							<PlaylistItem
+							<AllPlaylistItem
 								playlist={playlist}
 								playlistMoreOptionsHandler={
 									playlistMoreOptionsHandler
