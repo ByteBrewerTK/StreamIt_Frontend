@@ -27,7 +27,7 @@ const HistoryVideoItem = ({ item }) => {
 		}
 	};
 	return (
-		<div className="grid w-full grid-cols-2 lg:flex lg:flex-col gap-x-4">
+		<div className="grid w-full grid-cols-2 lg:flex lg:flex-row gap-x-4">
 			<Link to={`/watch?v=${item._id}`}>
 				<div className="relative overflow-hidden rounded-lg lg:max-w-[300px] aspect-video">
 					<img
@@ -43,7 +43,7 @@ const HistoryVideoItem = ({ item }) => {
 			</Link>
 			<div className="flex-1">
 				<div className="flex justify-between w-full lg:text-2xl">
-					<h3 className=" text-wrap text-smr">{item.title}</h3>
+					<h3 className=" text-wrap text-smr md:text-xl">{item.title}</h3>
 					<div>
 						<button
 							onClick={removeFromHistoryHandler}
