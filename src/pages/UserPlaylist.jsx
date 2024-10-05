@@ -43,7 +43,7 @@ const UserPlaylist = () => {
 					No playlists found
 				</div>
 			) : (
-				<div className="grid w-full h-full grid-flow-row px-2 md:overflow-y-hidden md:overflow-x-auto md:my-2 md:grid md:grid-flow-col md:auto-cols-max scrollbar-hide auto-rows-max gap-y-2 md:gap-x-4">
+				<div className="grid flex-1 h-full sm:h-[100vh] gap-x-4 overflow-x-hidden overflow-y-auto grid-col-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 bg-secondary text-white scrollbar-hide ">
 					{playlistData?.data.map((playlist) => (
 						<div key={playlist._id}>
 							<AllPlaylistItem
