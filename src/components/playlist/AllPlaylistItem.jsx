@@ -5,7 +5,7 @@ const AllPlaylistItem = ({ playlist, playlistMoreOptionsHandler }) => {
 	const { _id, name, videos } = playlist;
 	const banner = videos[0].thumbnail;
 	return (
-		<div className="relative md:flex md:flex-col md:max-w-[22.5rem] md:shadow-lg my-1 text-white grid grid-cols-2 gap-x-4 md:before:w-[90%] md:before:h-[10%] md:before:bg-gray-500 md:before:absolute md:before:left-[50%] md:before:-translate-x-[50%] md:before:-top-1 md:before:rounded-full md:h-[300px]">
+		<div className="relative md:flex md:flex-col md:max-w-[22.5rem] md:shadow-lg my-1 text-white grid grid-cols-2 gap-x-4 md:before:w-[90%] md:before:h-[10%] md:before:bg-gray-500 md:before:absolute md:before:left-[50%] md:before:-translate-x-[50%] md:before:-top-1 md:before:rounded-full md:h-[250px]">
 			<Link
 				to={`/playlist/${_id}`}
 				className="relative w-full overflow-hidden rounded-lg aspect-video"
