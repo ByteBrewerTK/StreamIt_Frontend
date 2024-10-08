@@ -30,7 +30,9 @@ const AllPlaylistItem = ({ playlist, playlistMoreOptionsHandler }) => {
 					to={`/playlist/${_id}`}
 					className="flex flex-col justify-between"
 				>
-					<p className="text-sm leading-4 md:text-xl">{name}</p>
+					<p className="text-sm leading-4 lg:text-xl md:text-lg">
+						{name}
+					</p>
 				</Link>
 
 				<span
