@@ -28,7 +28,6 @@ const AllPlaylistItem = ({ playlist, playlistMoreOptionsHandler }) => {
 				{/* details */}
 				<Link
 					to={`/playlist/${_id}`}
-					className="flex flex-col justify-between"
 				>
 					<p className="text-sm leading-4 lg:text-xl md:text-lg">
 						{name}
