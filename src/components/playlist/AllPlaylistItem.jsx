@@ -19,7 +19,7 @@ const AllPlaylistItem = ({ playlist, playlistMoreOptionsHandler }) => {
 						className="object-cover object-center "
 					/>
 				</div>
-				<span className="absolute bottom-0 right-0 flex items-center gap-1 px-1 mb-1 mr-1 bg-black rounded bg-opacity-55 text-smr">
+				<span className="absolute bottom-0 right-0 flex items-center gap-1 px-1 mb-1 mr-1 bg-black rounded bg-opacity-55 text-smr md:text-base">
 					<RiPlayList2Fill />
 					<span>{videos?.length}</span>
 				</span>
