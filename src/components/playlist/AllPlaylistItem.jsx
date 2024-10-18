@@ -2,10 +2,11 @@ import { IoMdMore } from "react-icons/io";
 import { RiPlayList2Fill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 const AllPlaylistItem = ({ playlist, playlistMoreOptionsHandler }) => {
-	const { _id, name, videos } = playlist;
+	const { _id, name, videos, privacyType } = playlist;
 	const banner = videos[0].thumbnail;
+	console.log(playlist)
 	return (
-		<div className="relative md:flex md:flex-col md:max-w-[22.5rem] md:shadow-lg md:my-1 text-white grid grid-cols-2 gap-x-4 md:before:w-[90%] md:before:h-[10%] md:before:bg-gray-500 md:before:absolute md:before:left-[50%] md:before:-translate-x-[50%] md:before:-top-1 md:before:rounded-full md:h-[250px]">
+		<div className="relative md:flex md:flex-col md:max-w-[22.5rem] md:shadow-lg md:my-1 text-white grid grid-cols-2 gap-x-4 md:before:w-[90%] md:before:h-[10%] md:before:bg-gray-500 md:before:absolute md:before:left-[50%] md:before:-translate-x-[50%] md:before:-top-1 md:before:rounded-full md:h-[290px]">
 			<Link
 				to={`/playlist/${_id}`}
 				className="relative w-full overflow-hidden rounded-lg aspect-video"
@@ -24,23 +25,29 @@ const AllPlaylistItem = ({ playlist, playlistMoreOptionsHandler }) => {
 					<span>{videos?.length}</span>
 				</span>
 			</Link>
-			<div className="flex justify-between flex-1 py-2 ">
-				{/* details */}
-				<Link
-					to={`/playlist/${_id}`}
-				>
-					<p className="text-sm leading-4 lg:text-xl md:text-lg">
-						{name}
-					</p>
-				</Link>
+			<div >
+				<div className="flex items-center justify-between pt-2 ">
+					{/* details */}
+					<Link to={`/playlist/${_id}`}>
+						<p className="text-sm leading-4 lg:text-xl md:text-lg">
+							{name}
+						</p>
+					</Link>
 
-				<span
-					onClick={() => {
-						playlistMoreOptionsHandler(true, _id);
-					}}
-				>
-					<IoMdMore className="text-[1rem]" />
-				</span>
+					<button
+						onClick={() => {
+							playlistMoreOptionsHandler(true, _id);
+						}}
+					>
+						<IoMdMore className="text-[1.5rem]" />
+					</button>
+				</div>
+				<div className="flex justify-between pt-2 text-muted">
+					<span>{privacyType}</span>
+					<Link className="font-[500] hover:text-muted_dark">
+						View full playlist
+					</Link>
+				</div>
 			</div>
 		</div>
 	);
