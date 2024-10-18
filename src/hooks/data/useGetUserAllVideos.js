@@ -8,13 +8,22 @@ const useGetUserAllVideos = () => {
 
 	useEffect(() => {
 		const fetchData = async (username) => {
-			const response = await apiRequest(
-				`/video/fetch-all-videos/${username}`
-			);
-			console.log(response);
+			try {
+				const response = await apiRequest(
+					`/video/fetch-all-videos/${username}`
+				);
+				setData(response.data);
+				console.log(response);
+			} catch (error) {
+				console.error("Error while fetch user all videos :", error);
+				setError(error.message);
+			} finally {
+				setLoading(false);
+			}
 		};
 		fetchData();
 	}, []);
+	return { loading, error, data };
 };
 
 export default useGetUserAllVideos;
