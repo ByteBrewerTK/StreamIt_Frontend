@@ -53,7 +53,7 @@ const PlaylistPanel = ({ setMoreOptionsOpen, videoId }) => {
 	}
 
 	return (
-		<div className="flex flex-col max-h-[20rem]">
+		<div className="flex flex-col max-h-[20rem] border">
 			{playlistPanelOpen && (
 				<CreatePlaylistModal
 					onClose={() => createPlaylistModalHandler(false)}
