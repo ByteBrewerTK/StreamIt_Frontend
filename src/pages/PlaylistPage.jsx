@@ -6,6 +6,7 @@ import Loader from "../components/ui/loader/Loader";
 import { useSearchParams } from "react-router-dom";
 import useGetPlaylistById from "../hooks/data/useGetPlaylistById";
 import { Link } from "react-router-dom";
+import PlaylistItem from "../components/playlist/PlaylistItem";
 
 const PlaylistPage = () => {
 	const [searchParams] = useSearchParams();
@@ -96,7 +97,11 @@ const PlaylistPage = () => {
 					</div>
 				</div>
 			</section>
-			<section></section>
+			<section>
+				{playlistVideos.map((video) => (
+					<PlaylistItem key={video._id} {...video} />
+				))}
+			</section>
 		</div>
 	);
 };
