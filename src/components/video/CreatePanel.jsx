@@ -5,13 +5,35 @@ import { LuPlus } from "react-icons/lu";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { apiRequest } from "../../services/api";
 import { videoFileLimit } from "../../data/constants";
+import { IoMdClose } from "react-icons/io";
+import { useRef } from "react";
+import { useEffect } from "react";
+import useDeviceType from "../../hooks/useDeviceType";
 
-const CreatePanel = ({ closeCreatePanel }) => {
+const CreatePanel = ({ handleCreatePanelOpen }) => {
 	const [videoFile, setVideoFile] = useState(null);
 	const [videoPreview, setVideoPreview] = useState(null);
 	const [thumbnailFile, setThumbnailFile] = useState(null);
 	const [thumbnailPreview, setThumbnailPreview] = useState(null);
 	const [isUploading, setUploading] = useState(false);
+	const formRef = useRef(null);
+	const deviceType = useDeviceType();
+
+	useEffect(() => {
+		const handleOutsideClick = (e) => {
+			if (formRef?.current && formRef?.current.contains(e.target)) {
+				return;
+			}
+			clearCreatePanel();
+			handleCreatePanelOpen();
+		};
+
+		window.addEventListener("mousedown", handleOutsideClick);
+
+		return () => {
+			window.removeEventListener("mousedown", handleOutsideClick);
+		};
+	}, [deviceType]);
 
 	const handleVideoFileChange = (event) => {
 		const file = event.target.files[0];
@@ -19,7 +41,6 @@ const CreatePanel = ({ closeCreatePanel }) => {
 			toast.error(`File size exceeded, limit ${videoFileLimit} MB`);
 			return;
 		}
-		console.log(file);
 
 		if (file && file.type.startsWith("video/")) {
 			setVideoFile(file);
@@ -65,7 +86,7 @@ const CreatePanel = ({ closeCreatePanel }) => {
 			return;
 		}
 
-		closeCreatePanel(false);
+		handleCreatePanelOpen(false);
 
 		const formData = new FormData();
 		formData.append("videoFile", videoFile);
@@ -92,23 +113,52 @@ const CreatePanel = ({ closeCreatePanel }) => {
 	return (
 		<div className="grid w-full h-full overflow-y-auto place-items-center md:backdrop-blur-md">
 			<form
-				className="size-full md:rounded-3xl md:h-[90%] md:w-[70%] md:bg-primary overflow-hidden"
+				ref={formRef}
 				onSubmit={submitHandler}
+				className="relative size-full md:rounded-xl md:h-[90%] md:w-[70%] md:bg-primary overflow-hidden md:flex md:flex-col"
 			>
-				<div className="md:size-full">
-					<div className="flex flex-col items-center w-full md:justify-center aspect-video md:h-full">
+				<div className="hidden w-full md:block h-fit">
+					<button
+						type="reset"
+						onClick={() => {
+							handleCreatePanelOpen();
+							clearCreatePanel();
+						}}
+						className="float-right p-2 text-3xl text-black bg-white rounded-es-xl md:inline-block"
+					>
+						<IoMdClose />
+					</button>
+				</div>
+				<div className="md:flex md:size-full md:flex-row-reverse">
+					<div
+						className={`flex flex-col items-center w-full md:justify-center aspect-video ${
+							!videoPreview
+								? "md:h-full"
+								: "md:h-fit md:w-[20rem] md:mx-4"
+						}`}
+					>
 						{videoPreview ? (
-							<div className="w-full overflow-hidden bg-black rounded-lg aspect-video">
-								<ReactPlayer
-									url={videoPreview}
-									width="100%"
-									height="100%"
-									controls
-								/>
+							<div className="rounded-b-lg size-full bg-secondary md:h-fit">
+								<div className="w-full overflow-hidden bg-black rounded-lg aspect-video h-fit">
+									<ReactPlayer
+										url={videoPreview}
+										width="100%"
+										height="100%"
+										controls
+									/>
+								</div>
+								<div className="hidden p-2 mt-3 md:block">
+									<label className="block text-sm text-muted">
+										Filename
+									</label>
+									<p className="text-white truncate">
+										{videoFile.name}
+									</p>
+								</div>
 							</div>
 						) : (
 							<div className="w-full md:flex md:flex-col md:items-center md:gap-y-6">
-								<label className="flex flex-col items-center w-full h-[10rem] px-4 py-6 tracking-wide uppercase rounded-lg shadow-lg cursor-pointer bg-primary text-blue hover:bg-blue hover:text-white md:h-[10rem] aspect-square md:w-auto md:bg-secondary md:rounded-full justify-center ">
+								<label className="flex flex-col items-center w-full h-[10rem] px-4 py-6 tracking-wide uppercase rounded-lg shadow-lg cursor-pointer bg-primary text-blue hover:bg-blue hover:text-white md:h-[10rem] aspect-square md:w-auto md:bg-secondary md:rounded-full justify-center">
 									<svg
 										className="w-8 h-8 md:h-20 md:w-20"
 										fill="#ffff"
@@ -129,6 +179,9 @@ const CreatePanel = ({ closeCreatePanel }) => {
 										onChange={handleVideoFileChange}
 									/>
 								</label>
+								<span className="hidden -my-2 text-muted md:inline">
+									Select a video to upload
+								</span>
 								<label
 									htmlFor="select-file-btn"
 									className="hidden px-4 py-2 text-black bg-white rounded-full cursor-pointer md:block"
@@ -138,17 +191,24 @@ const CreatePanel = ({ closeCreatePanel }) => {
 							</div>
 						)}
 					</div>
-					<div className="md:hidden">
-						<div className="flex items-center w-full h-16 px-2 mt-4 rounded bg-primary">
-							<label className="flex items-center w-full h-full space-x-2 cursor-pointer">
+					<div
+						className={`md:flex md:flex-col-reverse justify-end md:p-4 md:flex-1 md:pt-0 ${
+							!videoPreview ? "md:hidden" : ""
+						}`}
+					>
+						<div className="flex items-center mt-4 bg-primary md:h-fit md:py-0 md:rounded-lg md:flex-col md:w-fit">
+							<span className="self-start hidden mb-2 text-muted_dark md:inline">
+								Thumbnail
+							</span>
+							<label className="flex items-center w-full h-full cursor-pointer md:flex-col md:bg-secondary md:w-[14rem] md:h-auto md:aspect-video md:justify-center rounded md:gap-y-2 p-2 md:p-0">
 								{thumbnailPreview ? (
 									<>
 										<img
 											src={thumbnailPreview}
 											alt=""
-											className="object-cover object-center w-16 overflow-hidden border border-gray-500 rounded aspect-video"
+											className="object-cover object-center w-16 overflow-hidden border border-gray-500 rounded aspect-video md:w-full md:h-full"
 										/>
-										<div className="flex items-center justify-between flex-1">
+										<div className="flex items-center justify-between flex-1 md:hidden">
 											<span className="text-muted">
 												{thumbnailFile.name}
 											</span>
@@ -157,7 +217,7 @@ const CreatePanel = ({ closeCreatePanel }) => {
 								) : (
 									<>
 										<div className="p-1 bg-white rounded-full ">
-											<LuPlus className="text-2xl" />
+											<LuPlus className="text-2xl md:text-3xl" />
 										</div>
 										<span className="text-muted">
 											Select a thumbnail
@@ -173,29 +233,31 @@ const CreatePanel = ({ closeCreatePanel }) => {
 								/>
 								{thumbnailPreview && (
 									<button onClick={removeThumbnail}>
-										<AiOutlineCloseCircle className="z-10 text-xl text-red-500" />
+										<AiOutlineCloseCircle className="z-10 text-xl text-red-500 md:hidden" />
 									</button>
 								)}
 							</label>
 						</div>
 
-						<input
-							type="text"
-							placeholder="Title"
-							name="title"
-							className="w-full h-10 px-2 mt-4 text-white rounded bg-primary"
-							required
-						/>
+						<div>
+							<input
+								type="text"
+								placeholder="Title"
+								name="title"
+								className="w-full h-10 px-2 mt-4 text-white rounded bg-primary md:mt-0 md:bg-secondary focus:outline focus:outline-muted"
+								required
+							/>
 
-						<textarea
-							className="w-full h-[10rem] bg-primary mt-2 resize-none p-2 text-white"
-							placeholder="Description"
-							name="description"
-							required
-						></textarea>
+							<textarea
+								className="w-full h-[10rem] bg-primary mt-2 resize-none p-2 text-white md:bg-secondary focus:outline focus:outline-muted rounded"
+								placeholder="Description"
+								name="description"
+								required
+							></textarea>
+						</div>
 					</div>
 				</div>
-				<div className="flex items-center justify-between w-full mt-4">
+				<div className="flex items-center justify-between w-full mt-4 md:justify-end md:p-4">
 					<button
 						type="reset"
 						disabled={isUploading}
@@ -204,9 +266,9 @@ const CreatePanel = ({ closeCreatePanel }) => {
 								return;
 							}
 							clearCreatePanel();
-							closeCreatePanel();
+							handleCreatePanelOpen();
 						}}
-						className="text-muted_dark disabled:text-muted"
+						className="text-muted_dark disabled:text-muted md:hidden"
 					>
 						Cancel
 					</button>
