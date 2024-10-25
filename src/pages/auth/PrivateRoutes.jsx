@@ -13,11 +13,8 @@ const PrivateRoutes = () => {
 	const [isSidebarOpen, setSidebarOpen] = useState(false);
 	const [createPanelOpen, setCreatePanelOpen] = useState(false);
 
-	const toggleCreatePanel = () => {
-		setCreatePanelOpen((prev) => !prev);
-	};
-	const closeCreatePanel = () => {
-		setCreatePanelOpen(true);
+	const handleCreatePanelOpen = (state = false) => {
+		setCreatePanelOpen(state);
 	};
 
 	const setNavVisible = (state) => {
@@ -37,7 +34,7 @@ const PrivateRoutes = () => {
 				>
 					<Navbar
 						sidebarHandler={sidebarHandler}
-						toggleCreatePanel={toggleCreatePanel}
+						handleCreatePanelOpen={handleCreatePanelOpen}
 						createPanelOpen={createPanelOpen}
 					/>
 				</div>
@@ -51,15 +48,17 @@ const PrivateRoutes = () => {
 					)}
 				</section>
 				<BottomNavMenu
-					toggleCreatePanel={toggleCreatePanel}
+					handleCreatePanelOpen={handleCreatePanelOpen}
 					createPanelOpen={createPanelOpen}
 				/>
 				<div
 					className={`${
-						!createPanelOpen ? "h-full " : "h-0 hidden"
-					} absolute z-[50] w-full h-[calc(100%-2.5rem)] md:h-[calc(100%-4rem)] bottom-[2.5rem] transition duration-500 bg-secondary p-4 overflow-hidden`}
+						createPanelOpen ? "h-full " : "h-0 hidden"
+					} absolute z-[50] w-full h-[calc(100%-2.5rem)] md:h-[calc(100%-4rem)] bottom-[2.5rem] transition duration-500 bg-secondary md:bg-transparent p-4 md:p-0 overflow-hidden m-auto md:bottom-0`}
 				>
-					<CreatePanel closeCreatePanel={closeCreatePanel} />
+					<CreatePanel
+						handleCreatePanelOpen={handleCreatePanelOpen}
+					/>
 				</div>
 			</main>
 		</div>
