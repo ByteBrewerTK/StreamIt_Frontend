@@ -9,15 +9,14 @@ const useWatchHistory = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-                const response = await apiRequest("/user/watch-history");
+				const response = await apiRequest("/user/watch-history");
 				setWatchHistoryData(response);
-				console.log(response);
-            } catch (error) {
-                setWatchHistoryError(error)
-                console.log(error)
-            }finally{
-                setWatchHistoryLoading(false)
-            }
+			} catch (error) {
+				setWatchHistoryError(error);
+				console.log(error);
+			} finally {
+				setWatchHistoryLoading(false);
+			}
 		};
 		fetchData();
 	}, []);
