@@ -22,7 +22,7 @@ const BottomNavMenu = ({ handleCreatePanelOpen, createPanelOpen }) => {
 				</Link>
 				<button
 					onClick={() => {
-						handleCreatePanelOpen(true);
+						handleCreatePanelOpen(!createPanelOpen);
 					}}
 				>
 					<BsPatchPlus
