@@ -29,13 +29,13 @@ const MorePanel = ({
 
 	return (
 		<section
-			className={`absolute flex w-full h-[0%] overflow-hidden transition duration-200 bottom-[3rem] ${
+			className={`absolute flex w-full h-[0%] overflow-hidden transition duration-200 bottom-[2.5rem] ${
 				isMoreOptionsOpen ? "h-[100%]" : ""
 			} `}
 		>
 			<section
 				ref={moreOptionsRef}
-				className="bg-secondary z-[100] flex flex-col self-end rounded-t-lg  w-container mx-auto pt-8 relative overflow-hidden h-fit "
+				className="bg-secondary z-[100] flex flex-col self-end rounded-t-lg  w-container mx-auto pt-8 relative overflow-hidden h-fit"
 			>
 				<span
 					onClick={() => {
