@@ -34,11 +34,10 @@ const PlaylistPage = () => {
 	const playlist = playlistData.data;
 	const playlistVideos = playlist.videos;
 	const playlistVideosCount = playlist.videos.length;
-	console.log(playlist);
 
 	return (
 		<div className="grid flex-1 grid-cols-[25rem,1fr] text-white">
-			<section className="pt-10 size-full">
+			<section className="pt-4 size-full">
 				<div className="p-8 rounded-t-3xl bg-primary size-full">
 					<div>
 						<div className="w-full mb-6 overflow-hidden rounded-lg aspect-video">
@@ -97,10 +96,11 @@ const PlaylistPage = () => {
 					</div>
 				</div>
 			</section>
-			<section>
+			<section className="p-4 size-full">
 				{playlistVideos.map((video) => (
 					<PlaylistItem key={video._id} {...video} />
 				))}
+				<div className="mt-4 border border-muted"/>
 			</section>
 		</div>
 	);
