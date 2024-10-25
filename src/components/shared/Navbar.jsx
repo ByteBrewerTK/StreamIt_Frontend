@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import ProfileOptionPanel from "../navbar/ProfileOptionPanel";
 import { useLocation } from "react-router-dom";
 import { LuUpload } from "react-icons/lu";
-const Navbar = ({ sidebarHandler, toggleCreatePanel, createPanelOpen }) => {
+const Navbar = ({ sidebarHandler, handleCreatePanelOpen, createPanelOpen }) => {
 	const { pathname } = useLocation();
 	const { userData } = useContext(UserContext);
 	const moreRef = useRef(null);
@@ -72,13 +72,15 @@ const Navbar = ({ sidebarHandler, toggleCreatePanel, createPanelOpen }) => {
 					</div>
 
 					<div className="flex items-center space-x-4">
-						<button
-							onClick={toggleCreatePanel}
-							className="items-center hidden px-3 py-1 text-black bg-white rounded-full gap-x-2 md:flex"
-						>
-							<LuUpload className="text-[20px]" />
-							Upload
-						</button>
+						{!createPanelOpen && (
+							<button
+								onClick={handleCreatePanelOpen}
+								className="items-center hidden px-3 py-1 text-black bg-white rounded-full gap-x-2 md:flex"
+							>
+								<LuUpload className="text-[20px]" />
+								Upload
+							</button>
+						)}
 						<span>
 							<FaRegBell className="text-white text-[20px]" />
 						</span>
