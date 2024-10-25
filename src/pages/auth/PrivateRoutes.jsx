@@ -16,6 +16,10 @@ const PrivateRoutes = () => {
 	const toggleCreatePanel = () => {
 		setCreatePanelOpen((prev) => !prev);
 	};
+	const closeCreatePanel = () => {
+		setCreatePanelOpen(true);
+	};
+
 	const setNavVisible = (state) => {
 		setVisible(state);
 	};
@@ -31,7 +35,11 @@ const PrivateRoutes = () => {
 						!isVisible ? "-translate-y-full duration-500 fixed" : ""
 					}`}
 				>
-					<Navbar sidebarHandler={sidebarHandler} />
+					<Navbar
+						sidebarHandler={sidebarHandler}
+						toggleCreatePanel={toggleCreatePanel}
+						createPanelOpen={createPanelOpen}
+					/>
 				</div>
 
 				<section className="flex overflow-hidden size-full">
@@ -48,10 +56,10 @@ const PrivateRoutes = () => {
 				/>
 				<div
 					className={`${
-						!createPanelOpen ? "translate-y-full " : ""
-					} absolute z-10 w-full h-[calc(100%-3rem)] transition duration-500 bg-secondary p-4 overflow-hidden md:hidden`}
+						!createPanelOpen ? "h-full " : "h-0 hidden"
+					} absolute z-[50] w-full h-[calc(100%-2.5rem)] md:h-[calc(100%-4rem)] bottom-[2.5rem] transition duration-500 bg-secondary p-4 overflow-hidden`}
 				>
-					<CreatePanel />
+					<CreatePanel closeCreatePanel={closeCreatePanel} />
 				</div>
 			</main>
 		</div>
