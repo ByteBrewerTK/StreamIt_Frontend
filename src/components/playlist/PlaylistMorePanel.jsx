@@ -27,13 +27,13 @@ const PlaylistMorePanel = ({
 
 	return (
 		<section
-			className={`absolute flex w-full h-full overflow-hidden transition duration-200 ${
+			className={`absolute flex w-full h-full overflow-hidden transition duration-200  ${
 				!isPlaylistMoreOptionsOpen ? "translate-y-full" : ""
 			} `}
 		>
 			<section
 				ref={moreOptionsRef}
-				className="bg-secondary z-[100] flex flex-col self-end rounded-t-lg  w-container mx-auto pt-8 relative overflow-hidden "
+				className="bg-secondary z-[100] flex flex-col self-end rounded-t-lg  w-container mx-auto pt-8 overflow-hidden bottom-[3rem] relative"
 			>
 				<span
 					onClick={() => {
