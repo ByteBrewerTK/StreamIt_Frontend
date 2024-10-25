@@ -14,6 +14,7 @@ import { LiaComments } from "react-icons/lia";
 import { useOutletContext } from "react-router-dom";
 import { IoBookmarkOutline } from "react-icons/io5";
 import VideoDescription from "../components/video/VideoDescription";
+import { useNavigate } from "react-router-dom";
 
 const WatchVideo = () => {
 	const [searchParams] = useSearchParams();
@@ -28,6 +29,7 @@ const WatchVideo = () => {
 	const [initialComment, setInitialComment] = useState(null);
 	const [isSubscribing, setSubscribing] = useState(false);
 	const { setNavVisible } = useOutletContext();
+	const navigate = useNavigate();
 
 	const commentQuery = {
 		videoId,
@@ -62,15 +64,15 @@ const WatchVideo = () => {
 			} catch (error) {
 				setError("Error while fetching video and comments");
 				console.error("Error fetching video and comments:", error);
+				if (error.request.status === 500) {
+					navigate("/");
+				}
 			} finally {
 				setLoading(false);
 			}
 		};
 
 		fetchData();
-		// return () => {
-		// 	source.cancel("Request cancel");
-		// };
 	}, [videoId, commentRequestUrl]);
 
 	const toggleLike = async () => {
