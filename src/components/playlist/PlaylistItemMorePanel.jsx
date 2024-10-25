@@ -23,7 +23,6 @@ const PlaylistItemMorePanel = ({
 	const toggleMorePanel = (state) => {
 		setMorePanel(state);
 	};
-	console.log(navigator.share)
 
 	const shareHandler = async () => {
 		const shareUrl = `${baseUrl}/playlist/${playlistId}`;
