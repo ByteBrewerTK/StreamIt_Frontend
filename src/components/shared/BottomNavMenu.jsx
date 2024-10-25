@@ -6,7 +6,7 @@ import { BiMessageRoundedDetail } from "react-icons/bi";
 import { BsPatchPlus } from "react-icons/bs";
 import { UserContext } from "../../contexts/userContext";
 
-const BottomNavMenu = ({ toggleCreatePanel, createPanelOpen }) => {
+const BottomNavMenu = ({ handleCreatePanelOpen, createPanelOpen }) => {
 	const { userData } = useContext(UserContext);
 
 	if (!userData) return;
@@ -20,7 +20,11 @@ const BottomNavMenu = ({ toggleCreatePanel, createPanelOpen }) => {
 				<Link to={"/"} className="">
 					<BiMessageRoundedDetail className="text-2xl" />
 				</Link>
-				<button onClick={toggleCreatePanel}>
+				<button
+					onClick={() => {
+						handleCreatePanelOpen(true);
+					}}
+				>
 					<BsPatchPlus
 						className={`text-2xl transition duration-500 ${
 							createPanelOpen ? " rotate-[235deg]" : ""
