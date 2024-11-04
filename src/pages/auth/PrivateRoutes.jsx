@@ -1,17 +1,35 @@
-import { Outlet } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import Navbar from "../../components/shared/Navbar";
-import { useState } from "react";
 import SideNavbar from "../../components/shared/SideNavbar";
 import BottomNavMenu from "../../components/shared/BottomNavMenu";
 import CreatePanel from "../../components/video/CreatePanel";
+import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getAccessToken, saveTokens } from "../../services/authServices";
+import Loader from "../../components/ui/loader/Loader";
 
 const PrivateRoutes = () => {
-	const accessToken = localStorage.getItem("accessToken");
+	const [localAccessToken, setLocalAccessToken] = useState(getAccessToken());
+	const [isTokenLoaded, setIsTokenLoaded] = useState(false);
+	const location = useLocation();
 
 	const [isVisible, setVisible] = useState(true);
 	const [isSidebarOpen, setSidebarOpen] = useState(false);
 	const [createPanelOpen, setCreatePanelOpen] = useState(false);
+
+	useEffect(() => {
+		const queryParams = new URLSearchParams(location.search);
+		const accessToken = queryParams.get("accessToken");
+		const refreshToken = queryParams.get("refreshToken");
+
+		if (accessToken && refreshToken) {
+			saveTokens(accessToken, refreshToken);
+			setLocalAccessToken(accessToken);
+			window.history.replaceState({}, document.title, "/");
+		}
+
+		setIsTokenLoaded(true);
+	}, [location]);
 
 	const handleCreatePanelOpen = (state = false) => {
 		setCreatePanelOpen(state);
@@ -20,15 +38,25 @@ const PrivateRoutes = () => {
 	const setNavVisible = (state) => {
 		setVisible(state);
 	};
+
 	const sidebarHandler = () => {
 		setSidebarOpen((prev) => !prev);
 	};
 
+	// Only render main content if the token is loaded
+	if (!isTokenLoaded) {
+		return (
+			<div className="grid size-full place-items-center bg-primary">
+				<span className="size-[70px]"><Loader/></span>
+			</div>
+		);
+	}
+
 	return (
-		<div className="w-full h-[100dvh] overflow-hidden relative  z-50">
+		<div className="w-full h-[100dvh] overflow-hidden relative z-50">
 			<main className="relative flex flex-col h-full overflow-hidden md:flex-col md:flex sm:overflow-hidden bg-secondary">
 				<div
-					className={`z-50 transition-all duration-500 w-full  sm:transition-none sm:translate-y-0 md:relative ${
+					className={`z-50 transition-all duration-500 w-full sm:transition-none sm:translate-y-0 md:relative ${
 						!isVisible ? "-translate-y-full duration-500 fixed" : ""
 					}`}
 				>
@@ -41,7 +69,7 @@ const PrivateRoutes = () => {
 
 				<section className="flex overflow-hidden size-full">
 					<SideNavbar isSidebarOpen={isSidebarOpen} />
-					{accessToken ? (
+					{localAccessToken ? (
 						<Outlet context={{ setNavVisible }} />
 					) : (
 						<Navigate to="/auth/login" />
