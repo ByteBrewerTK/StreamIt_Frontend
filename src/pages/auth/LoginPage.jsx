@@ -9,11 +9,12 @@ import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/ui/loader/Loader";
 import { apiInstance } from "../../services/api";
-import { saveTokens, saveUserData } from "../../services/authServices";
+import { getAccessToken, saveTokens, saveUserData } from "../../services/authServices";
 import { FaRegEnvelope } from "react-icons/fa";
 import { loginUserError } from "../../utils/customErrorMessage";
 import {UserContext} from "../../contexts/userContext";
 import { useContext } from "react";
+import { useEffect } from "react";
 
 const LoginPage = () => {
 	const navigate = useNavigate();
@@ -27,6 +28,12 @@ const LoginPage = () => {
 		password: "",
 		rememberMe: false,
 	});
+
+	useEffect(()=>{
+		if(getAccessToken()){
+			navigate("/");
+		}
+	},[])
 
 	const submitHandler = async (e) => {
 		setLoading(true);

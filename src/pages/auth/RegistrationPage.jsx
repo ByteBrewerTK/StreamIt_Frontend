@@ -18,6 +18,8 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import RegistrationSuccessPopup from "../../components/ui/RegistrationSuccessPopup";
 import { registerUserError } from "../../utils/customErrorMessage";
+import { useEffect } from "react";
+import { getAccessToken } from "../../services/authServices";
 const RegistrationPage = () => {
 	const [isLoading, setLoading] = useState(false);
 	const [isPassVisible, setPassVisible] = useState(false);
@@ -30,7 +32,11 @@ const RegistrationPage = () => {
 		password: "",
 	};
 	const [formData, setFormData] = useState(initialFormData);
-
+	useEffect(() => {
+		if (getAccessToken()) {
+			navigate("/");
+		}
+	}, []);
 	const formHandler = (e) => {
 		const { name, value } = e.target;
 		setFormData((prevData) => ({
@@ -45,7 +51,7 @@ const RegistrationPage = () => {
 
 	const submitHandler = async (e) => {
 		e.preventDefault();
-		
+
 		setLoading(true);
 
 		toast
@@ -71,7 +77,6 @@ const RegistrationPage = () => {
 				setResponseError("");
 				setLoading(false);
 			});
-			
 	};
 
 	const form_header = {
