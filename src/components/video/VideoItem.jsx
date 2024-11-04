@@ -6,66 +6,64 @@ import formatVideoDuration from "../../utils/formatVideoDuration";
 
 const VideoItem = ({ element, moreOptionsHandler }) => {
 	return (
-		<div className="relative flex flex-col max-w-[24.5rem] md:max-w-[22.5rem] rounded-md shadow-lg h-[260px] md:h-[300px]">
+		<div className="relative flex flex-col w-full max-w-[24rem] md:max-w-[22rem] rounded-md shadow-lg h-[280px] md:h-[320px]">
 			<Link
 				to={`/watch?v=${element._id}`}
 				className="relative w-full overflow-hidden rounded-lg aspect-video"
 			>
 				<img
 					src={element.thumbnail}
-					alt=""
+					alt={element.title}
 					loading="lazy"
-					className="object-cover object-center w-full "
+					className="object-cover w-full h-full"
 				/>
-				<span className="absolute px-1 text-white bg-black rounded-md bg-opacity-70 bottom-2 right-2">
+				<span className="absolute px-1 text-xs font-semibold text-white bg-black rounded-md bg-opacity-70 bottom-2 right-2">
 					{formatVideoDuration(element.duration)}
 				</span>
 			</Link>
-			<div className="flex items-center justify-between p-2 space-x-2 ">
-				<div className="flex items-center space-x-2">
+			<div className="flex items-start justify-between p-2">
+				<div className="flex items-center space-x-3">
 					<Link
 						to={`/user/@${element.username}`}
-						className="w-8 overflow-hidden rounded-full aspect-square "
+						className="w-8 h-8 overflow-hidden rounded-full"
 					>
 						<img
 							src={element.avatar}
 							width={40}
 							height={40}
-							alt=""
+							alt={`${element.username}'s avatar`}
 							loading="lazy"
-							className="object-cover object-center"
+							className="object-cover w-full h-full"
 						/>
 					</Link>
-					<div className="flex-1 ">
+					<div className="flex flex-col flex-1 space-y-1">
 						<Link
 							to={`/watch?v=${element._id}`}
-							className="mb-2 leading-5  font-[400] text-sm "
+							className="text-sm font-medium leading-tight text-white hover:underline line-clamp-2"
 						>
 							{element.title}
 						</Link>
-						<div className="text-[0.7rem] flex flex-row  text-gray-400  md:flex-col md:gap-0 gap-2">
+						<div className="text-xs text-gray-400">
 							{element.channelName && (
 								<Link
 									to={`/user/${element.username}`}
-									className="transition-all md:text-smr hover:text-gray-100"
+									className="hover:text-gray-100"
 								>
 									{element.channelName}
 								</Link>
 							)}
-							<div className="space-x-2">
-								<span>{formatCounts(element.views)} </span>
+							<div className="flex flex-wrap gap-x-2">
+								<span>{formatCounts(element.views)} views</span>
 								<span>{getTimeAgo(element.createdAt)}</span>
 							</div>
 						</div>
 					</div>
 				</div>
 				<span
-					className="z-10"
-					onClick={() => {
-						moreOptionsHandler(true, element._id);
-					}}
+					className="p-2 text-gray-400 cursor-pointer hover:text-white"
+					onClick={() => moreOptionsHandler(true, element._id)}
 				>
-					<IoMdMore className="text-[1.5rem] text-white" />
+					<IoMdMore className="text-lg" />
 				</span>
 			</div>
 		</div>
