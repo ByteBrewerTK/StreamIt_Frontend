@@ -22,7 +22,7 @@ const SubscriptionsListPage = () => {
 	if (subscriptionLoading)
 		return (
 			<main className="grid flex-1 place-items-center ">
-				<span className="size-[50px]">
+				<span className="size-[70px]">
 					<Loader />
 				</span>
 			</main>

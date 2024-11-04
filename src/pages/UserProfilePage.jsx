@@ -43,7 +43,7 @@ const UserProfilePage = () => {
 	if (userDataLoading || playlistLoading || watchHistoryLoading) {
 		return (
 			<div className="grid w-full h-full place-items-center">
-				<span className="size-[4rem]">
+				<span className="size-[70px]">
 					<Loader />
 				</span>
 			</div>

@@ -105,7 +105,7 @@ const WatchVideo = () => {
 		return (
 			<div className="grid w-full h-full place-items-center">
 				{" "}
-				<span className=" size-14">
+				<span className=" size-[70px]">
 					<Loader />
 				</span>
 			</div>

@@ -10,7 +10,7 @@ const ChannelVideos = (username) => {
 	if (channelVideosLoading) {
 		return (
 			<div className="grid size-full place-items-center">
-				<span className="size-[40px]">
+				<span className="size-[70px]">
 					<Loader />
 				</span>
 			</div>
