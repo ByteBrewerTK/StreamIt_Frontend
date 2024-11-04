@@ -25,7 +25,7 @@ const FeedsPage = () => {
 	if (feedLoading)
 		return (
 			<main className="grid w-full h-full place-items-center">
-				<div className="size-[60px]">
+				<div className="size-[70px]">
 					<Loader />
 				</div>
 			</main>
@@ -40,9 +40,9 @@ const FeedsPage = () => {
 		);
 	return (
 		<>
-			<main className="grid flex-1 h-full sm:h-[100vh] gap-x-4 overflow-x-hidden overflow-y-auto grid-col-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 bg-secondary text-white scrollbar-hide ">
+			<main className="grid flex-1 h-full sm:h-screen gap-4 py-2 overflow-y-auto grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-[280px] md:auto-rows-[320px] bg-secondary text-white scrollbar-hide md:pb-8">
 				{feedData &&
-					feedData?.map((element) => (
+					feedData.map((element) => (
 						<VideoItem
 							key={element._id}
 							element={element}
@@ -50,6 +50,7 @@ const FeedsPage = () => {
 						/>
 					))}
 			</main>
+
 			<MorePanel
 				setMoreOptionsOpen={setMoreOptionsOpen}
 				isMoreOptionsOpen={isMoreOptionsOpen}
