@@ -12,7 +12,6 @@ import axios from "axios";
 import DeviceAccessDenied from "../../../components/shared/DeviceAccessDenied";
 import useDeviceType from "../../../hooks/useDeviceType";
 import ImageCropper from "../../../components/ui/ImageCropper";
-import { useEffect } from "react";
 import ProgressBar from "../../../components/ui/ProgressBar";
 
 const Account = () => {
@@ -24,6 +23,7 @@ const Account = () => {
 	const [updateLoading, setUpdateLoading] = useState(false);
 	const [checkLoading, setCheckLoading] = useState(false);
 	const [uploadProgressActive, setUploadProgressActive] = useState(false);
+	const [uploadProgress, setUploadProgress] = useState(0);
 	const [infoFormData, setInfoFormData] = useState({
 		fullName: userData.fullName,
 		username: userData.username,
@@ -78,10 +78,6 @@ const Account = () => {
 			setUpdateLoading(false);
 		}
 	};
-	const [uploadProgress, setUploadProgress] = useState(0);
-	useEffect(() => {
-		console.log("Progress : ", uploadProgress);
-	}, [uploadProgress]);
 
 	const avatarSubmitHandler = async (avatar) => {
 		if (!avatar && setAvatarUploading) return;
