@@ -1,8 +1,6 @@
 import { useState } from "react";
 import useSetNavTitle from "../../../hooks/useSetNavTitle";
 import { LuCamera } from "react-icons/lu";
-import { MdOutlineModeEdit } from "react-icons/md";
-import { useRef } from "react";
 import toast from "react-hot-toast";
 import { apiInstance, apiRequest } from "../../../services/api";
 import Loader from "../../../components/ui/loader/Loader";
@@ -14,6 +12,8 @@ import axios from "axios";
 import DeviceAccessDenied from "../../../components/shared/DeviceAccessDenied";
 import useDeviceType from "../../../hooks/useDeviceType";
 import ImageCropper from "../../../components/ui/ImageCropper";
+import { useEffect } from "react";
+import ProgressBar from "../../../components/ui/ProgressBar";
 
 const Account = () => {
 	const deviceType = useDeviceType();
@@ -23,6 +23,7 @@ const Account = () => {
 	const [isUsernameAvailable, setUsernameAvailable] = useState(false);
 	const [updateLoading, setUpdateLoading] = useState(false);
 	const [checkLoading, setCheckLoading] = useState(false);
+	const [uploadProgressActive, setUploadProgressActive] = useState(false);
 	const [infoFormData, setInfoFormData] = useState({
 		fullName: userData.fullName,
 		username: userData.username,
@@ -77,6 +78,10 @@ const Account = () => {
 			setUpdateLoading(false);
 		}
 	};
+	const [uploadProgress, setUploadProgress] = useState(0);
+	useEffect(() => {
+		console.log("Progress : ", uploadProgress);
+	}, [uploadProgress]);
 
 	const avatarSubmitHandler = async (avatar) => {
 		if (!avatar && setAvatarUploading) return;
@@ -86,20 +91,31 @@ const Account = () => {
 		formData.append("avatar", avatar);
 
 		try {
+			setUploadProgressActive(true);
 			const response = await apiRequest(
 				"/user/update-avatar",
 				"PATCH",
-				formData
-			);
+				formData,
+				{
+					onUploadProgress: (progressEvent) => {
+						const percentCompleted = Math.round(
+							progressEvent.progress * 100
+						);
 
+						setUploadProgress(percentCompleted);
+					},
+				}
+			);
 			userData.avatar = response.data.avatar;
 			setUserData(userData);
 
 			toast.success("Avatar uploaded successfully");
 		} catch (error) {
+			setUploadProgress(false);
 			console.error(error);
 			toast.error("Avatar uploading failed");
 		} finally {
+			setUploadProgressActive(false);
 			setAvatarUploading(false);
 		}
 	};
@@ -116,7 +132,10 @@ const Account = () => {
 		return <DeviceAccessDenied type="Desktop" />;
 	}
 	return (
-		<main className="relative flex flex-col flex-1 text-white">
+		<main className="relative flex flex-col flex-1 text-white ">
+			{uploadProgressActive && (
+				<ProgressBar uploadProgress={uploadProgress} />
+			)}
 			{isAvatarPopupActive && (
 				<ImageCropper
 					setAvatarPopupActive={setAvatarPopupActive}
