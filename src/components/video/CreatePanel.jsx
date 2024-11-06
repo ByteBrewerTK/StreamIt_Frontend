@@ -103,14 +103,20 @@ const CreatePanel = ({
 		try {
 			setUploadProgress(0);
 			setUploadProgressActive(true);
-			await apiRequest("/video", "POST", formData, {
-				onUploadProgress: (progressEvent) => {
-					const percentCompleted = Math.round(
-						progressEvent.progress * 100
-					);
-					setUploadProgress(percentCompleted);
+			await apiRequest(
+				"/video",
+				"POST",
+				formData,
+				{
+					onUploadProgress: (progressEvent) => {
+						const percentCompleted = Math.round(
+							progressEvent.progress * 100
+						);
+						setUploadProgress(percentCompleted);
+					},
 				},
-			});
+				"multipart/form-data"
+			);
 			toast.success("Video uploaded successfully!");
 			setUploadProgressActive(false);
 		} catch (error) {
