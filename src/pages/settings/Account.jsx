@@ -56,7 +56,6 @@ const Account = () => {
 	};
 
 	const submitHandler = async () => {
-		console.log("inside");
 		const { fullName } = userData;
 		if (!isUsernameAvailable && infoFormData.fullName === fullName) {
 			return;
@@ -93,7 +92,6 @@ const Account = () => {
 	};
 
 	const avatarSubmitHandler = async () => {
-		console.log(avatarUploading);
 		// Check if there is an avatar set
 		if (!avatar) {
 			toast.error("No avatar file selected.");
