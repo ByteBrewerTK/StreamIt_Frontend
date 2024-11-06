@@ -10,7 +10,11 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import useDeviceType from "../../hooks/useDeviceType";
 
-const CreatePanel = ({ handleCreatePanelOpen }) => {
+const CreatePanel = ({
+	handleCreatePanelOpen,
+	setUploadProgressActive,
+	setUploadProgress,
+}) => {
 	const [videoFile, setVideoFile] = useState(null);
 	const [videoPreview, setVideoPreview] = useState(null);
 	const [thumbnailFile, setThumbnailFile] = useState(null);
@@ -96,18 +100,27 @@ const CreatePanel = ({ handleCreatePanelOpen }) => {
 
 		setUploading(true);
 
-		toast
-			.promise(apiRequest("/video", "POST", formData), {
-				loading: "Uploading video...",
-				success: () => {
-					return "Video uploaded successfully!";
+		try {
+			setUploadProgress(0);
+			setUploadProgressActive(true);
+			await apiRequest("/video", "POST", formData, {
+				onUploadProgress: (progressEvent) => {
+					const percentCompleted = Math.round(
+						progressEvent.progress * 100
+					);
+					setUploadProgress(percentCompleted);
 				},
-				error: "Error while uploading video.",
-			})
-			.finally(() => {
-				clearCreatePanel();
-				event.target.reset();
 			});
+			toast.success("Video uploaded successfully!");
+			setUploadProgressActive(false);
+		} catch (error) {
+			setUploadProgressActive(false);
+			console.log(error);
+			toast.error("Error while uploading video.");
+		} finally {
+			clearCreatePanel();
+			event.target.reset();
+		}
 	};
 
 	return (
@@ -244,15 +257,17 @@ const CreatePanel = ({ handleCreatePanelOpen }) => {
 								type="text"
 								placeholder="Title"
 								name="title"
-								className="w-full h-10 px-2 mt-4 text-white rounded bg-primary md:mt-0 md:bg-secondary focus:outline focus:outline-muted"
+								minLength={3}
 								required
+								className="w-full h-10 px-2 mt-4 text-white rounded bg-primary md:mt-0 md:bg-secondary focus:outline focus:outline-muted"
 							/>
 
 							<textarea
-								className="w-full h-[10rem] bg-primary mt-2 resize-none p-2 text-white md:bg-secondary focus:outline focus:outline-muted rounded"
 								placeholder="Description"
 								name="description"
+								minLength={10}
 								required
+								className="w-full h-[10rem] bg-primary mt-2 resize-none p-2 text-white md:bg-secondary focus:outline focus:outline-muted rounded"
 							></textarea>
 						</div>
 					</div>
