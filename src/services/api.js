@@ -13,13 +13,14 @@ export const apiRequest = async (
 	url,
 	method = "GET",
 	data = null,
-	source = {}
+	source = {},
+	contentType = "application/json"
 ) => {
 	try {
 		const accessToken = getAccessToken();
 
 		const headers = {
-			"Content-Type": "multipart/form-data",
+			"Content-Type": contentType,
 			Authorization: `Bearer ${accessToken}`,
 		};
 
