@@ -2,22 +2,47 @@ const TOKEN_KEY = "accessToken";
 const REFRESH_TOKEN_KEY = "refreshToken";
 const USER_DATA = "userData";
 
-// save tokens to localStorage
+// Add expiry time handling
 export const saveTokens = (accessToken, refreshToken) => {
-	localStorage.setItem(TOKEN_KEY, accessToken);
-	localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+	try {
+		localStorage.setItem(TOKEN_KEY, accessToken);
+		localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+		return true;
+	} catch (error) {
+		console.error("Error saving tokens:", error);
+		return false;
+	}
 };
 
-// get access token from localStorage
-export const getAccessToken = () => localStorage.getItem(TOKEN_KEY);
+// Add error handling for token getters
+export const getAccessToken = () => {
+	try {
+		return localStorage.getItem(TOKEN_KEY);
+	} catch (error) {
+		console.error("Error getting access token:", error);
+		return null;
+	}
+};
 
-// get refresh token from localStorage
-export const getRefreshToken = () => localStorage.getItem(REFRESH_TOKEN_KEY);
+export const getRefreshToken = () => {
+	try {
+		return localStorage.getItem(REFRESH_TOKEN_KEY);
+	} catch (error) {
+		console.error("Error getting refresh token:", error);
+		return null;
+	}
+};
 
-// remove token from localStorage
+// Add try-catch for token removal
 export const removeTokens = () => {
-	localStorage.removeItem(TOKEN_KEY);
-	localStorage.removeItem(REFRESH_TOKEN_KEY);
+	try {
+		localStorage.removeItem(TOKEN_KEY);
+		localStorage.removeItem(REFRESH_TOKEN_KEY);
+		return true;
+	} catch (error) {
+		console.error("Error removing tokens:", error);
+		return false;
+	}
 };
 
 export const removeUserData = () => {
@@ -25,10 +50,25 @@ export const removeUserData = () => {
 };
 
 export const getUserData = () => {
-	const userString = localStorage.getItem(USER_DATA);
-	return userString ? JSON.parse(userString) : null;
+	try {
+		const userString = localStorage.getItem(USER_DATA);
+		return userString ? JSON.parse(userString) : null;
+	} catch (error) {
+		console.error("Error getting user data:", error);
+		return null;
+	}
 };
 
+// Add validation and error handling for saving
 export const saveUserData = (user) => {
-	localStorage.setItem(USER_DATA, JSON.stringify(user));
+	try {
+		if (!user) {
+			throw new Error("User data cannot be null or undefined");
+		}
+		localStorage.setItem(USER_DATA, JSON.stringify(user));
+		return true;
+	} catch (error) {
+		console.error("Error saving user data:", error);
+		return false;
+	}
 };
