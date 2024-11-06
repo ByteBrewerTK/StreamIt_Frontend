@@ -28,6 +28,7 @@ export const apiRequest = async (
 			headers,
 			data,
 			cancelToken: source.token,
+			onUploadProgress: source.onUploadProgress,
 		});
 
 		return response.data;
@@ -57,6 +58,7 @@ export const apiRequest = async (
 						headers,
 						data,
 						cancelToken: source.token,
+						onUploadProgress: source.onUploadProgress,
 					});
 
 					return response.data;
