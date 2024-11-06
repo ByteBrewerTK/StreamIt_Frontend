@@ -20,9 +20,13 @@ export const apiRequest = async (
 		const accessToken = getAccessToken();
 
 		const headers = {
-			"Content-Type": contentType,
 			Authorization: `Bearer ${accessToken}`,
 		};
+		if (contentType === "application/json" && !(data instanceof FormData)) {
+			headers["Content-Type"] = "application/json";
+		} else {
+			headers["Content-Type"] = "multipart/form-data";
+		}
 
 		const response = await axios({
 			url: `${baseUrl}${url}`,
