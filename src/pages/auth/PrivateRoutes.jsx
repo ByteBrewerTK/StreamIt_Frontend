@@ -7,10 +7,13 @@ import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getAccessToken, saveTokens } from "../../services/authServices";
 import Loader from "../../components/ui/loader/Loader";
+import ProgressBar from "../../components/ui/ProgressBar";
 
 const PrivateRoutes = () => {
 	const [localAccessToken, setLocalAccessToken] = useState(getAccessToken());
 	const [isTokenLoaded, setIsTokenLoaded] = useState(false);
+	const [uploadProgressActive, setUploadProgressActive] = useState(false);
+	const [uploadProgress, setUploadProgress] = useState(0);
 	const location = useLocation();
 
 	const [isVisible, setVisible] = useState(true);
@@ -47,7 +50,9 @@ const PrivateRoutes = () => {
 	if (!isTokenLoaded) {
 		return (
 			<div className="grid size-full place-items-center bg-primary">
-				<span className="size-[70px]"><Loader/></span>
+				<span className="size-[70px]">
+					<Loader />
+				</span>
 			</div>
 		);
 	}
@@ -55,6 +60,9 @@ const PrivateRoutes = () => {
 	return (
 		<div className="w-full h-[100dvh] overflow-hidden relative z-50">
 			<main className="relative flex flex-col h-full overflow-hidden md:flex-col md:flex sm:overflow-hidden bg-secondary">
+				{uploadProgressActive && (
+					<ProgressBar uploadProgress={uploadProgress} />
+				)}
 				<div
 					className={`z-50 transition-all duration-500 w-full sm:transition-none sm:translate-y-0 md:relative ${
 						!isVisible ? "-translate-y-full duration-500 fixed" : ""
@@ -70,7 +78,9 @@ const PrivateRoutes = () => {
 				<section className="flex overflow-hidden size-full">
 					<SideNavbar isSidebarOpen={isSidebarOpen} />
 					{localAccessToken ? (
-						<Outlet context={{ setNavVisible }} />
+						<Outlet
+							context={{ setNavVisible, setUploadProgressActive }}
+						/>
 					) : (
 						<Navigate to="/auth/login" />
 					)}
@@ -86,6 +96,8 @@ const PrivateRoutes = () => {
 				>
 					<CreatePanel
 						handleCreatePanelOpen={handleCreatePanelOpen}
+						setUploadProgressActive={setUploadProgressActive}
+						setUploadProgress={setUploadProgress}
 					/>
 				</div>
 			</main>
