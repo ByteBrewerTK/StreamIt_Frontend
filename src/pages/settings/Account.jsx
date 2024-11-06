@@ -55,14 +55,6 @@ const Account = () => {
 		}
 	};
 
-	const avatarInputHandler = (e) => {
-		const file = e.target.files[0];
-		if (file && file.type.startsWith("image/")) {
-			setAvatar(file);
-			setAvatarPreview(URL.createObjectURL(file));
-		}
-	};
-
 	const submitHandler = async () => {
 		console.log("inside");
 		const { fullName } = userData;
@@ -89,9 +81,24 @@ const Account = () => {
 		}
 	};
 
+	const avatarInputHandler = (e) => {
+		const file = e.target.files[0];
+		// Check if the selected file is an image
+		if (file && file.type.startsWith("image/")) {
+			setAvatar(file);
+			setAvatarPreview(URL.createObjectURL(file));
+		} else {
+			toast.error("Please select a valid image file.");
+		}
+	};
+
 	const avatarSubmitHandler = async () => {
 		console.log(avatarUploading);
-		if (!avatar && setAvatarUploading) return;
+		// Check if there is an avatar set
+		if (!avatar) {
+			toast.error("No avatar file selected.");
+			return;
+		}
 
 		setAvatarUploading(true);
 
@@ -107,12 +114,15 @@ const Account = () => {
 				formData
 			);
 
-			userData.avatar = response.data.avatar;
-			setUserData(userData);
+			// Update userData with the new avatar
+			setUserData((prevData) => ({
+				...prevData,
+				avatar: response.data.avatar,
+			}));
 
 			toast.success("Avatar uploaded successfully");
 		} catch (error) {
-			console.error(error);
+			console.error("Error uploading avatar:", error);
 			toast.error("Avatar uploading failed");
 		} finally {
 			setAvatarUploading(false);
