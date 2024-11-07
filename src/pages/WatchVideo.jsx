@@ -92,16 +92,8 @@ const WatchVideo = () => {
 			setLikeLoading(false);
 		}
 	};
-	const subscriptionToggle = async () => {
-		const updatedOwnerDetails = await toggleSubscription(
-			isSubscribing,
-			setSubscribing,
-			video.data.ownerDetails
-		);
-		video.data.ownerDetails = updatedOwnerDetails;
-	};
 
-	if (loading)
+	if (loading && !results?.video)
 		return (
 			<div className="grid w-full h-full place-items-center">
 				{" "}
@@ -118,6 +110,15 @@ const WatchVideo = () => {
 
 	const { data } = video;
 	const { ownerDetails } = data;
+
+	const subscriptionToggle = async () => {
+		const updatedOwnerDetails = await toggleSubscription(
+			isSubscribing,
+			setSubscribing,
+			video?.data?.ownerDetails
+		);
+		video.data.ownerDetails = updatedOwnerDetails;
+	};
 
 	const handleInitialComment = (comment) => {
 		setInitialComment(comment.content.substring(0, 40));
