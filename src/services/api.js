@@ -12,21 +12,16 @@ const baseUrl = import.meta.env.VITE_API_URL;
 export const apiRequest = async (
 	url,
 	method = "GET",
-	data = null,
+	data = {},
 	source = {},
-	contentType = "application/json"
 ) => {
 	try {
 		const accessToken = getAccessToken();
 
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
+			"Content-Type": "application/json",
 		};
-		if (contentType === "application/json" && !(data instanceof FormData)) {
-			headers["Content-Type"] = "application/json";
-		} else {
-			headers["Content-Type"] = "multipart/form-data";
-		}
 
 		const response = await axios({
 			url: `${baseUrl}${url}`,
@@ -56,6 +51,7 @@ export const apiRequest = async (
 
 					const headers = {
 						Authorization: `Bearer ${updatedAccessToken}`,
+						"Content-Type": "application/json",
 					};
 
 					const response = await axios({
@@ -115,7 +111,7 @@ export const toggleSubscription = async (
 	try {
 		setSubscribing(true);
 		const response = await apiRequest(
-			`/subscriptions/channel/${ownerDetails._id}`,
+			`/subscriptions/channel/${ownerDetails?._id}`,
 			"PATCH"
 		);
 		if (response.statusCode === 200) {
