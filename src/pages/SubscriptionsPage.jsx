@@ -3,11 +3,15 @@ import Loader from "../components/ui/loader/Loader";
 import useGetSubscriptions from "../hooks/data/useGetSubscriptions";
 import { useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
+import useSubscriptionsVideos from "../hooks/data/useSubscriptionsVideos";
+import VideoItem from "../components/video/VideoItem";
 
 const SubscriptionsPage = () => {
 	const { setNavVisible } = useOutletContext();
 	const { subscriptionData, subscriptionError, subscriptionLoading } =
 		useGetSubscriptions();
+	const { subsVideosData, subsVideosError, isSubsVideosLoading } =
+		useSubscriptionsVideos();
 
 	useEffect(() => {
 		setNavVisible(true);
@@ -29,7 +33,7 @@ const SubscriptionsPage = () => {
 				</span>
 			</main>
 		);
-	if (subscriptionData.length ===0)
+	if (subscriptionData.length === 0)
 		return (
 			<main className="grid flex-1 place-items-center">
 				<span className="size-[50px] text-muted w-fit h-fit">
@@ -38,7 +42,7 @@ const SubscriptionsPage = () => {
 			</main>
 		);
 	return (
-		<main className="flex-1 overflow-hidden">
+		<main className="flex flex-col flex-1 overflow-hidden">
 			<section className="flex py-2 bg-primary">
 				<div className="flex flex-1 pl-2 overflow-x-auto overflow-y-hidden scrollbar-hide">
 					{subscriptionData.map((channel) => (
@@ -66,7 +70,27 @@ const SubscriptionsPage = () => {
 					All
 				</Link>
 			</section>
-			<section className="overflow-x-hidden overflow-y-auto scrollbar-hide"></section>
+			<section className="overflow-x-hidden overflow-y-auto scrollbar-hide size-full">
+				{isSubsVideosLoading || subsVideosError ? (
+					<div className="grid size-full place-items-center">
+						{subsVideosError && !isSubsVideosLoading ? (
+							<span className="text-lg text-muted">
+								{subsVideosError}
+							</span>
+						) : (
+							<span className="size-[70px]">
+								<Loader />
+							</span>
+						)}
+					</div>
+				) : (
+					<section className="grid flex-1 h-full sm:h-screen gap-4 py-2 overflow-y-auto grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-[280px] md:auto-rows-[320px] bg-secondary text-white scrollbar-hide md:pb-8">
+						{subsVideosData.map((video) => (
+							<VideoItem key={video._id} element={video} />
+						))}
+					</section>
+				)}
+			</section>
 		</main>
 	);
 };
