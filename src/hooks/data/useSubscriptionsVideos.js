@@ -13,7 +13,7 @@ const useSubscriptionsVideos = () => {
 			try {
 				const response = await apiRequest("/subscriptions/videos");
 				if (response) {
-					setSubsVideosData(response?.data?.videos);
+					setSubsVideosData(response?.data);
 				}
 			} catch (error) {
 				setSubsVideosError("Error occurred");
