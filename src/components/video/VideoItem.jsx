@@ -39,7 +39,7 @@ const VideoItem = ({ element, moreOptionsHandler }) => {
 					<div className="flex flex-col flex-1 space-y-1">
 						<Link
 							to={`/watch?v=${element._id}`}
-							className="text-sm font-medium leading-tight text-white hover:underline line-clamp-2"
+							className="text-sm font-medium leading-tight text-white line-clamp-2"
 						>
 							{element.title}
 						</Link>
@@ -53,7 +53,7 @@ const VideoItem = ({ element, moreOptionsHandler }) => {
 								</Link>
 							)}
 							<div className="flex flex-wrap gap-x-2">
-								<span>{formatCounts(element.views)} views</span>
+								<span>{formatCounts(element.views)}</span>
 								<span>{getTimeAgo(element.createdAt)}</span>
 							</div>
 						</div>
