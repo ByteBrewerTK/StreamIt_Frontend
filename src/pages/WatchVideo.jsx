@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { apiRequest, toggleLikeApi, toggleSubscription } from "../services/api";
 import { useSearchParams, Link } from "react-router-dom";
-import { LuThumbsUp } from "react-icons/lu";
 import { RiShareForwardLine } from "react-icons/ri";
 import { IoMdThumbsUp } from "react-icons/io";
 import Comments from "../components/video/Comments";
@@ -15,6 +14,7 @@ import { useOutletContext } from "react-router-dom";
 import { IoBookmarkOutline } from "react-icons/io5";
 import VideoDescription from "../components/video/VideoDescription";
 import { useNavigate } from "react-router-dom";
+import { FiThumbsUp } from "react-icons/fi";
 
 const WatchVideo = () => {
 	const [searchParams] = useSearchParams();
@@ -75,24 +75,6 @@ const WatchVideo = () => {
 		fetchData();
 	}, [videoId, commentRequestUrl]);
 
-	const toggleLike = async () => {
-		if (likeLoading) return;
-		try {
-			setLikeLoading(true);
-			const response = await toggleLikeApi("Video", videoId);
-			if (response.statusCode === 200) {
-				const { data } = video;
-
-				data.isLiked = !data.isLiked;
-				setLikes((prev) => prev + (data.isLiked ? 1 : -1));
-			}
-		} catch (error) {
-			console.error("Error toggling like:", error);
-		} finally {
-			setLikeLoading(false);
-		}
-	};
-
 	if (loading && !results?.video)
 		return (
 			<div className="grid w-full h-full place-items-center">
@@ -118,6 +100,22 @@ const WatchVideo = () => {
 			video?.data?.ownerDetails
 		);
 		video.data.ownerDetails = updatedOwnerDetails;
+	};
+	const toggleLike = async () => {
+		if (likeLoading) return;
+		try {
+			setLikeLoading(true);
+			const response = await toggleLikeApi("Video", videoId);
+			if (response.statusCode === 200) {
+				const isVideoLiked = Object.keys(response.data).length > 0;
+				setIsLiked(isVideoLiked);
+				setLikes((prev) => prev + (isVideoLiked ? 1 : -1));
+			}
+		} catch (error) {
+			console.error("Error toggling like:", error);
+		} finally {
+			setLikeLoading(false);
+		}
 	};
 
 	const handleInitialComment = (comment) => {
@@ -176,22 +174,22 @@ const WatchVideo = () => {
 								</div>
 							</div>
 							<button
-								className="text-sm rounded-full w-[6rem] h-[1.6rem] border flex items-center justify-center md:h-full"
+								className="text-sm rounded-full w-[6rem] h-[1.6rem] flex items-center justify-center"
 								onClick={subscriptionToggle}
 							>
 								{isSubscribing ? (
-									<div className="flex items-center justify-center h-[1.6rem]">
+									<div className="flex items-center justify-center w-full h-full border rounded-full">
 										<span className="size-[20px]">
 											<Loader />
 										</span>
 									</div>
 								) : ownerDetails.isSubscribed ? (
-									<span className="px-3 text-white rounded-full md:h-[1.6rem] md:px-4 flex items-center">
+									<span className="flex items-center h-full px-3 text-white border rounded-full md:px-4 ">
 										{" "}
 										Subscribed
 									</span>
 								) : (
-									<span className="px-3 text-black bg-white rounded-full md:h-[1.6rem] md:px-4 flex items-center">
+									<span className="flex items-center h-full px-3 text-black bg-white border rounded-full md:px-4">
 										{" "}
 										Subscribe
 									</span>
@@ -212,7 +210,7 @@ const WatchVideo = () => {
 												</span>
 											</div>
 										) : !isLiked ? (
-											<LuThumbsUp className="text-sm" />
+											<FiThumbsUp className="text-sm" />
 										) : (
 											<IoMdThumbsUp className="text-base text-white" />
 										)}
