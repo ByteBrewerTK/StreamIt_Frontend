@@ -36,7 +36,7 @@ const GeneralSettingsPage = () => {
 		{
 			title: "Auto Play Next",
 			icon: IoPlayForwardOutline,
-			opt: "autoPlayStart",
+			opt: "autoPlayNext",
 			isEnabled: autoPlayNext,
 		},
 	];
