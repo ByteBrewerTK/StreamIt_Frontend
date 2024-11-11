@@ -1,6 +1,7 @@
 const TOKEN_KEY = "accessToken";
 const REFRESH_TOKEN_KEY = "refreshToken";
 const USER_DATA = "userData";
+const USER_SETTINGS = "userSettings";
 
 // Add expiry time handling
 export const saveTokens = (accessToken, refreshToken) => {
@@ -66,6 +67,29 @@ export const saveUserData = (user) => {
 			throw new Error("User data cannot be null or undefined");
 		}
 		localStorage.setItem(USER_DATA, JSON.stringify(user));
+		return true;
+	} catch (error) {
+		console.error("Error saving user data:", error);
+		return false;
+	}
+};
+
+export const getUserSetting = () => {
+	try {
+		const userString = localStorage.getItem(USER_SETTINGS);
+		return userString ? JSON.parse(userString) : null;
+	} catch (error) {
+		console.error("Error getting user data:", error);
+		return null;
+	}
+};
+
+export const setUserSettings = (settings) => {
+	try {
+		if (!settings) {
+			throw new Error("User data cannot be null or undefined");
+		}
+		localStorage.setItem(USER_SETTINGS, JSON.stringify(settings));
 		return true;
 	} catch (error) {
 		console.error("Error saving user data:", error);
