@@ -15,6 +15,7 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import VideoDescription from "../components/video/VideoDescription";
 import { useNavigate } from "react-router-dom";
 import { FiThumbsUp } from "react-icons/fi";
+import { getUserSetting } from "../services/authServices";
 
 const WatchVideo = () => {
 	const [searchParams] = useSearchParams();
@@ -30,6 +31,7 @@ const WatchVideo = () => {
 	const [isSubscribing, setSubscribing] = useState(false);
 	const { setNavVisible } = useOutletContext();
 	const navigate = useNavigate();
+	const { autoPlayOnStart } = getUserSetting();
 
 	const commentQuery = {
 		videoId,
@@ -128,7 +130,7 @@ const WatchVideo = () => {
 				<div className="w-full overflow-hidden bg-black rounded-lg aspect-video">
 					<ReactPlayer
 						url={data.videoFile}
-						playing
+						playing={autoPlayOnStart}
 						controls
 						width="100%"
 						height="100%"
