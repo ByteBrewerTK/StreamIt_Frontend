@@ -5,7 +5,6 @@ import HistoryVideoItem from "../components/video/HistoryVideoItem";
 const WatchHistoryPage = () => {
 	const { watchHistoryData, watchHistoryError, watchHistoryLoading } =
 		useWatchHistory();
-	console.log(watchHistoryData);
 	if (watchHistoryLoading || watchHistoryError) {
 		return (
 			<main className="grid size-full place-items-center">

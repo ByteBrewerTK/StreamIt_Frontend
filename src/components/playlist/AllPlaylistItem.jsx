@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 const AllPlaylistItem = ({ playlist, playlistMoreOptionsHandler }) => {
 	const { _id, name, videos, privacyType } = playlist;
 	const banner = videos[0].thumbnail;
-	console.log(playlist);
 	return (
 		<div className="relative md:flex md:flex-col md:max-w-[22.5rem] md:shadow-lg md:my-1 text-white grid grid-cols-2 gap-x-4 md:before:w-[90%] md:before:h-[10%] md:before:bg-gray-500 md:before:absolute md:before:left-[50%] md:before:-translate-x-[50%] md:before:-top-1 md:before:rounded-full md:h-[290px]">
 			<Link

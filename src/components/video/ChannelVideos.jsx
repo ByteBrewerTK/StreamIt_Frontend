@@ -5,8 +5,6 @@ import VideoItem from "./VideoItem";
 const ChannelVideos = (username) => {
 	const { channelVideosData, channelVideosError, channelVideosLoading } =
 		useChannelVideos(username);
-	console.log(channelVideosData);
-
 	if (channelVideosLoading) {
 		return (
 			<div className="grid size-full place-items-center">
