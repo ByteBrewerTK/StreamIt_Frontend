@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 const OptionsItem = ({ title, icon, path }) => {
 	const { pathname } = useLocation();
 	const currentPath = pathname.split("/").at(-1);
-	console.log(path, currentPath);
-
 	const Icon = icon;
 	return (
 		<Link

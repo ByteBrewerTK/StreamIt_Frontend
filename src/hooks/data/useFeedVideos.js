@@ -10,7 +10,6 @@ const useFeedVideos = (url) => {
 		const fetchData = async () => {
 			try {
 				const { data } = await apiRequest(url);
-
 				setFeedData(data.docs);
 			} catch (error) {
 				setFeedError(error.message);

@@ -13,7 +13,6 @@ const useGetUserAllVideos = () => {
 					`/video/fetch-all-videos/${username}`
 				);
 				setData(response.data);
-				console.log(response);
 			} catch (error) {
 				console.error("Error while fetch user all videos :", error);
 				setError(error.message);

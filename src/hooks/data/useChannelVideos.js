@@ -13,7 +13,6 @@ const useChannelVideos = ({ username }) => {
 					`/video/fetch-all-videos/${username}`
 				);
 				setChannelVideosData(response.data);
-                console.log(response.data);
 			} catch (error) {
 				setChannelVideosError(error.message);
 				console.log(error);
