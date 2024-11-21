@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
+import {
+	useSearchParams,
+	Link,
+	useOutletContext,
+	useNavigate,
+} from "react-router-dom";
 import ReactPlayer from "react-player";
 import { apiRequest, toggleLikeApi, toggleSubscription } from "../services/api";
-import { useSearchParams, Link } from "react-router-dom";
 import { RiShareForwardLine } from "react-icons/ri";
 import { IoMdThumbsUp } from "react-icons/io";
 import Comments from "../components/video/Comments";
@@ -10,10 +15,8 @@ import { formatCounts } from "../utils/formatCounts";
 import Loader from "../components/ui/loader/Loader";
 import FetchError from "../components/ui/FetchError";
 import { LiaComments } from "react-icons/lia";
-import { useOutletContext } from "react-router-dom";
 import { IoBookmarkOutline } from "react-icons/io5";
 import VideoDescription from "../components/video/VideoDescription";
-import { useNavigate } from "react-router-dom";
 import { FiThumbsUp } from "react-icons/fi";
 import { getUserSetting } from "../services/authServices";
 
@@ -31,7 +34,7 @@ const WatchVideo = () => {
 	const [isSubscribing, setSubscribing] = useState(false);
 	const { setNavVisible } = useOutletContext();
 	const navigate = useNavigate();
-	const { autoPlayOnStart } = getUserSetting();
+	const { autoPlayOnStart } = getUserSetting() || false;
 
 	const commentQuery = {
 		videoId,
