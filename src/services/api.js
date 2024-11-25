@@ -13,15 +13,22 @@ export const apiRequest = async (
 	url,
 	method = "GET",
 	data = {},
-	source = {},
+	source = {}
 ) => {
 	try {
 		const accessToken = getAccessToken();
 
-		const headers = {
+		// Dynamically set Content-Type based on the data type
+		let headers = {
 			Authorization: `Bearer ${accessToken}`,
-			"Content-Type": "application/json",
 		};
+
+		// Check if data is an instance of FormData (for file uploads)
+		if (data instanceof FormData) {
+			headers["Content-Type"] = "multipart/form-data";
+		} else {
+			headers["Content-Type"] = "application/json";
+		}
 
 		const response = await axios({
 			url: `${baseUrl}${url}`,
@@ -49,10 +56,16 @@ export const apiRequest = async (
 
 					const updatedAccessToken = getAccessToken();
 
-					const headers = {
+					let headers = {
 						Authorization: `Bearer ${updatedAccessToken}`,
-						"Content-Type": "application/json",
 					};
+
+					// Dynamically set Content-Type based on the data type
+					if (data instanceof FormData) {
+						headers["Content-Type"] = "multipart/form-data";
+					} else {
+						headers["Content-Type"] = "application/json";
+					}
 
 					const response = await axios({
 						url: `${baseUrl}${url}`,
@@ -67,7 +80,7 @@ export const apiRequest = async (
 				} else {
 					removeTokens();
 					removeUserData();
-					window.location.href("/auth/login");
+					window.location.href = "/auth/login";
 				}
 			} catch (error) {
 				console.log("unauthorized : ", error);
