@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import ProfilePlaylistItem from "../ui/ProfilePlaylistItem";
 
 const Playlists = ({ data, playlistMoreOptionsHandler }) => {
-	
 	return (
 		<div className="my-4 h-[150px]">
 			<div className="flex items-center justify-between mx-2">
@@ -17,7 +16,7 @@ const Playlists = ({ data, playlistMoreOptionsHandler }) => {
 				</div>
 			) : (
 				<div className="grid w-full grid-flow-col my-2 overflow-x-auto overflow-y-hidden auto-cols-max scrollbar-hide">
-					{data.map((playlist) => (
+					{data?.map((playlist) => (
 						<div key={playlist._id}>
 							<ProfilePlaylistItem
 								playlist={playlist}
