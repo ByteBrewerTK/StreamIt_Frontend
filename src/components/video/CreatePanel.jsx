@@ -90,7 +90,13 @@ const CreatePanel = ({
 			return;
 		}
 
-		handleCreatePanelOpen(false);
+		const { title, description } = event.target;
+
+		if (title.value.length > 50 || description.value.length > 100) {
+			toast.error("Text length out of bound");
+			return;
+		}
+		handleCreatePanelOpen();
 
 		const formData = new FormData();
 		formData.append("videoFile", videoFile);
@@ -124,7 +130,7 @@ const CreatePanel = ({
 	};
 
 	return (
-		<div className="grid w-full h-full overflow-y-auto place-items-center md:backdrop-blur-md">
+		<div className="grid size-full place-items-center md:backdrop-blur-md">
 			<form
 				ref={formRef}
 				onSubmit={submitHandler}
@@ -258,6 +264,7 @@ const CreatePanel = ({
 								placeholder="Title"
 								name="title"
 								minLength={3}
+								maxLength={50}
 								required
 								className="w-full h-10 px-2 mt-4 text-white rounded bg-primary md:mt-0 md:bg-secondary focus:outline focus:outline-muted"
 							/>
@@ -266,6 +273,7 @@ const CreatePanel = ({
 								placeholder="Description"
 								name="description"
 								minLength={10}
+								maxLength={100}
 								required
 								className="w-full h-[10rem] bg-primary mt-2 resize-none p-2 text-white md:bg-secondary focus:outline focus:outline-muted rounded"
 							></textarea>
@@ -287,7 +295,11 @@ const CreatePanel = ({
 					>
 						Cancel
 					</button>
-					<button className="px-3 py-1 bg-white rounded-full">
+					<button
+						className={`px-3 py-1 bg-white rounded-full ${
+							!videoPreview ? "md:hidden" : ""
+						}`}
+					>
 						Upload
 					</button>
 				</div>
