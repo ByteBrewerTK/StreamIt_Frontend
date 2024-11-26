@@ -3,7 +3,12 @@ import { RiPlayList2Fill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 const PlaylistItem = ({ playlist, playlistMoreOptionsHandler }) => {
 	const { _id, name, videos } = playlist;
-	const banner = videos[0].thumbnail;
+
+	let banner =
+		"https://img.freepik.com/free-vector/geometric-background-vector-white-cube-patterns_53876-126683.jpg";
+	if (videos.length > 0) {
+		banner = videos[0].thumbnail;
+	}
 	return (
 		<div className="relative flex flex-col w-[130px] mx-2 md:h-[145px] shadow-lg my-1 text-white before:w-[90%] before:h-[10%] before:bg-gray-500 before:absolute before:left-[50%] before:-translate-x-[50%] before:-top-1 before:rounded-full">
 			<Link
@@ -33,13 +38,13 @@ const PlaylistItem = ({ playlist, playlistMoreOptionsHandler }) => {
 					<p className="text-sm leading-4">{name}</p>
 				</Link>
 
-				<span
+				<button
 					onClick={() => {
 						playlistMoreOptionsHandler(true, _id);
 					}}
 				>
 					<IoMdMore className="text-[1rem]" />
-				</span>
+				</button>
 			</div>
 		</div>
 	);
