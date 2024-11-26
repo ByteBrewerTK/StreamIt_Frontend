@@ -85,14 +85,10 @@ const PrivateRoutes = () => {
 						<Navigate to="/auth/login" />
 					)}
 				</section>
-				<BottomNavMenu
-					handleCreatePanelOpen={handleCreatePanelOpen}
-					createPanelOpen={createPanelOpen}
-				/>
 				<div
-					className={`${
+					className={`absolute z-[50] w-full transition duration-500 bg-secondary md:bg-transparent p-4 md:p-0 overflow-x-hidden overflow-y-auto m-auto h-[calc(100%-3rem)] scrollbar-hide md:h-[calc(100%-4rem)] md:bottom-0 ${
 						createPanelOpen ? "h-full " : "h-0 hidden"
-					} absolute z-[50] w-full h-[calc(100%-2.5rem)] md:h-[calc(100%-4rem)] bottom-[2.5rem] transition duration-500 bg-secondary md:bg-transparent p-4 md:p-0 overflow-hidden m-auto md:bottom-0`}
+					}`}
 				>
 					<CreatePanel
 						handleCreatePanelOpen={handleCreatePanelOpen}
@@ -100,6 +96,11 @@ const PrivateRoutes = () => {
 						setUploadProgress={setUploadProgress}
 					/>
 				</div>
+
+				<BottomNavMenu
+					handleCreatePanelOpen={handleCreatePanelOpen}
+					createPanelOpen={createPanelOpen}
+				/>
 			</main>
 		</div>
 	);
