@@ -35,6 +35,10 @@ const CreatePlaylistModal = ({ onClose, videoId }) => {
 
 	const playlistCreateHandler = async () => {
 		if (!playlistTitle || createLoading) return;
+		if (!(playlistTitle?.length >= 3 && playlistTitle?.length <= 30)) {
+			toast.error("Enter text in valid length");
+			return;
+		}
 		setCreateLoading(true);
 		const data = { name: playlistTitle };
 		try {
@@ -63,8 +67,12 @@ const CreatePlaylistModal = ({ onClose, videoId }) => {
 				</span>
 				<div className="space-y-4">
 					<input
-						onChange={(e) => setPlaylistTitle(e.target.value)}
+						onChange={(e) =>
+							setPlaylistTitle(e.target.value.trim())
+						}
 						type="text"
+						minLength={3}
+						maxLength={30}
 						className="w-full px-1 text-white bg-transparent border-b-2 outline-none border-muted_border"
 						placeholder="Title"
 					/>
@@ -76,14 +84,14 @@ const CreatePlaylistModal = ({ onClose, videoId }) => {
 						>
 							{selectedPrivacyOption && (
 								<>
-									<div className="flex items-center gap-x-2">
+									<button className="flex items-center gap-x-2">
 										<span className="text-2xl">
 											{selectedPrivacyOption.icon}
 										</span>
 										<span>
 											{selectedPrivacyOption.label}
 										</span>
-									</div>
+									</button>
 									<span>
 										<IoIosArrowDown />
 									</span>
@@ -98,7 +106,7 @@ const CreatePlaylistModal = ({ onClose, videoId }) => {
 											handlePrivacySelection(option)
 										}
 										key={index}
-										className={`flex items-center px-2 py-2 gap-x-2 ${
+										className={`flex items-center px-2 py-2 gap-x-2 cursor-pointer ${
 											option.label ===
 											selectedPrivacyOption.label
 												? "bg-[#3b3939]"
