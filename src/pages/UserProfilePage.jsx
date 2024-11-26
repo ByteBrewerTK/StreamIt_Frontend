@@ -80,9 +80,9 @@ const UserProfilePage = () => {
 								<h2 className="text-[1.4rem]">
 									{userData.fullName}
 								</h2>
-								<div className="flex space-x-3 text-smr">
+								<div className="flex flex-wrap space-x-3 text-smr">
 									<span>@{userData.username}</span>
-									<span className="text-muted">
+									<span className="text-muted hover:text-muted_dark">
 										View Channel
 									</span>
 								</div>
