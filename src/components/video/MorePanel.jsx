@@ -29,22 +29,22 @@ const MorePanel = ({
 
 	return (
 		<section
-			className={`absolute flex w-full h-[0%] overflow-hidden transition duration-200 bottom-[2.5rem] ${
+			className={`absolute flex w-full h-[0%] overflow-hidden transition duration-200 bottom-[3.5rem] ${
 				isMoreOptionsOpen ? "h-[100%]" : ""
 			} `}
 		>
 			<section
 				ref={moreOptionsRef}
-				className="bg-secondary z-[100] flex flex-col self-end rounded-t-lg  w-container mx-auto pt-8 relative overflow-hidden h-fit"
+				className="bg-secondary z-[100] flex flex-col self-end rounded-t-lg  w-container mx-auto pt-8 relative overflow-hidden h-fit pb-2 "
 			>
-				<span
+				<button
 					onClick={() => {
 						setMoreOptionsOpen(false);
 					}}
 					className="absolute top-0 right-0 p-1 text-black bg-white rounded-es-lg "
 				>
 					<IoMdClose />
-				</span>
+				</button>
 				<VideoItemMorePanel
 					isMoreOptionsOpen={isMoreOptionsOpen}
 					setMoreOptionsOpen={setMoreOptionsOpen}
