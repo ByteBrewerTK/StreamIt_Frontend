@@ -25,7 +25,7 @@ const VideoItemWatchHistory = ({ video, moreOptionsHandler }) => {
 				{/* details */}
 				<div className="flex flex-col justify-between">
 					<Link to={`/watch?v=${_id}`} className="text-sm leading-4">
-						{title.slice(0, 26)}...
+						<h4 className="w-[100] truncate">{title}</h4>
 					</Link>
 					<Link
 						to={`/user/@${owner.username}`}
