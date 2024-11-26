@@ -43,7 +43,7 @@ const VideoItemMorePanel = ({
 		<>
 			{!openMorePanel ? (
 				<div className="flex flex-col justify-around pb-4 mx-auto text-white w-container gap-y-2">
-					<div
+					<button
 						onClick={() => {
 							toggleMorePanel(1);
 						}}
@@ -51,8 +51,8 @@ const VideoItemMorePanel = ({
 					>
 						<GoBookmark className="text-2xl" />
 						<span className="text-muted">Save</span>
-					</div>
-					<div
+					</button>
+					<button
 						onClick={() => {
 							toggleMorePanel(2);
 						}}
@@ -60,7 +60,7 @@ const VideoItemMorePanel = ({
 					>
 						<PiShareFat className="text-2xl" />
 						<span className="text-muted">Share</span>
-					</div>
+					</button>
 
 					{removeVideoButton && (
 						<div
