@@ -35,7 +35,9 @@ const PlaylistItem = ({ playlist, playlistMoreOptionsHandler }) => {
 					to={`/playlist/${_id}`}
 					className="flex flex-col justify-between"
 				>
-					<p className="text-sm leading-4">{name}</p>
+					<h4 className="w-[100px] text-sm leading-4 truncate">
+						{name}
+					</h4>
 				</Link>
 
 				<button
