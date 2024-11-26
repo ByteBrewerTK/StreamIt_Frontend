@@ -1,21 +1,32 @@
 import { Suspense, lazy, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import PrivateRoutes from "./pages/auth/PrivateRoutes";
-import VerificationSuccess from "./pages/auth/VerificationSuccess";
-import ResendVerificationMail from "./pages/auth/ResendVerificationMail";
 import Loader from "./components/ui/loader/Loader";
 import { Toaster, toast } from "react-hot-toast";
-import DesktopSecurityPage from "./pages/desktop/settings/DesktopSecurityPage";
-import DesktopGeneralSettings from "./pages/desktop/settings/DesktopGeneralSettings";
-import DesktopNotificationSetting from "./pages/desktop/settings/DesktopNotificationSetting";
-import About from "./pages/channel/About";
-import LikedVideosPage from "./pages/LikedVideosPage";
-import UserVideosPage from "./pages/desktop/UserVideosPage";
-import UserPlaylist from "./pages/UserPlaylist";
-import WatchHistoryPage from "./pages/WatchHistoryPage";
-import PlaylistPage from "./pages/PlaylistPage";
+import PrivateRoutes from "./pages/auth/PrivateRoutes";
 
 // Lazy load the component
+const VerificationSuccess = lazy(() =>
+	import("./pages/auth/VerificationSuccess")
+);
+const ResendVerificationMail = lazy(() =>
+	import("./pages/auth/ResendVerificationMail")
+);
+const DesktopSecurityPage = lazy(() =>
+	import("./pages/desktop/settings/DesktopSecurityPage")
+);
+const DesktopGeneralSettings = lazy(() =>
+	import("./pages/desktop/settings/DesktopGeneralSettings")
+);
+const DesktopNotificationSetting = lazy(() =>
+	import("./pages/desktop/settings/DesktopNotificationSetting")
+);
+const About = lazy(() => import("./pages/channel/About"));
+const LikedVideosPage = lazy(() => import("./pages/LikedVideosPage"));
+const UserVideosPage = lazy(() => import("./pages/desktop/UserVideosPage"));
+const UserPlaylist = lazy(() => import("./pages/UserPlaylist"));
+const WatchHistoryPage = lazy(() => import("./pages/WatchHistoryPage"));
+const PlaylistPage = lazy(() => import("./pages/PlaylistPage"));
+const ChatPage = lazy(() => import("./pages/chat/ChatPage"));
 const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
 const FeedsPage = lazy(() => import("./pages/FeedsPage"));
 const RegistrationPage = lazy(() => import("./pages/auth/RegistrationPage"));
@@ -46,7 +57,7 @@ const DesktopSettingsPage = lazy(() =>
 
 function App() {
 	useEffect(() => {
-		toast("App in development—please ignore bugs and issues.", {
+		toast("App in development, please ignore bugs and issues.", {
 			icon: "😊",
 		});
 	}, []);
@@ -59,7 +70,7 @@ function App() {
 					fallback={
 						<div className="grid w-full h-full place-items-center bg-secondary">
 							{" "}
-							<span className=" size-14">
+							<span className=" size-[70px]">
 								<Loader />
 							</span>
 						</div>
@@ -100,6 +111,7 @@ function App() {
 									path=":username"
 									element={<ChannelPage />}
 								/>
+								<Route path="chat" element={<ChatPage />} />
 								<Route
 									path="profile"
 									element={<UserProfilePage />}
