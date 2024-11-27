@@ -9,21 +9,14 @@ import {
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
-export const apiRequest = async (
-	url,
-	method = "GET",
-	data = {},
-	source = {}
-) => {
+export const apiRequest = async (url, method = "GET", data = {}, signal) => {
 	try {
 		const accessToken = getAccessToken();
 
-		// Dynamically set Content-Type based on the data type
 		let headers = {
 			Authorization: `Bearer ${accessToken}`,
 		};
 
-		// Check if data is an instance of FormData (for file uploads)
 		if (data instanceof FormData) {
 			headers["Content-Type"] = "multipart/form-data";
 		} else {
@@ -35,64 +28,48 @@ export const apiRequest = async (
 			method,
 			headers,
 			data,
-			cancelToken: source.token,
-			onUploadProgress: source.onUploadProgress,
+			signal, // Pass signal for cancellation
 		});
 
 		return response.data;
 	} catch (error) {
-		if (error.response && error.response.status === 401) {
-			const refreshToken = getRefreshToken();
+		if (axios.isCancel(error)) {
+			console.log("Request canceled:", error.message);
+			return; // Exit gracefully on cancel
+		}
 
-			try {
-				if (refreshToken) {
+		// Handle unauthorized errors and refresh token flow
+		if (error.response?.status === 401) {
+			const refreshToken = getRefreshToken();
+			if (refreshToken) {
+				try {
 					const { data } = await axios.post(
 						`${baseUrl}/user/refresh-token`,
-						{ refreshToken: refreshToken }
+						{ refreshToken }
 					);
 
 					const tokens = data.data;
 					saveTokens(tokens.accessToken, tokens.refreshToken);
 
-					const updatedAccessToken = getAccessToken();
-
-					let headers = {
-						Authorization: `Bearer ${updatedAccessToken}`,
-					};
-
-					// Dynamically set Content-Type based on the data type
-					if (data instanceof FormData) {
-						headers["Content-Type"] = "multipart/form-data";
-					} else {
-						headers["Content-Type"] = "application/json";
-					}
-
-					const response = await axios({
-						url: `${baseUrl}${url}`,
-						method,
-						headers,
-						data,
-						cancelToken: source.token,
-						onUploadProgress: source.onUploadProgress,
-					});
-
-					return response.data;
-				} else {
+					return apiRequest(url, method, data, signal); // Retry request with updated token
+				} catch (err) {
 					removeTokens();
 					removeUserData();
 					window.location.href = "/auth/login";
 				}
-			} catch (error) {
-				console.log("unauthorized : ", error);
+			} else {
 				removeTokens();
 				removeUserData();
 				window.location.href = "/auth/login";
 			}
-		} else {
-			throw error;
 		}
+
+		// Log other errors
+		console.error("API error:", error);
+		throw error;
 	}
 };
+
 
 export const apiInstance = axios.create({
 	baseURL: baseUrl,
