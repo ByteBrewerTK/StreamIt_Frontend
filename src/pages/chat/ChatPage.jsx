@@ -1,9 +1,18 @@
+import { useEffect } from "react";
+import ChatHeader from "../../components/chat/ChatHeader";
+import { useOutletContext } from "react-router-dom";
 const ChatPage = () => {
-  return (
-    <div>
-      chat page
-    </div>
-  )
-}
+	const { setNavVisible } = useOutletContext();
 
-export default ChatPage
+	useEffect(() => {
+		setNavVisible(false);
+		return () => setNavVisible(true);
+	}, [setNavVisible]);
+	return (
+		<div>
+			<ChatHeader />
+		</div>
+	);
+};
+
+export default ChatPage;
