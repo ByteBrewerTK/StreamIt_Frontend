@@ -9,12 +9,17 @@ import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/ui/loader/Loader";
 import { apiInstance } from "../../services/api";
-import { getAccessToken, saveTokens, saveUserData } from "../../services/authServices";
+import {
+	getAccessToken,
+	saveTokens,
+	saveUserData,
+} from "../../services/authServices";
 import { FaRegEnvelope } from "react-icons/fa";
 import { loginUserError } from "../../utils/customErrorMessage";
-import {UserContext} from "../../contexts/userContext";
+import { UserContext } from "../../contexts/userContext";
 import { useContext } from "react";
 import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const LoginPage = () => {
 	const navigate = useNavigate();
@@ -22,18 +27,21 @@ const LoginPage = () => {
 	const [isPassVisible, setPassVisible] = useState(false);
 	const [isLoading, setLoading] = useState(false);
 	const [error, setError] = useState("");
-	
+	const [searchParams] = useSearchParams();
+	const url = searchParams.get("redirect_url");
+	const redirect_url = url ? new URL(url).pathname : "/" || "/";
+
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
 		rememberMe: false,
 	});
 
-	useEffect(()=>{
-		if(getAccessToken()){
+	useEffect(() => {
+		if (getAccessToken()) {
 			navigate("/");
 		}
-	},[])
+	}, []);
 
 	const submitHandler = async (e) => {
 		setLoading(true);
@@ -56,10 +64,11 @@ const LoginPage = () => {
 			saveTokens(accessToken, refreshToken);
 
 			setLoading(false);
-			navigate("/");
+			location.href = redirect_url;
 		} catch (error) {
 			console.log("Login Failed : ", error);
-			const errorMessage = loginUserError(error.response.status);
+			const errorMessage =
+				loginUserError(error.response.status) || "Something went wrong";
 			setError(errorMessage);
 			if (error.response && error.response.status === 403) {
 				navigate(`/auth/resend/confirm/${formData.email}`);
