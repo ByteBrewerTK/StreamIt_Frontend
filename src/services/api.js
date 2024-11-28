@@ -10,6 +10,10 @@ import {
 const baseUrl = import.meta.env.VITE_API_URL;
 
 export const apiRequest = async (url, method = "GET", data = {}, signal) => {
+	const redirect_url =
+		location.pathname === "/"
+			? "/"
+			: `/auth/login?redirect_url=${location.href}`;
 	try {
 		const accessToken = getAccessToken();
 
@@ -55,12 +59,12 @@ export const apiRequest = async (url, method = "GET", data = {}, signal) => {
 				} catch (err) {
 					removeTokens();
 					removeUserData();
-					window.location.href = "/auth/login";
+					location.href = redirect_url;
 				}
 			} else {
 				removeTokens();
 				removeUserData();
-				window.location.href = "/auth/login";
+				location.href = redirect_url;
 			}
 		}
 
@@ -69,7 +73,6 @@ export const apiRequest = async (url, method = "GET", data = {}, signal) => {
 		throw error;
 	}
 };
-
 
 export const apiInstance = axios.create({
 	baseURL: baseUrl,
