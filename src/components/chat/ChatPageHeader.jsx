@@ -7,7 +7,7 @@ import { useState, useEffect, useRef } from "react";
 import SearchItem from "./SearchItem";
 import Loader from "../ui/loader/Loader";
 
-const ChatHeader = () => {
+const ChatPageHeader = () => {
 	const [searchedData, setSearchedData] = useState(null);
 	const [isSearching, setIsSearching] = useState(false);
 	const [isSearchedDataActive, setIsSearchedDataActive] = useState(false);
@@ -34,7 +34,7 @@ const ChatHeader = () => {
 		// Cancel previous request
 		controllerRef.current?.abort();
 		controllerRef.current = new AbortController();
-    
+
 		setIsSearching(true);
 		try {
 			const result = await apiRequest(
@@ -107,4 +107,4 @@ const ChatHeader = () => {
 	);
 };
 
-export default ChatHeader;
+export default ChatPageHeader;
