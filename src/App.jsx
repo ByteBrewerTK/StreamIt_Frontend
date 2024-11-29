@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Loader from "./components/ui/loader/Loader";
 import { Toaster, toast } from "react-hot-toast";
 import PrivateRoutes from "./pages/auth/PrivateRoutes";
+import SingleChatPage from "./pages/chat/SingleChatPage";
 
 // Lazy load the component
 const VerificationSuccess = lazy(() =>
@@ -111,7 +112,13 @@ function App() {
 									path=":username"
 									element={<ChannelPage />}
 								/>
-								<Route path="chat" element={<ChatPage />} />
+								<Route path="chat">
+									<Route path="" element={<ChatPage />} />
+									<Route
+										path="messaging/:userId"
+										element={<SingleChatPage />}
+									/>
+								</Route>
 								<Route
 									path="profile"
 									element={<UserProfilePage />}
@@ -194,6 +201,7 @@ function App() {
 							</Route>
 							<Route path="*" element={<NotFound />} />
 						</Route>
+
 						<Route path="*" element={<NotFound />} />
 					</Routes>
 				</Suspense>
