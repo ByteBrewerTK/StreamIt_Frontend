@@ -1,17 +1,20 @@
 import { useState } from "react";
 import { createContext } from "react";
-import { getUserData, saveUserData } from "../services/authServices";
+import { getUserData } from "../services/authServices";
+import { useEffect } from "react";
 
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-	const user = getUserData();
-	const [userData, setData] = useState(user);
+	const [userData, setUserData] = useState(null);
+	useEffect(() => {
+		const userInfo = getUserData();
 
-	const setUserData = (data) => {
-		saveUserData(data);
-		setData(data);
-	};
+		if (!userInfo) {
+			location.href = "/";
+		}
+		setUserData(userInfo);
+	}, []);
 
 	return (
 		<UserContext.Provider value={{ userData, setUserData }}>
