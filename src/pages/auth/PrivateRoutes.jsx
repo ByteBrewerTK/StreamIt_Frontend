@@ -16,6 +16,7 @@ const PrivateRoutes = () => {
 	const [isVisible, setVisible] = useState(true);
 	const [isSidebarOpen, setSidebarOpen] = useState(false);
 	const [createPanelOpen, setCreatePanelOpen] = useState(false);
+	const [isBottomMenuOpen, setBottomMenuOpen] = useState(true);
 
 	const redirect_url =
 		location.pathname === "/"
@@ -38,14 +39,16 @@ const PrivateRoutes = () => {
 
 	if (!isTokenLoaded) {
 		return (
-			<div className="grid size-full place-items-center bg-primary">
-				<Loader size={70} />
+			<div className="grid w-screen h-screen place-items-center bg-primary">
+				<span className="size-[70px]">
+					<Loader />
+				</span>
 			</div>
 		);
 	}
 
 	if (!localAccessToken) {
-		window.location.href = redirect_url;
+		location.replace(redirect_url);
 		return null;
 	}
 
@@ -74,6 +77,7 @@ const PrivateRoutes = () => {
 						context={{
 							setNavVisible: setVisible,
 							setUploadProgressActive,
+							setBottomMenuOpen,
 						}}
 					/>
 				</section>
@@ -88,7 +92,9 @@ const PrivateRoutes = () => {
 					</div>
 				)}
 
-				<BottomNavMenu handleCreatePanelOpen={setCreatePanelOpen} />
+				{isBottomMenuOpen && (
+					<BottomNavMenu handleCreatePanelOpen={setCreatePanelOpen} />
+				)}
 			</main>
 		</div>
 	);
