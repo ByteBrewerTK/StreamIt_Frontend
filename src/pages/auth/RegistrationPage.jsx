@@ -17,15 +17,19 @@ import Loader from "../../components/ui/loader/Loader";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import RegistrationSuccessPopup from "../../components/ui/RegistrationSuccessPopup";
-import { registerUserError } from "../../utils/customErrorMessage";
+import { extractResponseErrorMessage } from "../../utils/customErrorMessage";
 import { useEffect } from "react";
 import { getAccessToken } from "../../services/authServices";
+import { validatePassword } from "../../utils/validatePassword";
+import { validateFullName } from "../../utils/validateFullName";
+import { useRef } from "react";
 const RegistrationPage = () => {
 	const [isLoading, setLoading] = useState(false);
 	const [isPassVisible, setPassVisible] = useState(false);
 	const navigate = useNavigate();
 	const [isPopUpShow, setPopupShow] = useState(false);
 	const [responseError, setResponseError] = useState("");
+	const formRef = useRef(null);
 	const initialFormData = {
 		fullName: "",
 		email: "",
@@ -37,7 +41,7 @@ const RegistrationPage = () => {
 			navigate("/");
 		}
 	}, []);
-	const formHandler = (e) => {
+	const inputChangeHandler = (e) => {
 		const { name, value } = e.target;
 		setFormData((prevData) => ({
 			...prevData,
@@ -53,6 +57,20 @@ const RegistrationPage = () => {
 		e.preventDefault();
 
 		setLoading(true);
+		if (!validateFullName(formData.fullName)) {
+			setResponseError(
+				"Full name should be between 3 to 20 characters and contain only letters."
+			);
+			setLoading(false);
+			return;
+		}
+		if (!validatePassword(formData.password)) {
+			setResponseError(
+				"Password must be 8-16 characters with at least one uppercase and one lowercase letter."
+			);
+			setLoading(false);
+			return;
+		}
 
 		toast
 			.promise(apiInstance.post("/user/register", formData), {
@@ -65,8 +83,13 @@ const RegistrationPage = () => {
 				},
 				error: (error) => {
 					const statusCode = error.response.status;
-					const errorMessage = registerUserError(statusCode);
+					const errorMessage = extractResponseErrorMessage(
+						error.response.request.responseText
+					);
 					setResponseError(errorMessage);
+					if (statusCode === 409) {
+						navigate(`/auth/login?email=${formData.email}`);
+					}
 					if (statusCode === 403) {
 						navigate(`/auth/resend/confirm/${formData.email}`);
 					}
@@ -80,12 +103,14 @@ const RegistrationPage = () => {
 	};
 
 	const form_header = {
-		heading: "Welcome",
+		heading: "Register",
 		description:
 			"Complete the registration form for exclusive features and personalized content.",
 	};
 	const onPopUpClose = () => {
 		setPopupShow(false);
+		formRef.current.reset();
+		navigate(`/auth/login?email=${formData.email}`);
 	};
 
 	return (
@@ -99,12 +124,13 @@ const RegistrationPage = () => {
 					<img src={logo} alt="" width={60} height={60} />
 				</FormHeader>
 
-				<div className="relative space-y-5">
-					<p className="absolute w-full text-center text-red-500 -top-5 text-smr">
+				<div className="relative space-y-6 ">
+					<p className="w-full -mt-2 -mb-3 text-center text-red-500 text-smr">
 						{!responseError ? "" : responseError}
 					</p>
 
 					<form
+						ref={formRef}
 						onSubmit={submitHandler}
 						className="flex flex-col space-y-2"
 					>
@@ -117,7 +143,7 @@ const RegistrationPage = () => {
 								name="email"
 								className="w-full outline-none placeholder:text-muted placeholder:text-smr placeholder:select-none"
 								placeholder="Enter your email"
-								onChange={formHandler}
+								onChange={inputChangeHandler}
 								required
 							/>
 						</label>
@@ -130,7 +156,7 @@ const RegistrationPage = () => {
 								name="fullName"
 								className="w-full outline-none placeholder:text-muted placeholder:text-smr placeholder:select-none"
 								placeholder="Enter your full name"
-								onChange={formHandler}
+								onChange={inputChangeHandler}
 								required
 							/>
 						</label>
@@ -143,7 +169,8 @@ const RegistrationPage = () => {
 								name="password"
 								className="w-full outline-none placeholder:text-muted placeholder:text-smr placeholder:select-none "
 								placeholder="Enter new password"
-								onChange={formHandler}
+								maxLength={16}
+								onChange={inputChangeHandler}
 								required
 							/>
 							<span
