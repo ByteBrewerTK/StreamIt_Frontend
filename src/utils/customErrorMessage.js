@@ -129,3 +129,8 @@ export const otpVerifyError = (statusCode) => {
 	}
 	return error;
 };
+
+export const extractResponseErrorMessage = (responseText) => {
+	const match = responseText.match(/\<pre\>Error: (.*?)<br>/);
+	return match ? match[1] : "Unknown error";
+};
