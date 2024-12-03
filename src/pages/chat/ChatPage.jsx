@@ -14,9 +14,9 @@ const ChatPage = () => {
 	}, [setNavVisible]);
 
 	return (
-		<main className="flex flex-col flex-1 border">
+		<main className="flex flex-col flex-1">
 			<ChatPageHeader />
-			<section className="flex-1 border border-red-500">
+			<section className="flex-1 overflow-hidden">
 				{chatDataLoading ? (
 					<div className="grid size-full place-items-center">
 						<span className="size-[70px]">
@@ -25,12 +25,14 @@ const ChatPage = () => {
 					</div>
 				) : chatDataError ? (
 					<div className="grid size-full place-items-center">
-						<p>{chatDataError}</p>
+						<p className="text-muted">{chatDataError}</p>
 					</div>
 				) : (
-					chatData.map((chat) => (
-						<ChatItem {...chat} key={chat._id} />
-					))
+					<div className="flex flex-col px-1 py-2 overflow-x-hidden overflow-y-auto size-full gap-y-1">
+						{chatData.map((chat) => (
+							<ChatItem {...chat} key={chat._id} />
+						))}
+					</div>
 				)}
 			</section>
 		</main>
