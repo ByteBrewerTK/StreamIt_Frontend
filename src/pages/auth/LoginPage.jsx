@@ -29,6 +29,7 @@ const LoginPage = () => {
 	const [error, setError] = useState("");
 	const [searchParams] = useSearchParams();
 	const url = searchParams.get("redirect_url");
+	const redirectedEmail = searchParams.get("email");
 	const redirect_url = url ? new URL(url).pathname : "/" || "/";
 
 	const [formData, setFormData] = useState({
@@ -41,8 +42,16 @@ const LoginPage = () => {
 		if (getAccessToken()) {
 			navigate("/");
 		}
+		if (redirectedEmail) {
+			setFormData((prev) => ({
+				...prev,
+				["email"]: redirectedEmail,
+			}));
+			const urlByRedirectLogin = new URL(location.href);
+			urlByRedirectLogin.searchParams.delete("email");
+			history.pushState({}, "", urlByRedirectLogin);
+		}
 	}, []);
-
 	const submitHandler = async (e) => {
 		setLoading(true);
 		e.preventDefault();
@@ -90,7 +99,7 @@ const LoginPage = () => {
 		setPassVisible(!isPassVisible);
 	};
 	const form_header = {
-		heading: "Welcome Back",
+		heading: "Login",
 		description:
 			"Log in to access your account and continue enjoying our features.",
 	};
@@ -120,6 +129,7 @@ const LoginPage = () => {
 								className="w-full outline-none placeholder:text-muted placeholder:text-smr placeholder:select-none"
 								placeholder="Enter a email"
 								onChange={formHandler}
+								value={formData.email}
 								required
 							/>
 						</label>
