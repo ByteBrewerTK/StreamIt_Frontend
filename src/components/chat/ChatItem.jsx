@@ -18,7 +18,7 @@ const ChatItem = (chatItemData) => {
 			if (singleUser._id !== user._id) return singleUser;
 		});
 	}
-	
+
 	const clickHandler = () => {
 		setSelectedChat(chatItemData);
 
@@ -36,7 +36,10 @@ const ChatItem = (chatItemData) => {
 					</div>
 					<div>
 						<h3 className="text-lg font-semibold text-start">
-							{sliceTextAndTruncate(individualChatWith.fullName, 15)}
+							{sliceTextAndTruncate(
+								individualChatWith.fullName,
+								15
+							)}
 						</h3>
 
 						<p className="text-sm text-muted text-start">
@@ -44,10 +47,16 @@ const ChatItem = (chatItemData) => {
 								latestMessage.sender._id === user._id ? (
 									<>
 										<span className="semi-bold">You: </span>
-										{sliceTextAndTruncate(latestMessage.content, 25)}
+										{sliceTextAndTruncate(
+											latestMessage.content,
+											25
+										)}
 									</>
 								) : (
-									sliceTextAndTruncate(latestMessage.content, 25)
+									sliceTextAndTruncate(
+										latestMessage.content,
+										25
+									)
 								)
 							) : (
 								"No messages"
