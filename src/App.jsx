@@ -4,6 +4,7 @@ import Loader from "./components/ui/loader/Loader";
 import { Toaster, toast } from "react-hot-toast";
 import PrivateRoutes from "./pages/auth/PrivateRoutes";
 import SingleChatPage from "./pages/chat/SingleChatPage";
+import ChatAccess from "./pages/chat/ChatAccess";
 
 // Lazy load the component
 const VerificationSuccess = lazy(() =>
@@ -88,7 +89,6 @@ function App() {
 								path="reset-password"
 								element={<PasswordResetPage />}
 							/>
-							<Route path="verify-otp" element={<VerifyOTP />} />
 							<Route
 								path="new-password"
 								element={<CreateNewPassword />}
@@ -115,8 +115,12 @@ function App() {
 								<Route path="chat">
 									<Route path="" element={<ChatPage />} />
 									<Route
-										path="messaging/:userId"
+										path="messaging/:chatId"
 										element={<SingleChatPage />}
+									/>
+									<Route
+										path="access/:userId"
+										element={<ChatAccess />}
 									/>
 								</Route>
 								<Route
