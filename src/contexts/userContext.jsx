@@ -9,10 +9,6 @@ const UserProvider = ({ children }) => {
 	const [userData, setUserData] = useState(null);
 	useEffect(() => {
 		const userInfo = getUserData();
-
-		if (!userInfo) {
-			location.href = "/";
-		}
 		setUserData(userInfo);
 	}, []);
 
