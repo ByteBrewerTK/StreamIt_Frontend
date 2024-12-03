@@ -14,7 +14,7 @@ const useFetchAllChats = () => {
 				setChatData(data);
 			} catch (error) {
 				console.log(error);
-				setChatDataError(error);
+				setChatDataError(error.message);
 			} finally {
 				setChatDataLoading(false);
 			}
