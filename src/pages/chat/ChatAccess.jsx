@@ -9,7 +9,6 @@ import useNavVisible from "../../hooks/useNavVisible";
 const ChatAccess = () => {
 	const { setSelectedChat } = ChatState();
 	const { userId } = useParams();
-	console.log(userId);
 	const navigate = useNavigate();
 	useNavVisible();
 
