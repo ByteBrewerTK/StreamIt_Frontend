@@ -1,6 +1,6 @@
 const FormHeader = ({ heading, description, children }) => {
 	return (
-		<section className="flex flex-col items-center w-full sm:mb-8">
+		<section className="flex flex-col items-center w-full ">
 			<div className="overflow-hidden bg-black rounded-lg w-fit h-fit">
 				{children}
 			</div>
