@@ -90,7 +90,6 @@ const VerifyOTP = ({
 				otp,
 				email,
 			});
-			console.log(data);
 			if (data.statusCode === 200) {
 				setResetToken(data.data.resetToken);
 				setNewPasswordModalOpen(true);
