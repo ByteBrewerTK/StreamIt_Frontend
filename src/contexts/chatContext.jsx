@@ -14,15 +14,21 @@ const ChatProvider = ({ children }) => {
 
 	useEffect(() => {
 		const userInfo = getUserData();
-		if (!userInfo) {
-			location.href = "/";
-		}
 		setUser(userInfo);
 	}, []);
 
 	return (
 		<ChatContext.Provider
-			value={{ selectedChat, user, notification, chat }}
+			value={{
+				selectedChat,
+				user,
+				notification,
+				chat,
+				setSelectedChat,
+				setUser,
+				setNotification,
+				setChat,
+			}}
 		>
 			{children}
 		</ChatContext.Provider>
