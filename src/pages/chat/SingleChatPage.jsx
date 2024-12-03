@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { io } from "socket.io-client";
 import { ChatState } from "../../contexts/chatContext";
 import { useOutletContext } from "react-router-dom";
 import SingleChatHeader from "../../components/chat/SingleChatHeader";
@@ -59,14 +58,6 @@ const SingleChatPage = () => {
 		setMessageContent(event.target.value);
 		return;
 	};
-
-	useEffect(() => {
-		let socket = io(import.meta.env.VITE_SOCKET_ENDPOINT);
-		console.log(
-			"Socket IO Connection established successfully, socket :  ",
-			socket
-		);
-	}, []);
 
 	if (!selectedChat || isLoading) {
 		return (
