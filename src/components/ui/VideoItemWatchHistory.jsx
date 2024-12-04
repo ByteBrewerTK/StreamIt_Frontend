@@ -4,6 +4,8 @@ import { IoMdMore } from "react-icons/io";
 
 const VideoItemWatchHistory = ({ video, moreOptionsHandler }) => {
 	const { _id, thumbnail, owner, title, duration } = video;
+
+	if (!_id || !thumbnail || !owner || !title || !duration) return null;
 	return (
 		<div className="flex flex-col w-[130px] mx-2 h-[145px] shadow-lg my-1">
 			<Link
