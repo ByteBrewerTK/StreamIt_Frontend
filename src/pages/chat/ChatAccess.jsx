@@ -20,7 +20,7 @@ const ChatAccess = () => {
 			try {
 				const { data } = await apiRequest("/chat", "POST", { userId });
 				if (!data) {
-					navigate(-1);
+					navigate("/user/chat");
 				}
 				setSelectedChat(data);
 				navigate(`/user/chat/messaging/${data._id}`, { replace: true });
