@@ -13,6 +13,9 @@ const ChatAccess = () => {
 	useNavVisible();
 
 	useEffect(() => {
+		if(!userId){
+			navigate(`/user/chat`, { replace: true });
+		}
 		const fetchChat = async () => {
 			try {
 				const { data } = await apiRequest("/chat", "POST", { userId });
@@ -20,10 +23,10 @@ const ChatAccess = () => {
 					navigate(-1);
 				}
 				setSelectedChat(data);
-				location.replace(`/user/chat/messaging/${data._id}`);
+				navigate(`/user/chat/messaging/${data._id}`, { replace: true });
 			} catch (error) {
 				console.error(error.message);
-				navigate(-1);
+				navigate(`/user/chat`, { replace: true });
 			}
 		};
 		fetchChat();
