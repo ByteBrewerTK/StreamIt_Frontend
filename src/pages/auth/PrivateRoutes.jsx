@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import Navbar from "../../components/shared/Navbar";
 import SideNavbar from "../../components/shared/SideNavbar";
 import BottomNavMenu from "../../components/shared/BottomNavMenu";
@@ -48,8 +48,7 @@ const PrivateRoutes = () => {
 	}
 
 	if (!localAccessToken) {
-		location.replace(redirect_url);
-		return null;
+		return <Navigate to={redirect_url} />;
 	}
 
 	return (
