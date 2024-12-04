@@ -34,7 +34,6 @@ const FeedsPage = lazy(() => import("./pages/FeedsPage"));
 const RegistrationPage = lazy(() => import("./pages/auth/RegistrationPage"));
 const PasswordResetPage = lazy(() => import("./pages/auth/PasswordResetPage"));
 const CreateNewPassword = lazy(() => import("./pages/auth/CreateNewPassword"));
-const VerifyOTP = lazy(() => import("./pages/auth/VerifyOTP"));
 const WatchVideo = lazy(() => import("./pages/WatchVideo"));
 const UserProfilePage = lazy(() => import("./pages/UserProfilePage"));
 const SubscriptionsPage = lazy(() => import("./pages/SubscriptionsPage"));
