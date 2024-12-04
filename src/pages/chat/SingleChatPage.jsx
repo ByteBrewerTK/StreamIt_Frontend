@@ -11,6 +11,8 @@ import Loader from "../../components/ui/loader/Loader";
 import { useState } from "react";
 import { apiRequest } from "../../services/api";
 import useNavVisible from "../../hooks/useNavVisible";
+import ScrollableChat from "../../components/chat/ScrollableChat";
+import { io } from "socket.io-client";
 
 const SingleChatPage = () => {
 	useNavVisible(false);
@@ -24,12 +26,13 @@ const SingleChatPage = () => {
 	const [messageContent, setMessageContent] = useState("");
 	const [newMessage, setNewMessage] = useState({});
 	const formRef = useRef();
-	const bottomRef = useRef();
+
 	// let socket;
 
 	useEffect(() => {
-		bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-	}, [newMessage, messages]);
+		let socket = io(import.meta.env.VITE_SOCKET_ENDPOINT);
+		console.log(socket)
+	}, []);
 
 	useEffect(() => {
 		const fetchChat = async () => {
@@ -120,28 +123,17 @@ const SingleChatPage = () => {
 						<Loader />
 					</span>
 				</section>
-			) : !(messages.length > 0) ? (
-				<section className="grid flex-1 place-items-center">
-					<span className=" text-muted">No messages</span>
-				</section>
 			) : (
-				<section className="flex flex-col w-full h-full p-4 overflow-y-auto gap-y-2">
-					{messages.map((message, index) => (
-						<SingleMessage
-							key={message._id}
-							message={message}
-							messages={messages}
-							isGroupChat={selectedChat.isGroupChat}
-							index={index}
-						/>
-					))}
-					<div ref={bottomRef}></div>
-				</section>
+				<ScrollableChat
+					messages={messages}
+					newMessage={newMessage}
+					selectedChat={selectedChat}
+				/>
 			)}
 			<form
 				ref={formRef}
 				onSubmit={submitHandler}
-				className="flex items-center justify-between w-full px-2 py-2 gap-x-2 bg-primary  md:py-0 md:h-[4rem]"
+				className="flex items-center justify-between w-full px-2 py-2 gap-x-2 bg-primary  md:py-0 md:h-[4rem] sticky bottom-0"
 			>
 				<input
 					type="text"
