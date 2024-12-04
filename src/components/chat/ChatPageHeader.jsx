@@ -41,6 +41,7 @@ const ChatPageHeader = () => {
 				`/user?search=${value.trim()}`,
 				"GET",
 				{},
+				{},
 				controllerRef.current.signal
 			);
 

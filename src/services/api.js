@@ -9,7 +9,13 @@ import {
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
-export const apiRequest = async (url, method = "GET", data = {}, signal) => {
+export const apiRequest = async (
+	url,
+	method = "GET",
+	data = {},
+	source = {},
+	signal
+) => {
 	const redirect_url =
 		location.pathname === "/"
 			? "/"
@@ -32,6 +38,7 @@ export const apiRequest = async (url, method = "GET", data = {}, signal) => {
 			method,
 			headers,
 			data,
+			onUploadProgress: source.onUploadProgress,
 			signal, // Pass signal for cancellation
 		});
 
