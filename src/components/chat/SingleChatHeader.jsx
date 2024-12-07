@@ -7,7 +7,7 @@ const SingleChatHeader = ({ receiver, isGroupChat }) => {
 	const navigate = useNavigate();
 	if (!receiver) return null;
 	return (
-		<header className="flex items-center w-full px-2 py-2 bg-primary gap-x-2">
+		<header className="sticky top-0 flex items-center w-full px-2 py-2 bg-primary gap-x-2">
 			<button
 				onClick={() => {
 					navigate("/user/chat");
