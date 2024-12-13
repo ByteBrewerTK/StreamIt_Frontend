@@ -36,7 +36,7 @@ Ensure you have the following installed on your system:
 
 ```bash
 git clone https://github.com/ByteBrewerTK/StreamIt_Frontend.git
-cd streamit-frontend
+cd StreamIt_Frontend
 ```
 
 ### 2. Install Dependencies
@@ -71,7 +71,7 @@ or
 pnpm run dev
 ```
 
-Visit `http://localhost:5173` to view the application in your browser.
+Visit `http://localhost:5174` to view the application in your browser.
 
 ## Project Structure
 
