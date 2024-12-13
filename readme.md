@@ -15,7 +15,7 @@ StreamIt is a modern video streaming platform, providing users with a seamless e
 
 ## Demo
 
-A live demo of the application can be found [here](https://github.com/ByteBrewerTK/Play_backend.git). (Update with actual link when available.)
+A live demo of the application can be found [here](https://github.com/ByteBrewerTK/Play_backend.git).
 
 ## Technologies Used
 
