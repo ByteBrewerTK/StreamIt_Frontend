@@ -1,36 +1,34 @@
-
-
 # StreamIt Frontend
 
 StreamIt is a modern video streaming platform, providing users with a seamless experience for watching, sharing, and managing video content. This repository contains the frontend code for StreamIt, built with React and Tailwind CSS.
 
 ## Features
 
-- **Responsive Design**: Optimized for all screen sizes.
-- **User Authentication**: Register, log in, and manage profiles.
-- **Video Management**: Upload, edit, delete, and watch videos.
-- **Search and Filter**: Quickly find videos with robust search and filter functionalities.
-- **Interactive Features**: Like, comment, and share videos.
-- **Dark and Light Modes**: Customize the interface according to user preferences.
+-   **Responsive Design**: Optimized for all screen sizes.
+-   **User Authentication**: Register, log in, and manage profiles.
+-   **Video Management**: Upload, edit, delete, and watch videos.
+-   **Search and Filter**: Quickly find videos with robust search and filter functionalities.
+-   **Interactive Features**: Like, comment, and share videos.
+-   **Dark and Light Modes**: Customize the interface according to user preferences.
 
 ## Demo
 
-A live demo of the application can be found [here](https://github.com/ByteBrewerTK/Play_backend.git).
+A live demo of the application can be found [here](https://bytebrewer.site).
 
 ## Technologies Used
 
-- **React**: Frontend library for building user interfaces.
-- **Tailwind CSS**: Utility-first CSS framework for styling.
-- **React Router**: For managing routes and navigation.
-- **Axios**: For API requests.
-- **Vite**: Development and build tool for lightning-fast performance.
+-   **React**: Frontend library for building user interfaces.
+-   **Tailwind CSS**: Utility-first CSS framework for styling.
+-   **React Router**: For managing routes and navigation.
+-   **Axios**: For API requests.
+-   **Vite**: Development and build tool for lightning-fast performance.
 
 ## Prerequisites
 
 Ensure you have the following installed on your system:
 
-- [Node.js](https://nodejs.org/) (v16+)
-- [npm](https://www.npmjs.com/) or [pnpm](https://pnpm.io/)
+-   [Node.js](https://nodejs.org/) (v16+)
+-   [npm](https://www.npmjs.com/) or [pnpm](https://pnpm.io/)
 
 ## Getting Started
 
@@ -90,12 +88,12 @@ src/
 
 ## Scripts
 
-- `npm run dev`: Start the development server.
-- `npm run build`: Build the application for production.
-- `npm run preview`: Preview the production build.
-- `pnpm run dev`: Start the development server with pnpm.
-- `pnpm run build`: Build the application for production with pnpm.
-- `pnpm run preview`: Preview the production build with pnpm.
+-   `npm run dev`: Start the development server.
+-   `npm run build`: Build the application for production.
+-   `npm run preview`: Preview the production build.
+-   `pnpm run dev`: Start the development server with pnpm.
+-   `pnpm run build`: Build the application for production with pnpm.
+-   `pnpm run preview`: Preview the production build with pnpm.
 
 ## Contribution
 
