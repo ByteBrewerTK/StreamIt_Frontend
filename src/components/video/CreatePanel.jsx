@@ -16,6 +16,8 @@ const CreatePanel = ({
 	setUploadProgress,
 }) => {
 	const [videoFile, setVideoFile] = useState(null);
+	const [tags, setTags] = useState([]);
+	const [inputTag, setInputTag] = useState("");
 	const [videoPreview, setVideoPreview] = useState(null);
 	const [thumbnailFile, setThumbnailFile] = useState(null);
 	const [thumbnailPreview, setThumbnailPreview] = useState(null);
@@ -63,6 +65,26 @@ const CreatePanel = ({
 		}
 	};
 
+	const handleTagKeyDown = (e) => {
+		const key = e.key;
+		if (
+			(key === "Enter" || key === "," || key === " ") &&
+			inputTag.trim()
+		) {
+			e.preventDefault();
+			const newTag = inputTag.trim().replace(/[, ]+$/, "");
+			if (!tags.includes(newTag) && tags.length < 8) {
+				setTags([...tags, newTag]);
+			}
+			setInputTag("");
+		}
+	};
+
+	const removeTag = (indexToRemove) => {
+		setTags(tags.filter((_, index) => index !== indexToRemove));
+	};
+
+
 	const clearCreatePanel = () => {
 		setUploading(false);
 		// Clear form after successful upload
@@ -91,18 +113,20 @@ const CreatePanel = ({
 		}
 
 		const { title, description } = event.target;
-
+		
+		
 		if (title.value.length > 50 || description.value.length > 100) {
 			toast.error("Text length out of bound");
 			return;
 		}
 		handleCreatePanelOpen();
-
+		
 		const formData = new FormData();
 		formData.append("videoFile", videoFile);
 		formData.append("thumbnail", thumbnailFile);
-		formData.append("title", event.target.title.value); // Append title
-		formData.append("description", event.target.description.value); // Append description
+		formData.append("title", event.target.title.value); 
+		formData.append("description", event.target.description.value);
+		tags.forEach((tag) => formData.append("tags[]", tag));
 
 		setUploading(true);
 
@@ -277,6 +301,38 @@ const CreatePanel = ({
 								required
 								className="w-full h-[10rem] bg-primary mt-2 resize-none p-2 text-white md:bg-secondary focus:outline focus:outline-muted rounded"
 							></textarea>
+							<div className="mt-2">
+								<label className="text-sm text-muted_dark">
+									Tags
+								</label>
+								<div className="flex flex-wrap gap-2 p-2 mt-1 rounded bg-primary md:bg-secondary focus-within:outline focus-within:outline-muted">
+									{tags.map((tag, index) => (
+										<div
+											key={index}
+											className="flex items-center px-2 py-1 text-sm text-black bg-white rounded-full"
+										>
+											<span>{tag}</span>
+											<button
+												type="button"
+												onClick={() => removeTag(index)}
+												className="ml-1 text-black hover:text-red-300"
+											>
+												&times;
+											</button>
+										</div>
+									))}
+									<input
+										type="text"
+										placeholder="Add a tag"
+										className="flex-grow text-white bg-transparent outline-none"
+										value={inputTag}
+										onChange={(e) =>
+											setInputTag(e.target.value)
+										}
+										onKeyDown={handleTagKeyDown}
+									/>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
