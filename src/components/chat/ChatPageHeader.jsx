@@ -63,8 +63,8 @@ const ChatPageHeader = () => {
 	};
 
 	return (
-		<header className="flex items-center justify-between w-full py-2 gap-x-2 bg-primary">
-			<button onClick={() => navigate("/")}>
+		<header className="flex items-center justify-between w-full py-2 gap-x-2 bg-primary md:px-2">
+			<button onClick={() => navigate("/")} className="md:hidden">
 				<MdArrowBack className="text-2xl text-white text-opacity-60" />
 			</button>
 
