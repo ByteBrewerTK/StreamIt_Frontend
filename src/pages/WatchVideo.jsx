@@ -47,7 +47,7 @@ const WatchVideo = () => {
 	const commentRequestUrl = `/comment/${commentQuery.videoId}?page=${commentQuery.page}&limit=${commentQuery.limit}&sortBy=${commentQuery.sortBy}&sortType=${commentQuery.sortType}`;
 
 	useEffect(() => {
-		setNavVisible(false);
+		setNavVisible(true);
 		return () => setNavVisible(true);
 	}, [setNavVisible]);
 

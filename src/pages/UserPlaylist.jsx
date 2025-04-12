@@ -18,7 +18,7 @@ const UserPlaylist = () => {
 		setPlaylistId(playlistId);
 		setPlaylistMoreOptionsOpen(state);
 	};
-	useNavVisible(false);
+	useNavVisible(true);
 	if (playlistLoading) {
 		return (
 			<div className="grid w-full h-full place-items-center">

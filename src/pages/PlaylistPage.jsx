@@ -7,12 +7,23 @@ import { useSearchParams } from "react-router-dom";
 import useGetPlaylistById from "../hooks/data/useGetPlaylistById";
 import { Link } from "react-router-dom";
 import PlaylistItem from "../components/playlist/PlaylistItem";
+import { useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 
 const PlaylistPage = () => {
+	const { setNavVisible } = useOutletContext();
 	const [searchParams] = useSearchParams();
 	const playlistId = searchParams.get("list");
 	const { playlistData, playlistLoading, playlistError } =
 		useGetPlaylistById(playlistId);
+
+	useEffect(() => {
+		setNavVisible(true);
+
+		return () => {
+			setNavVisible(true);
+		};
+	});
 
 	if (playlistLoading) {
 		return (
@@ -100,7 +111,7 @@ const PlaylistPage = () => {
 				{playlistVideos.map((video) => (
 					<PlaylistItem key={video._id} {...video} />
 				))}
-				<div className="mt-4 border border-muted"/>
+				<div className="mt-4 border border-muted" />
 			</section>
 		</div>
 	);

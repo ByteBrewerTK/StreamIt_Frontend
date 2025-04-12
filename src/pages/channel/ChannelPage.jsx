@@ -23,7 +23,7 @@ const ChannelPage = () => {
 	const isMyProfile = useIsMyProfile(updatedUsername);
 
 	useEffect(() => {
-		setNavVisible(false);
+		setNavVisible(true);
 		return () => {
 			setNavVisible(true);
 		};
