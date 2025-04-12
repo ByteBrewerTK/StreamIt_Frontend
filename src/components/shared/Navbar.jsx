@@ -9,6 +9,7 @@ import { UserContext } from "../../contexts/userContext";
 import ProfileOptionPanel from "../navbar/ProfileOptionPanel";
 import useUserData from "../../hooks/data/useUserData";
 import { getUserData, saveUserData } from "../../services/authServices";
+import { BiMessageRoundedDetail } from "react-icons/bi";
 const defaultAvatar = "../../assets/default_avatar.jpg";
 
 const Navbar = ({ sidebarHandler, handleCreatePanelOpen, createPanelOpen }) => {
@@ -85,6 +86,10 @@ const Navbar = ({ sidebarHandler, handleCreatePanelOpen, createPanelOpen }) => {
 							Upload
 						</button>
 					)}
+
+					<Link to={"/user/chat"} >
+						<BiMessageRoundedDetail className="text-white text-[30px] " />
+					</Link>
 					<FaRegBell className="text-white text-[20px]" />
 					<RiBardLine className="text-white text-[20px]" />
 					<FaMagnifyingGlass className="text-white text-[20px]" />
