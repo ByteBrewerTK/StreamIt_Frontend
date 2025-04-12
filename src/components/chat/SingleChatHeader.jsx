@@ -9,10 +9,10 @@ const SingleChatHeader = ({ receiver, isGroupChat }) => {
 	return (
 		<header className="sticky top-0 flex items-center w-full px-2 py-2 bg-primary gap-x-2">
 			<button
+				className="md:hidden"
 				onClick={() => {
 					navigate("/user/chat");
 				}}
-				
 			>
 				<MdArrowBack className="text-2xl text-white text-opacity-60" />
 			</button>
