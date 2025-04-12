@@ -5,7 +5,6 @@ import SingleChatHeader from "../../components/chat/SingleChatHeader";
 import { useRef } from "react";
 import useFetchMessages from "../../hooks/data/chat/useFetchMessages";
 import { useParams } from "react-router-dom";
-import SingleMessage from "../../components/chat/SingleMessage";
 import { AiOutlineSend } from "react-icons/ai";
 import Loader from "../../components/ui/loader/Loader";
 import { useState } from "react";
@@ -13,31 +12,51 @@ import { apiRequest } from "../../services/api";
 import useNavVisible from "../../hooks/useNavVisible";
 import ScrollableChat from "../../components/chat/ScrollableChat";
 import { io } from "socket.io-client";
+import useDeviceType from "../../hooks/useDeviceType";
+import { getUserData } from "../../services/authServices";
+import { socket } from "../../services/socket";
 
-const SingleChatPage = () => {
-	useNavVisible(false);
-	const { chatId } = useParams();
+const SingleChatPage = ({ chatIdProp }) => {
+	let { chatId } = useParams();
+	if (!chatId) {
+		chatId = chatIdProp;
+	}
 	const [isLoading, setLoading] = useState(true);
 	const { selectedChat, setSelectedChat, user, notification } = ChatState();
-	const { setBottomMenuOpen } = useOutletContext();
+	const [selectedChatCompare, setSelectedChatCompare] = useState()
+	const { setBottomMenuOpen, setNavVisible } = useOutletContext();
 	const { messages, messagesError, isMessagesLoading } =
 		useFetchMessages(chatId);
 	const [isMessageSending, setMessageSending] = useState(false);
 	const [messageContent, setMessageContent] = useState("");
 	const [newMessage, setNewMessage] = useState({});
 	const formRef = useRef();
+	const deviceType = useDeviceType();
+	useNavVisible(deviceType === "Desktop");
+	const [isConnected, setIsConnected] = useState(false);
 
-	// let socket;
-
+	let socket;
 	useEffect(() => {
-		let socket = io(import.meta.env.VITE_SOCKET_ENDPOINT);
-		console.log(socket)
-	}, []);
+		socket = io(import.meta.env.VITE_SOCKET_ENDPOINT);
+		socket.emit("setup", getUserData());
+		socket.on("connection", () => {
+			setIsConnected(true);
+			console.log(socket);
+		});
+
+		return () => {
+			socket.off("connect", () => {
+				console.log("connection off");
+			});
+		};
+	}, [selectedChat]);
 
 	useEffect(() => {
 		const fetchChat = async () => {
 			try {
-				const { data } = await apiRequest("/chat", "POST", { chatId });
+				const { data } = await apiRequest("/chat", "POST", {
+					chatId,
+				});
 				setSelectedChat(data);
 			} catch (error) {
 				console.log(error);
@@ -49,9 +68,11 @@ const SingleChatPage = () => {
 			fetchChat();
 		}
 		setLoading(false);
+		socket.emit("join_chat", selectedChat._id)
 	}, [chatId]);
 	useEffect(() => {
 		setBottomMenuOpen(false);
+		setNavVisible(deviceType === "Desktop");
 		return () => {
 			setBottomMenuOpen(true); // Reset bottom menu state
 		};
@@ -114,7 +135,7 @@ const SingleChatPage = () => {
 		isGroupChat: selectedChat.isGroupChat,
 	};
 	return (
-		<main className="flex flex-col flex-1 overflow-hidden">
+		<main className="flex flex-col flex-1 overflow-hidden size-full">
 			<SingleChatHeader {...chatHeaderData} />
 
 			{isMessagesLoading ? (
