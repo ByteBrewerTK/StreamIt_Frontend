@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { ChatState } from "../../contexts/chatContext";
 import { sliceTextAndTruncate } from "../../utils/sliceTextAndTruncate";
+import useDeviceType from "../../hooks/useDeviceType";
 
 // eslint-disable-next-line react/prop-types
-const ChatItem = (chatItemData) => {
+const ChatItem = ({ chatItemData, setIsChatSelected }) => {
 	const navigate = useNavigate();
+	const deviceType = useDeviceType();
 	const { _id, chatName, isGroupChat, latestMessage, users, groupAvatar } =
 		chatItemData;
 	const { user, setSelectedChat } = ChatState();
@@ -21,8 +23,11 @@ const ChatItem = (chatItemData) => {
 
 	const clickHandler = () => {
 		setSelectedChat(chatItemData);
-
-		navigate(`messaging/${_id}`);
+		if (deviceType === "Desktop") {
+			setIsChatSelected(true);
+		} else {
+			navigate(`messaging/${_id}`);
+		}
 	};
 	return (
 		<button
