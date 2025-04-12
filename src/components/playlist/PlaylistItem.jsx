@@ -14,7 +14,7 @@ const PlaylistItem = ({
 	createdAt,
 }) => {
 	return (
-		<div className="grid w-full grid-cols-2 lg:flex lg:flex-row gap-x-4">
+		<div className="grid w-full grid-cols-2 mb-4 lg:flex lg:flex-row gap-x-4">
 			<Link to={`/watch?v=${_id}`}>
 				<div className="relative overflow-hidden rounded-lg lg:max-w-[200px] aspect-video">
 					<img
