@@ -7,7 +7,7 @@ const AllPlaylistItem = ({ playlist, playlistMoreOptionsHandler }) => {
 	return (
 		<div className="relative md:flex md:flex-col md:max-w-[22.5rem] md:shadow-lg md:my-1 text-white grid grid-cols-2 gap-x-4 md:before:w-[90%] md:before:h-[10%] md:before:bg-gray-500 md:before:absolute md:before:left-[50%] md:before:-translate-x-[50%] md:before:-top-1 md:before:rounded-full md:h-[290px]">
 			<Link
-				to={`/playlist/${_id}`}
+				to={`/user/playlist?list=${_id}`}
 				className="relative w-full overflow-hidden rounded-lg aspect-video"
 			>
 				{/* Banner */}
@@ -27,7 +27,7 @@ const AllPlaylistItem = ({ playlist, playlistMoreOptionsHandler }) => {
 			<div>
 				<div className="flex items-center justify-between pt-2 ">
 					{/* details */}
-					<Link to={`/playlist/${_id}`}>
+					<Link to={`/user/playlist?list=${_id}`}>
 						<p className="text-sm leading-4 lg:text-xl md:text-lg">
 							{name}
 						</p>

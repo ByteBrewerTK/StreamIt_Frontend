@@ -12,7 +12,7 @@ const PlaylistItem = ({ playlist, playlistMoreOptionsHandler }) => {
 	return (
 		<div className="relative flex flex-col w-[130px] mx-2 md:h-[145px] shadow-lg my-1 text-white before:w-[90%] before:h-[10%] before:bg-gray-500 before:absolute before:left-[50%] before:-translate-x-[50%] before:-top-1 before:rounded-full">
 			<Link
-				to={`/playlist/${_id}`}
+				to={`/user/playlist?list=${_id}`}
 				className="relative w-full overflow-hidden rounded-lg aspect-video"
 			>
 				{/* Banner */}
@@ -32,7 +32,7 @@ const PlaylistItem = ({ playlist, playlistMoreOptionsHandler }) => {
 			<div className="flex justify-between flex-1 py-2 ">
 				{/* details */}
 				<Link
-					to={`/playlist/${_id}`}
+					to={`/user/playlist?list=${_id}`}
 					className="flex flex-col justify-between"
 				>
 					<h4 className="w-[100px] text-sm leading-4 truncate">
