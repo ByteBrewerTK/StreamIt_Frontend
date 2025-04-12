@@ -5,6 +5,7 @@ import { Toaster, toast } from "react-hot-toast";
 import PrivateRoutes from "./pages/auth/PrivateRoutes";
 import SingleChatPage from "./pages/chat/SingleChatPage";
 import ChatAccess from "./pages/chat/ChatAccess";
+import LynkFeed from "./pages/LynkFeed";
 
 // Lazy load the component
 const VerificationSuccess = lazy(() =>
@@ -111,6 +112,7 @@ function App() {
 									path=":username"
 									element={<ChannelPage />}
 								/>
+								<Route path="lynk" element={<LynkFeed />} />
 								<Route path="chat">
 									<Route path="" element={<ChatPage />} />
 									<Route
