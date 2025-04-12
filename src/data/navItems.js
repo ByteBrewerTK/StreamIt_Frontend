@@ -11,6 +11,8 @@ import { BiSolidTv } from "react-icons/bi";
 import { RiPlayList2Line } from "react-icons/ri";
 import { MdVideoLibrary } from "react-icons/md";
 import { IoMdThumbsUp } from "react-icons/io";
+import { FaRegCircle } from "react-icons/fa";
+import { FaCircle } from "react-icons/fa";
 import { getUserData } from "../services/authServices";
 
 const userData = getUserData();
@@ -25,6 +27,12 @@ export const sideNavItems = [
 		icon: GoHome,
 		activeIcon: GoHomeFill,
 		path: "/",
+	},
+	{
+		name: "Lynk",
+		icon: FaRegCircle,
+		activeIcon: FaCircle,
+		path: "/user/lynk",
 	},
 	{
 		name: "Subscriptions",
@@ -63,3 +71,5 @@ export const sideNavItems = [
 		path: "/user/liked-videos",
 	},
 ];
+
+
