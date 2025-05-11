@@ -5,7 +5,7 @@ import useNavVisible from "../../hooks/useNavVisible";
 import useSetNavTitle from "../../hooks/useSetNavTitle";
 
 const SettingsPage = () => {
-	useNavVisible();
+	useNavVisible(true);
 	const navigate = useNavigate();
 	const { navTitle } = useSetNavTitle("Settings");
 

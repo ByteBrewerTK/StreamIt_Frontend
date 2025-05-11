@@ -1,10 +1,21 @@
 import useWatchHistory from "../hooks/data/useWatchHistory";
 import Loader from "../components/ui/loader/Loader";
 import HistoryVideoItem from "../components/video/HistoryVideoItem";
+import { useOutletContext } from "react-router-dom";
+import { useEffect } from "react";
 
 const WatchHistoryPage = () => {
+	const { setNavVisible } = useOutletContext();
 	const { watchHistoryData, watchHistoryError, watchHistoryLoading } =
 		useWatchHistory();
+
+	useEffect(() => {
+		setNavVisible(true);
+
+		return () => {
+			setNavVisible(true);
+		};
+	});
 	if (watchHistoryLoading || watchHistoryError) {
 		return (
 			<main className="grid size-full place-items-center">

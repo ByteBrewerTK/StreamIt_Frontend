@@ -7,8 +7,10 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { apiRequest } from "../services/api";
 import toast from "react-hot-toast";
+import { useOutletContext } from "react-router-dom";
 
 const FeedsPage = () => {
+	const { setNavVisible } = useOutletContext();
 	const [isMoreOptionsOpen, setMoreOptionsOpen] = useState(false);
 	const [videoId, setVideoId] = useState(null);
 	const [loading, setLoading] = useState(false);
@@ -29,6 +31,13 @@ const FeedsPage = () => {
 		page: 1,
 		sortBy: "duration",
 		sortType: "asc",
+	});
+	useEffect(() => {
+		setNavVisible(true);
+
+		return () => {
+			setNavVisible(true);
+		};
 	});
 	const containerRef = useRef();
 

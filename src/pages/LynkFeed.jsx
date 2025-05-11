@@ -4,8 +4,10 @@ import { apiRequest } from "../services/api";
 import Loader from "../components/ui/loader/Loader";
 import MorePanel from "../components/lynk/MorePanel";
 import toast from "react-hot-toast";
+import { useOutletContext } from "react-router-dom";
 
 const LynkFeed = () => {
+	const { setNavVisible } = useOutletContext();
 	const [lynks, setLynks] = useState([]);
 	const [lynkError, setLynkError] = useState("");
 	const [lynkLoading, setLynkLoading] = useState(false);
@@ -33,6 +35,14 @@ const LynkFeed = () => {
 		sortType: "desc",
 	});
 
+	useEffect(() => {
+		setNavVisible(true);
+
+		return () => {
+			setNavVisible(true);
+		};
+	});
+
 	const containerRef = useRef();
 
 	useEffect(() => {
@@ -41,7 +51,7 @@ const LynkFeed = () => {
 				setLynkLoading(true);
 				const url = `/lynks?limit=${query.limit}&page=${query.page}&sortBy=${query.sortBy}&sortType=${query.sortType}`;
 				const res = await apiRequest(url);
-				setLynks(res.data);
+				setLynks(res);
 				setPageData(res.pagination || pageData);
 				console.log(res);
 			} catch (err) {
@@ -66,7 +76,7 @@ const LynkFeed = () => {
 								likes: lynk.likes.includes("me")
 									? lynk.likes.filter((uid) => uid !== "me")
 									: [...lynk.likes, "me"],
-						}
+						  }
 						: lynk
 				)
 			);
@@ -145,6 +155,7 @@ const LynkFeed = () => {
 			}
 		};
 	}, [loading, pageData.hasNextPage]);
+	console.log(lynks);
 
 	if (lynkLoading)
 		return (
