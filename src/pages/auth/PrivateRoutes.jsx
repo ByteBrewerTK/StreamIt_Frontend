@@ -14,7 +14,7 @@ const PrivateRoutes = () => {
 	const [uploadProgressActive, setUploadProgressActive] = useState(false);
 	const [uploadProgress, setUploadProgress] = useState(0);
 	const [isVisible, setVisible] = useState(true);
-	const [isSidebarOpen, setSidebarOpen] = useState(false);
+	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [createPanelOpen, setCreatePanelOpen] = useState(false);
 	const [isBottomMenuOpen, setBottomMenuOpen] = useState(true);
 
