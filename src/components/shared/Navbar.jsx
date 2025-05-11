@@ -87,7 +87,7 @@ const Navbar = ({ sidebarHandler, handleCreatePanelOpen, createPanelOpen }) => {
 						</button>
 					)}
 
-					<Link to={"/user/chat"} >
+					<Link to={"/user/chat"} className="hidden md:inline">
 						<BiMessageRoundedDetail className="text-white text-[30px] " />
 					</Link>
 					<FaRegBell className="text-white text-[20px]" />
