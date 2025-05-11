@@ -124,9 +124,12 @@ const CreatePanel = ({
 		const formData = new FormData();
 		formData.append("videoFile", videoFile);
 		formData.append("thumbnail", thumbnailFile);
-		formData.append("title", event.target.title.value); 
+		formData.append("title", event.target.title.value);
 		formData.append("description", event.target.description.value);
-		tags.forEach((tag) => formData.append("tags[]", tag));
+
+		// Append each tag using the same field name "tags"
+		tags.forEach((tag) => formData.append("tags", tag));
+
 
 		setUploading(true);
 
