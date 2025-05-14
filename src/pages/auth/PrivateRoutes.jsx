@@ -82,7 +82,7 @@ const PrivateRoutes = () => {
 				</section>
 
 				{createPanelOpen && (
-					<div className="absolute z-[50] w-full h-full bg-secondary overflow-auto p-4">
+					<div className="absolute z-[50] w-full h-[calc(100%-4rem)] overflow-auto bottom-0">
 						<CreatePanel
 							handleCreatePanelOpen={setCreatePanelOpen}
 							setUploadProgressActive={setUploadProgressActive}
