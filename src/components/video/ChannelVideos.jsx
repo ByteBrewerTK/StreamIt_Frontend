@@ -21,7 +21,7 @@ const ChannelVideos = (username) => {
 			</div>
 		);
 	}
-	if (!channelVideosData && !channelVideosData?.allVideos.length > 0) {
+	if (!channelVideosData || !channelVideosData?.length > 0) {
 		return (
 			<div className="grid size-full place-items-center text-muted">
 				<span>No videos found</span>
