@@ -15,7 +15,7 @@ const AgeDetectionPage = ({
 	const handleCapture = async (imageFile) => {
 		setLoading(true);
 		try {
-			const data = await detectAge(imageFile, confirmationToken, email);
+			const data = await detectAge(imageFile, email, confirmationToken);
 			if (data.success === true) {
 				setResult(data.success)
 				verifyEmail();
