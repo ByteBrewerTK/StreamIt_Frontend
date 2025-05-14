@@ -6,8 +6,10 @@ import PrivateRoutes from "./pages/auth/PrivateRoutes";
 import SingleChatPage from "./pages/chat/SingleChatPage";
 import ChatAccess from "./pages/chat/ChatAccess";
 import LynkFeed from "./pages/LynkFeed";
+import AgeDetectionPage from "./pages/AgeDetectionPage";
 
 // Lazy load the component
+const Dashboard = lazy(() => import("./pages/Dashboard"));
 const VerificationSuccess = lazy(() =>
 	import("./pages/auth/VerificationSuccess")
 );
@@ -81,6 +83,7 @@ function App() {
 					<Routes>
 						<Route path="auth">
 							<Route path="login" element={<LoginPage />} />
+							<Route path="ageDetection" element={<AgeDetectionPage />} />
 							<Route
 								path="sign-up"
 								element={<RegistrationPage />}
@@ -108,6 +111,10 @@ function App() {
 							<Route path="/" element={<FeedsPage />} />
 							<Route path="/watch" element={<WatchVideo />} />
 							<Route path="user">
+								<Route
+									path="dashboard"
+									element={<Dashboard />}
+								/>
 								<Route
 									path=":username"
 									element={<ChannelPage />}
