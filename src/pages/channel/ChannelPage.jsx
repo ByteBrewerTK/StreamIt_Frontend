@@ -52,8 +52,8 @@ const ChannelPage = () => {
 		return <div>Error loading user data.</div>;
 	}
 
-	if (!channelData) {
-		return <div>No Data found</div>;
+	if (!channelData ) {
+		return <div>No Channel found</div>;
 	}
 	return (
 		<section className="flex flex-col flex-1 overflow-hidden">

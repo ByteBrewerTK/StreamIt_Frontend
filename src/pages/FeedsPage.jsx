@@ -98,7 +98,7 @@ const FeedsPage = () => {
 				</div>
 			</main>
 		);
-	if (!feedData && !feedData?.length > 0)
+	if (!feedData || !feedData?.length > 0)
 		return (
 			<main className="grid w-full h-full place-items-center">
 				<div className="text-xl select-none text-muted">
