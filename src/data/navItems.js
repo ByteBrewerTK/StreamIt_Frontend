@@ -1,4 +1,4 @@
-import { MdOutlineSubscriptions } from "react-icons/md";
+import { MdOutlineSpaceDashboard,MdSpaceDashboard, MdOutlineSubscriptions } from "react-icons/md";
 import { GoHome } from "react-icons/go";
 import { GrChannel } from "react-icons/gr";
 import { RiPlayList2Fill } from "react-icons/ri";
@@ -69,6 +69,12 @@ export const sideNavItems = [
 		icon: LuThumbsUp,
 		activeIcon: IoMdThumbsUp,
 		path: "/user/liked-videos",
+	},
+	{
+		name: "Dashboard",
+		icon: MdOutlineSpaceDashboard,
+		activeIcon: MdSpaceDashboard,
+		path: "/user/dashboard",
 	},
 ];
 
