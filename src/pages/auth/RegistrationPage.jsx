@@ -79,6 +79,7 @@ const RegistrationPage = () => {
 					if (response.data.statusCode === 200) {
 						setPopupShow(true);
 					}
+					navigate(`/auth/resend/confirm/${formData.email}`);	
 					return "Registration successfully completed";
 				},
 				error: (error) => {
@@ -107,18 +108,9 @@ const RegistrationPage = () => {
 		description:
 			"Complete the registration form for exclusive features and personalized content.",
 	};
-	const onPopUpClose = () => {
-		setPopupShow(false);
-		formRef.current.reset();
-		navigate(`/auth/login?email=${formData.email}`);
-	};
 
 	return (
 		<main className="relative grid w-full h-full overflow-y-auto place-items-center">
-			<RegistrationSuccessPopup
-				show={isPopUpShow}
-				onClose={onPopUpClose}
-			/>
 			<div className="space-y-2 w-container h-fit sm:w-[360px]  sm:p-4 sm:rounded-2xl sm:shadow-lg sm:py-8 ">
 				<FormHeader {...form_header}>
 					<img src={logo} alt="" width={60} height={60} />
