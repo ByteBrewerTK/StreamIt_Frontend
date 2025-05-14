@@ -22,6 +22,7 @@ const CreatePanel = ({
 	const [thumbnailFile, setThumbnailFile] = useState(null);
 	const [thumbnailPreview, setThumbnailPreview] = useState(null);
 	const [isUploading, setUploading] = useState(false);
+	const [ageRestriction, setAgeRestriction] = useState("All Ages");
 	const formRef = useRef(null);
 	const deviceType = useDeviceType();
 
@@ -84,7 +85,6 @@ const CreatePanel = ({
 		setTags(tags.filter((_, index) => index !== indexToRemove));
 	};
 
-
 	const clearCreatePanel = () => {
 		setUploading(false);
 		// Clear form after successful upload
@@ -113,14 +113,13 @@ const CreatePanel = ({
 		}
 
 		const { title, description } = event.target;
-		
-		
-		if (title.value.length > 50 || description.value.length > 100) {
+
+		if (title.value.length > 100 || description.value.length > 5000) {
 			toast.error("Text length out of bound");
 			return;
 		}
 		handleCreatePanelOpen();
-		
+
 		const formData = new FormData();
 		formData.append("videoFile", videoFile);
 		formData.append("thumbnail", thumbnailFile);
@@ -129,7 +128,6 @@ const CreatePanel = ({
 
 		// Append each tag using the same field name "tags"
 		tags.forEach((tag) => formData.append("tags", tag));
-
 
 		setUploading(true);
 
@@ -157,7 +155,7 @@ const CreatePanel = ({
 	};
 
 	return (
-		<div className="grid size-full place-items-center md:backdrop-blur-md">
+		<div className="grid size-full place-items-center md:backdrop-blur-md bg-secondary md:bg-transparent">
 			<form
 				ref={formRef}
 				onSubmit={submitHandler}
@@ -225,12 +223,12 @@ const CreatePanel = ({
 										onChange={handleVideoFileChange}
 									/>
 								</label>
-								<span className="hidden -my-2 text-muted md:inline">
+								<span className="hidden -my-2 select-none text-muted md:inline">
 									Select a video to upload
 								</span>
 								<label
 									htmlFor="select-file-btn"
-									className="hidden px-4 py-2 text-black bg-white rounded-full cursor-pointer md:block"
+									className="hidden px-4 py-2 text-black bg-white rounded-full cursor-pointer select-none md:block"
 								>
 									Select file
 								</label>
@@ -291,7 +289,7 @@ const CreatePanel = ({
 								placeholder="Title"
 								name="title"
 								minLength={3}
-								maxLength={50}
+								maxLength={100}
 								required
 								className="w-full h-10 px-2 mt-4 text-white rounded bg-primary md:mt-0 md:bg-secondary focus:outline focus:outline-muted"
 							/>
@@ -300,7 +298,7 @@ const CreatePanel = ({
 								placeholder="Description"
 								name="description"
 								minLength={10}
-								maxLength={100}
+								maxLength={5000}
 								required
 								className="w-full h-[10rem] bg-primary mt-2 resize-none p-2 text-white md:bg-secondary focus:outline focus:outline-muted rounded"
 							></textarea>
@@ -335,6 +333,24 @@ const CreatePanel = ({
 										onKeyDown={handleTagKeyDown}
 									/>
 								</div>
+							</div>
+							<div className="mt-2">
+								<label className="text-sm text-muted_dark">
+									Age Restriction
+								</label>
+								<select
+									name="ageRestriction"
+									value={ageRestriction}
+									onChange={(e) =>
+										setAgeRestriction(e.target.value)
+									}
+									className="w-full h-10 px-2 mt-1 text-white rounded bg-primary md:bg-secondary focus:outline focus:outline-muted"
+								>
+									<option value="All Ages">All Ages</option>
+									<option value="kids">Kids</option>
+									<option value="13+">13+</option>
+									<option value="18+">18+</option>
+								</select>
 							</div>
 						</div>
 					</div>
