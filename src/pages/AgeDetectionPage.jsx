@@ -7,18 +7,27 @@ const AgeDetectionPage = ({
 	onSkipConfirmed,
 	confirmationToken,
 	verifyEmail,
-	email
+	email,
+	handleAfterVerification,
 }) => {
-	const [result, setResult] = useState(null);
+	const [result, setResult] = useState(false);
 	const [loading, setLoading] = useState(false);
 
 	const handleCapture = async (imageFile) => {
 		setLoading(true);
 		try {
-			const data = await detectAge(imageFile, email, confirmationToken);
-			if (data.success === true) {
-				setResult(data.success)
-				verifyEmail();
+			const response = await detectAge(
+				imageFile,
+				email,
+				confirmationToken
+			);
+			if (response.statusCode === 200) {
+				setResult(true);
+				if (email && confirmationToken) {
+					verifyEmail();
+				} else {
+					handleAfterVerification(response.data);
+				}
 			}
 		} catch (error) {
 			alert(error.message);
@@ -28,15 +37,16 @@ const AgeDetectionPage = ({
 	};
 
 	return (
-		<div className="max-w-full p-6 mx-auto">
-			<h1 className="mb-4 text-2xl font-bold">Age Verification</h1>
+		<div className="relative max-w-full mx-auto">
 			<WebcamCapture
 				onCapture={handleCapture}
 				onSkipConfirmed={onSkipConfirmed}
 				confirmationToken={confirmationToken}
 			/>
 			{loading ? (
-				<p className="mt-4 text-blue-600">Verifying...</p>
+				<div className="absolute inset-0 z-50 grid w-full h-full mx-auto bg-black rounded-lg bg-opacity-80 place-items-center">
+					<p className="mt-4 text-2xl text-white">Verifying...</p>
+				</div>
 			) : (
 				<AgeDetectionResult result={result} />
 			)}
