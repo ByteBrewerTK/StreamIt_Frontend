@@ -155,7 +155,8 @@ const Account = () => {
 			age: data.age,
 			gender: data.gender,
 		}));
-	}
+		setTimeout(setFaceDetectionModalOpen(false), 2000);
+	};
 
 	if (!deviceType === "Desktop") {
 		return <DeviceAccessDenied type="Desktop" />;
