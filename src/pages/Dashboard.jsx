@@ -1,3 +1,4 @@
+import { apiRequest } from "../services/api";
 import { useState, useEffect } from "react";
 import {
 	Chart as ChartJS,
@@ -47,210 +48,10 @@ const Dashboard = () => {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		// Simulating API call to fetch dashboard data
 		const fetchDashboardData = async () => {
 			try {
-				// TODO: make api calls for dynamic data
-				const mockData = {
-					channelOverview: {
-						totalVideos: 48,
-						totalViews: 1247890,
-						totalLikes: 78500,
-						totalComments: 12350,
-						totalSubscribers: 25600,
-						engagementRate: 7.28,
-						averageVideoLength: 724, // in seconds
-					},
-					videoPerformance: {
-						topVideos: [
-							{
-								_id: "1",
-								title: "How to Build a React App",
-								views: 45800,
-							},
-							{
-								_id: "2",
-								title: "MongoDB Crash Course",
-								views: 38200,
-							},
-							{
-								_id: "3",
-								title: "Node.js Tutorial for Beginners",
-								views: 29400,
-							},
-							{
-								_id: "4",
-								title: "Full Stack Development Explained",
-								views: 24700,
-							},
-							{
-								_id: "5",
-								title: "JavaScript Tips and Tricks",
-								views: 19500,
-							},
-						],
-						latestVideos: [
-							{
-								_id: "6",
-								title: "Tailwind CSS Masterclass",
-								views: 8700,
-								createdAt: "2025-05-02T10:30:00.000Z",
-							},
-							{
-								_id: "7",
-								title: "Redux Toolkit Tutorial",
-								views: 12400,
-								createdAt: "2025-04-25T14:15:00.000Z",
-							},
-							{
-								_id: "8",
-								title: "GraphQL vs REST API",
-								views: 15600,
-								createdAt: "2025-04-18T09:20:00.000Z",
-							},
-							{
-								_id: "9",
-								title: "Docker for Web Developers",
-								views: 18200,
-								createdAt: "2025-04-10T16:45:00.000Z",
-							},
-							{
-								_id: "10",
-								title: "Web Security Best Practices",
-								views: 14300,
-								createdAt: "2025-04-03T11:10:00.000Z",
-							},
-						],
-					},
-					trends: {
-						viewsByDate: [
-							{ _id: "2025-05-07", views: 5890 },
-							{ _id: "2025-05-08", views: 6230 },
-							{ _id: "2025-05-09", views: 7450 },
-							{ _id: "2025-05-10", views: 8120 },
-							{ _id: "2025-05-11", views: 9340 },
-							{ _id: "2025-05-12", views: 10250 },
-							{ _id: "2025-05-13", views: 9870 },
-							{ _id: "2025-05-14", views: 11230 },
-						],
-						likesByDate: [
-							{ _id: "2025-05-07", count: 342 },
-							{ _id: "2025-05-08", count: 389 },
-							{ _id: "2025-05-09", count: 456 },
-							{ _id: "2025-05-10", count: 512 },
-							{ _id: "2025-05-11", count: 587 },
-							{ _id: "2025-05-12", count: 624 },
-							{ _id: "2025-05-13", count: 598 },
-							{ _id: "2025-05-14", count: 673 },
-						],
-						commentsByDate: [
-							{ _id: "2025-05-07", count: 78 },
-							{ _id: "2025-05-08", count: 86 },
-							{ _id: "2025-05-09", count: 104 },
-							{ _id: "2025-05-10", count: 118 },
-							{ _id: "2025-05-11", count: 132 },
-							{ _id: "2025-05-12", count: 145 },
-							{ _id: "2025-05-13", count: 137 },
-							{ _id: "2025-05-14", count: 156 },
-						],
-						subscribersByDate: [
-							{ _id: "2025-05-07", count: 34 },
-							{ _id: "2025-05-08", count: 42 },
-							{ _id: "2025-05-09", count: 51 },
-							{ _id: "2025-05-10", count: 48 },
-							{ _id: "2025-05-11", count: 67 },
-							{ _id: "2025-05-12", count: 73 },
-							{ _id: "2025-05-13", count: 69 },
-							{ _id: "2025-05-14", count: 85 },
-						],
-					},
-					engagement: {
-						mostLikedVideos: [
-							{
-								_id: "1",
-								videoTitle: "How to Build a React App",
-								count: 8750,
-							},
-							{
-								_id: "2",
-								videoTitle: "MongoDB Crash Course",
-								count: 6430,
-							},
-							{
-								_id: "3",
-								videoTitle: "Node.js Tutorial for Beginners",
-								count: 5170,
-							},
-							{
-								_id: "4",
-								videoTitle: "Full Stack Development Explained",
-								count: 4320,
-							},
-							{
-								_id: "5",
-								videoTitle: "JavaScript Tips and Tricks",
-								count: 3890,
-							},
-						],
-						mostCommentedVideos: [
-							{
-								_id: "1",
-								videoTitle: "How to Build a React App",
-								count: 1240,
-							},
-							{
-								_id: "2",
-								videoTitle: "MongoDB Crash Course",
-								count: 980,
-							},
-							{
-								_id: "3",
-								videoTitle: "Node.js Tutorial for Beginners",
-								count: 850,
-							},
-							{
-								_id: "4",
-								videoTitle: "Full Stack Development Explained",
-								count: 760,
-							},
-							{
-								_id: "3",
-								videoTitle: "JavaScript Tips and Tricks",
-								count: 620,
-							},
-						],
-					},
-					audience: {
-						demographics: {
-							ageDistribution: [
-								{ _id: "18-24", count: 5400 },
-								{ _id: "25-34", count: 8700 },
-								{ _id: "35-44", count: 6800 },
-								{ _id: "45-54", count: 3100 },
-								{ _id: "55+", count: 1600 },
-							],
-							genderDistribution: [
-								{ _id: "Male", count: 14800 },
-								{ _id: "Female", count: 9300 },
-								{ _id: "Other", count: 1500 },
-							],
-							locationDistribution: [
-								{ _id: "United States", count: 8900 },
-								{ _id: "India", count: 4200 },
-								{ _id: "United Kingdom", count: 2800 },
-								{ _id: "Germany", count: 1900 },
-								{ _id: "Canada", count: 1600 },
-								{ _id: "Australia", count: 1200 },
-								{ _id: "Brazil", count: 1100 },
-								{ _id: "France", count: 950 },
-								{ _id: "Spain", count: 750 },
-								{ _id: "Italy", count: 650 },
-							],
-						},
-					},
-				};
-
-				setDashboardData(mockData);
+				const channelData = await apiRequest("/dashboard/stats");
+				setDashboardData(channelData.data);
 				setLoading(false);
 			} catch (error) {
 				console.error("Error fetching dashboard data:", error);
@@ -264,6 +65,12 @@ const Dashboard = () => {
 	// Format number with commas
 	const formatNumber = (num) => {
 		return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	};
+	const truncateTitle = (title, maxLength = 50) => {
+		if (title.length > maxLength) {
+			return title.substring(0, maxLength) + "...";
+		}
+		return title;
 	};
 
 	// Format seconds to minutes and seconds
@@ -338,8 +145,8 @@ const Dashboard = () => {
 	};
 
 	const topVideosChartData = {
-		labels: dashboardData.videoPerformance.topVideos.map(
-			(video) => video.title
+		labels: dashboardData.videoPerformance.topVideos.map((video) =>
+			truncateTitle(video.title, 30)
 		),
 		datasets: [
 			{
@@ -352,85 +159,85 @@ const Dashboard = () => {
 		],
 	};
 
-	const audienceAgeChartData = {
-		labels: dashboardData.audience.demographics.ageDistribution.map(
-			(item) => item._id
-		),
-		datasets: [
-			{
-				label: "Subscribers",
-				data: dashboardData.audience.demographics.ageDistribution.map(
-					(item) => item.count
-				),
-				backgroundColor: [
-					"rgba(255, 99, 132, 0.8)",
-					"rgba(54, 162, 235, 0.8)",
-					"rgba(255, 206, 86, 0.8)",
-					"rgba(75, 192, 192, 0.8)",
-					"rgba(153, 102, 255, 0.8)",
-				],
-				borderColor: [
-					"rgba(255, 99, 132, 1)",
-					"rgba(54, 162, 235, 1)",
-					"rgba(255, 206, 86, 1)",
-					"rgba(75, 192, 192, 1)",
-					"rgba(153, 102, 255, 1)",
-				],
-				borderWidth: 1,
-			},
-		],
-	};
+	// const audienceAgeChartData = {
+	// 	labels: dashboardData.audience.demographics.ageDistribution.map(
+	// 		(item) => item._id
+	// 	),
+	// 	datasets: [
+	// 		{
+	// 			label: "Subscribers",
+	// 			data: dashboardData.audience.demographics.ageDistribution.map(
+	// 				(item) => item.count
+	// 			),
+	// 			backgroundColor: [
+	// 				"rgba(255, 99, 132, 0.8)",
+	// 				"rgba(54, 162, 235, 0.8)",
+	// 				"rgba(255, 206, 86, 0.8)",
+	// 				"rgba(75, 192, 192, 0.8)",
+	// 				"rgba(153, 102, 255, 0.8)",
+	// 			],
+	// 			borderColor: [
+	// 				"rgba(255, 99, 132, 1)",
+	// 				"rgba(54, 162, 235, 1)",
+	// 				"rgba(255, 206, 86, 1)",
+	// 				"rgba(75, 192, 192, 1)",
+	// 				"rgba(153, 102, 255, 1)",
+	// 			],
+	// 			borderWidth: 1,
+	// 		},
+	// 	],
+	// };
 
-	const audienceGenderChartData = {
-		labels: dashboardData.audience.demographics.genderDistribution.map(
-			(item) => item._id
-		),
-		datasets: [
-			{
-				label: "Gender",
-				data: dashboardData.audience.demographics.genderDistribution.map(
-					(item) => item.count
-				),
-				backgroundColor: [
-					"rgba(54, 162, 235, 0.8)",
-					"rgba(255, 99, 132, 0.8)",
-					"rgba(255, 206, 86, 0.8)",
-				],
-				borderColor: [
-					"rgba(54, 162, 235, 1)",
-					"rgba(255, 99, 132, 1)",
-					"rgba(255, 206, 86, 1)",
-				],
-				borderWidth: 1,
-			},
-		],
-	};
+	// const audienceGenderChartData = {
+	// 	labels: dashboardData.audience.demographics.genderDistribution.map(
+	// 		(item) => item._id
+	// 	),
+	// 	datasets: [
+	// 		{
+	// 			label: "Gender",
+	// 			data: dashboardData.audience.demographics.genderDistribution.map(
+	// 				(item) => item.count
+	// 			),
+	// 			backgroundColor: [
+	// 				"rgba(54, 162, 235, 0.8)",
+	// 				"rgba(255, 99, 132, 0.8)",
+	// 				"rgba(255, 206, 86, 0.8)",
+	// 			],
+	// 			borderColor: [
+	// 				"rgba(54, 162, 235, 1)",
+	// 				"rgba(255, 99, 132, 1)",
+	// 				"rgba(255, 206, 86, 1)",
+	// 			],
+	// 			borderWidth: 1,
+	// 		},
+	// 	],
+	// };
 
-	const locationChartData = {
-		labels: dashboardData.audience.demographics.locationDistribution
-			.slice(0, 5)
-			.map((item) => item._id),
-		datasets: [
-			{
-				label: "Subscribers",
-				data: dashboardData.audience.demographics.locationDistribution
-					.slice(0, 5)
-					.map((item) => item.count),
-				backgroundColor: [
-					"rgba(255, 99, 132, 0.8)",
-					"rgba(54, 162, 235, 0.8)",
-					"rgba(255, 206, 86, 0.8)",
-					"rgba(75, 192, 192, 0.8)",
-					"rgba(153, 102, 255, 0.8)",
-				],
-			},
-		],
-	};
+	// const locationChartData = {
+	// 	labels: dashboardData.audience.demographics.locationDistribution
+	// 		.slice(0, 5)
+	// 		.map((item) => item._id),
+	// 	datasets: [
+	// 		{
+	// 			label: "Subscribers",
+	// 			data: dashboardData.audience.demographics.locationDistribution
+	// 				.slice(0, 5)
+	// 				.map((item) => item.count),
+	// 			backgroundColor: [
+	// 				"rgba(255, 99, 132, 0.8)",
+	// 				"rgba(54, 162, 235, 0.8)",
+	// 				"rgba(255, 206, 86, 0.8)",
+	// 				"rgba(75, 192, 192, 0.8)",
+	// 				"rgba(153, 102, 255, 0.8)",
+	// 			],
+	// 		},
+	// 	],
+	// };
 
 	return (
 		<div className="w-full h-full overflow-y-auto bg-secondary">
 			{/* Header */}
-			<header className="bg-primaryshadow ">
+			<header className="shadow bg-primary ">
 				<div className="flex items-center justify-between px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
 					<h1 className="text-3xl font-bold text-white">
 						Channel Dashboard
@@ -821,9 +628,10 @@ const Dashboard = () => {
 																	</div>
 																	<div className="ml-4">
 																		<div className="text-sm font-medium text-gray-900">
-																			{
-																				video.title
-																			}
+																			{truncateTitle(
+																				video.title,
+																				30
+																			)}
 																		</div>
 																	</div>
 																</div>
@@ -917,7 +725,7 @@ const Dashboard = () => {
 															/>
 															<span className="ml-1 text-sm text-gray-500">
 																{formatNumber(
-																	video.views
+																	video.viewsCount
 																)}
 															</span>
 														</div>
@@ -1018,297 +826,10 @@ const Dashboard = () => {
 				)}
 
 				{/* Audience Tab */}
-				{activeTab === "audience" && (
-					<>
-						<div className="grid grid-cols-1 gap-6 mb-8 lg:grid-cols-2">
-							{/* Audience Age Distribution */}
-							<div className="p-6 bg-white rounded-lg shadow">
-								<h2 className="mb-4 text-lg font-semibold text-gray-900">
-									Age Distribution
-								</h2>
-								<div className="h-64">
-									<Bar
-										data={audienceAgeChartData}
-										options={{
-											responsive: true,
-											maintainAspectRatio: false,
-											plugins: {
-												legend: {
-													display: false,
-												},
-											},
-											scales: {
-												y: {
-													beginAtZero: true,
-												},
-											},
-										}}
-									/>
-								</div>
-							</div>
-
-							{/* Audience Gender Distribution */}
-							<div className="p-6 bg-white rounded-lg shadow">
-								<h2 className="mb-4 text-lg font-semibold text-gray-900">
-									Gender Distribution
-								</h2>
-								<div className="flex items-center justify-center h-64">
-									<div className="w-48">
-										<Doughnut
-											data={audienceGenderChartData}
-											options={{
-												responsive: true,
-												maintainAspectRatio: false,
-												plugins: {
-													legend: {
-														position: "bottom",
-													},
-												},
-											}}
-										/>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						{/* Geographic Distribution */}
-						<div className="grid grid-cols-1 gap-6 mb-8">
-							<div className="p-6 bg-white rounded-lg shadow">
-								<h2 className="mb-4 text-lg font-semibold text-gray-900">
-									Top Locations
-								</h2>
-								<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-									<div className="h-64">
-										<Bar
-											data={locationChartData}
-											options={{
-												indexAxis: "y",
-												responsive: true,
-												maintainAspectRatio: false,
-												plugins: {
-													legend: {
-														display: false,
-													},
-												},
-												scales: {
-													x: {
-														beginAtZero: true,
-													},
-												},
-											}}
-										/>
-									</div>
-									<div>
-										<div className="p-4 mb-4 rounded-lg bg-gray-50">
-											<h3 className="mb-2 text-sm font-medium text-gray-700">
-												Audience Insights
-											</h3>
-											<p className="text-sm text-gray-600">
-												Your channel has viewers from 78
-												countries worldwide, with the
-												highest concentration in the
-												United States (34.8%), India
-												(16.4%), and the United Kingdom
-												(10.9%).
-											</p>
-										</div>
-										<table className="min-w-full divide-y divide-gray-200">
-											<thead className="bg-gray-50">
-												<tr>
-													<th
-														scope="col"
-														className="px-3 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
-													>
-														Country
-													</th>
-													<th
-														scope="col"
-														className="px-3 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
-													>
-														Subscribers
-													</th>
-													<th
-														scope="col"
-														className="px-3 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
-													>
-														%
-													</th>
-												</tr>
-											</thead>
-											<tbody className="bg-white divide-y divide-gray-200">
-												{dashboardData.audience.demographics.locationDistribution.map(
-													(location) => {
-														const percentage = (
-															(location.count /
-																dashboardData
-																	.channelOverview
-																	.totalSubscribers) *
-															100
-														).toFixed(1);
-														return (
-															<tr
-																key={
-																	location._id
-																}
-															>
-																<td className="px-3 py-2 text-sm text-gray-900 whitespace-nowrap">
-																	{
-																		location._id
-																	}
-																</td>
-																<td className="px-3 py-2 text-sm text-gray-500 whitespace-nowrap">
-																	{formatNumber(
-																		location.count
-																	)}
-																</td>
-																<td className="px-3 py-2 text-sm text-gray-500 whitespace-nowrap">
-																	{percentage}
-																	%
-																</td>
-															</tr>
-														);
-													}
-												)}
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						{/* Audience Engagement & Growth */}
-						<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-							<div className="p-6 bg-white rounded-lg shadow">
-								<h2 className="mb-4 text-lg font-semibold text-gray-900">
-									Subscriber Growth
-								</h2>
-								<div className="h-64">
-									<Line
-										data={{
-											labels: dashboardData.trends.subscribersByDate.map(
-												(item) => item._id.substring(5)
-											),
-											datasets: [
-												{
-													label: "New Subscribers",
-													data: dashboardData.trends.subscribersByDate.map(
-														(item) => item.count
-													),
-													borderColor:
-														"rgb(75, 192, 192)",
-													backgroundColor:
-														"rgba(75, 192, 192, 0.5)",
-													tension: 0.3,
-													fill: true,
-												},
-											],
-										}}
-										options={{
-											responsive: true,
-											maintainAspectRatio: false,
-											scales: {
-												y: {
-													beginAtZero: true,
-												},
-											},
-											plugins: {
-												legend: {
-													display: false,
-												},
-											},
-										}}
-									/>
-								</div>
-							</div>
-
-							<div className="p-6 bg-white rounded-lg shadow">
-								<h2 className="mb-4 text-lg font-semibold text-gray-900">
-									Audience Retention
-								</h2>
-								<div className="p-4 mb-4 rounded-lg bg-gray-50">
-									<p className="text-sm text-gray-600">
-										Your channel's average watch time is
-										5:32 minutes, which is 24% higher than
-										similar channels in your category.
-									</p>
-								</div>
-								<div className="space-y-4">
-									<div>
-										<div className="flex justify-between mb-1">
-											<span className="text-sm font-medium text-gray-700">
-												Returning Viewers
-											</span>
-											<span className="text-sm font-medium text-gray-700">
-												68%
-											</span>
-										</div>
-										<div className="w-full bg-gray-200 rounded-full h-2.5">
-											<div
-												className="bg-green-600 h-2.5 rounded-full"
-												style={{ width: "68%" }}
-											></div>
-										</div>
-									</div>
-
-									<div>
-										<div className="flex justify-between mb-1">
-											<span className="text-sm font-medium text-gray-700">
-												New Viewers
-											</span>
-											<span className="text-sm font-medium text-gray-700">
-												32%
-											</span>
-										</div>
-										<div className="w-full bg-gray-200 rounded-full h-2.5">
-											<div
-												className="bg-blue-600 h-2.5 rounded-full"
-												style={{ width: "32%" }}
-											></div>
-										</div>
-									</div>
-
-									<div>
-										<div className="flex justify-between mb-1">
-											<span className="text-sm font-medium text-gray-700">
-												Subscriber Watch Time
-											</span>
-											<span className="text-sm font-medium text-gray-700">
-												7:12 mins
-											</span>
-										</div>
-										<div className="w-full bg-gray-200 rounded-full h-2.5">
-											<div
-												className="bg-purple-600 h-2.5 rounded-full"
-												style={{ width: "75%" }}
-											></div>
-										</div>
-									</div>
-
-									<div>
-										<div className="flex justify-between mb-1">
-											<span className="text-sm font-medium text-gray-700">
-												Non-Subscriber Watch Time
-											</span>
-											<span className="text-sm font-medium text-gray-700">
-												3:45 mins
-											</span>
-										</div>
-										<div className="w-full bg-gray-200 rounded-full h-2.5">
-											<div
-												className="bg-yellow-600 h-2.5 rounded-full"
-												style={{ width: "40%" }}
-											></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</>
-				)}
 			</main>
 
 			{/* Footer */}
-			<footer className="mt-12 border-t border-gray-200 border-gray-500 bg-secondary">
+			<footer className="mt-12 border-t border-gray-500 bg-secondary">
 				<div className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
 					<div className="flex items-center justify-between">
 						<p className="text-sm text-gray-300">
